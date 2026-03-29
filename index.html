@@ -702,6 +702,7 @@ function nav(v, el) {
   }[v];
   document.getElementById('search-input').value = '';
   searchQ = '';
+  closePanel();
   if ((v === 'sales' || v === 'plans') && typeof QB !== 'undefined') QB.initSalesView();
   render();
 }
