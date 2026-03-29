@@ -702,7 +702,7 @@ function nav(v, el) {
   }[v];
   document.getElementById('search-input').value = '';
   searchQ = '';
-  if (v === 'sales' || v === 'plans') QB.initSalesView();
+  if ((v === 'sales' || v === 'plans') && typeof QB !== 'undefined') QB.initSalesView();
   render();
 }
 
