@@ -702,7 +702,7 @@ function nav(v, el) {
   }[v];
   document.getElementById('search-input').value = '';
   searchQ = '';
-  closePanel();
+  if (v === 'sales' || v === 'plans') QB.initSalesView();
   render();
 }
 
@@ -1280,8 +1280,7 @@ document.addEventListener('keydown', e => {
 
 // ── INIT ────────────────────────────────────────────────────
 render();
-
-// ── QUOTE BUILDER NAMESPACE ─────────────────────────────────
+</script>
 const QB = (function(){
   let _term = 1;
   let _price = 700;
@@ -1447,13 +1446,6 @@ const QB = (function(){
 
   return { setTerm, setPrice, setDisc, calc, copyQuote, convertToPolicy, initSalesView, filterPlans, populateCustomers };
 })();
-
-// patch nav to init QB when sales/plans view is opened
-const _origNav = nav;
-function nav(v, el) {
-  _origNav(v, el);
-  if (v === 'sales' || v === 'plans') QB.initSalesView();
-}
 </script>
 </body>
 </html>
