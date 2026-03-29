@@ -221,6 +221,38 @@ td{padding:13px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;w
 .confirm-box p{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:20px}
 .confirm-btns{display:flex;gap:8px;justify-content:flex-end}
 .btn-del{background:var(--red);color:#fff;border:none;padding:8px 18px;border-radius:var(--pill);font-size:13px;cursor:pointer;font-family:var(--font)}
+/* ── QUOTE BUILDER (QB) ── */
+.qb-term-btn{
+  border:1px solid var(--border-soft);border-radius:12px;padding:14px 12px;
+  cursor:pointer;text-align:center;background:var(--white);transition:all 0.12s;
+  font-family:var(--font);color:var(--text1);
+}
+.qb-term-btn:hover{border-color:var(--brand-soft);background:var(--lavender-bg)}
+.qb-term-btn.on{border:2px solid var(--brand);background:var(--lavender)}
+.qb-disc-btn{
+  padding:6px 14px;border-radius:var(--pill);font-size:13px;font-weight:500;
+  border:1px solid var(--border);background:transparent;color:var(--text2);
+  cursor:pointer;font-family:var(--font);transition:all 0.1s;
+}
+.qb-disc-btn:hover{border-color:var(--brand-soft);color:var(--brand)}
+.qb-disc-btn.on{background:var(--lavender);border-color:var(--brand);color:var(--brand)}
+.qb-addon{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;
+  border:1px solid var(--border-soft);border-radius:9px;cursor:pointer;
+  font-size:13px;color:var(--text1);background:var(--white);transition:all 0.1s;
+}
+.qb-addon:hover{border-color:var(--brand-soft);background:var(--lavender-bg)}
+.qb-addon input[type=checkbox]{accent-color:var(--brand);width:15px;height:15px;flex-shrink:0}
+.qb-addon input:checked ~ span{color:var(--brand);font-weight:500}
+.qb-sum-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;font-size:13px}
+.qb-sum-label{color:var(--text2)}
+.qb-sum-val{font-weight:500;color:var(--text1)}
+.qb-tag{background:var(--lavender);color:var(--brand-dark);padding:3px 10px;border-radius:var(--pill);font-size:11px;font-weight:500}
+.plan-state-card{border-bottom:1px solid var(--border-soft);padding:16px 20px}
+.plan-state-card:nth-child(even){background:var(--lavender-bg)}
+.plan-state-name{font-size:13px;font-weight:600;color:var(--text1);margin-bottom:10px}
+.plan-row{display:grid;grid-template-columns:1fr 80px 80px 80px;gap:6px;font-size:12px;align-items:center;margin-bottom:4px}
+.plan-row-head{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text3);margin-bottom:6px;display:grid;grid-template-columns:1fr 80px 80px 80px;gap:6px}
 </style>
 </head>
 <body>
@@ -258,6 +290,15 @@ td{padding:13px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;w
   <div class="s-item" data-view="vendors" onclick="nav('vendors',this)">
     <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
     Vendors
+  </div>
+  <div class="s-group">Tools</div>
+  <div class="s-item" data-view="sales" onclick="nav('sales',this)">
+    <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+    Sales & Renewals
+  </div>
+  <div class="s-item" data-view="plans" onclick="nav('plans',this)">
+    <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+    Plan Directory
   </div>
   <div class="s-footer">Dwell Home Protection &copy; 2026</div>
 </div>
@@ -415,6 +456,145 @@ td{padding:13px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;w
       </div>
     </div>
 
+    <!-- SALES & RENEWALS -->
+    <div id="v-sales" class="view">
+      <div style="display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:start">
+
+        <!-- LEFT: BUILDER -->
+        <div>
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-head"><h2>Quote Builder</h2></div>
+            <div style="padding:20px 24px">
+
+              <!-- CUSTOMER -->
+              <div class="fg" style="margin-bottom:18px">
+                <label style="display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:6px">Customer (optional)</label>
+                <select id="qb-customer" style="width:100%;padding:9px 13px;border:1px solid var(--border-soft);border-radius:10px;font-size:14px;font-family:var(--font);color:var(--text1);background:var(--lavender-bg)" onchange="QB.calc()">
+                  <option value="">— New customer / walk-in —</option>
+                </select>
+              </div>
+
+              <!-- TERM -->
+              <div style="margin-bottom:18px">
+                <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:10px">Term</div>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+                  <div class="qb-term-btn on" data-term="1" onclick="QB.setTerm(1,this)">
+                    <div style="font-size:15px;font-weight:600">1 Year</div>
+                    <div style="font-size:11px;color:var(--text2);margin-top:3px">+ 1 Month Free</div>
+                    <div style="font-size:12px;font-weight:500;color:var(--brand);margin-top:6px">from $700/yr</div>
+                  </div>
+                  <div class="qb-term-btn" data-term="3" onclick="QB.setTerm(3,this)">
+                    <div style="font-size:15px;font-weight:600">3 Years</div>
+                    <div style="font-size:11px;color:var(--text2);margin-top:3px">+ 6 Months Free</div>
+                    <div style="font-size:12px;font-weight:500;color:var(--brand);margin-top:6px">from $600/yr</div>
+                  </div>
+                  <div class="qb-term-btn" data-term="5" onclick="QB.setTerm(5,this)">
+                    <div style="font-size:15px;font-weight:600">5 Years</div>
+                    <div style="font-size:11px;color:var(--text2);margin-top:3px">+ 1 Year Free</div>
+                    <div style="font-size:12px;font-weight:500;color:var(--brand);margin-top:6px">from $500/yr</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- BASE PRICE -->
+              <div style="margin-bottom:18px">
+                <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:8px">Base Yearly Price</div>
+                <div style="display:flex;align-items:center;gap:14px">
+                  <input type="range" id="qb-price-slider" min="400" max="700" step="10" value="700"
+                    style="flex:1;accent-color:var(--brand)" oninput="QB.setPrice(this.value)">
+                  <div style="display:flex;align-items:center;border:1px solid var(--border-soft);border-radius:8px;overflow:hidden">
+                    <span style="padding:8px 10px;font-size:13px;color:var(--text2);background:var(--lavender-bg)">$</span>
+                    <input type="number" id="qb-price-input" value="700" min="400" max="700" step="10"
+                      style="width:70px;padding:8px 10px;border:none;font-size:14px;font-weight:600;font-family:var(--font);color:var(--text1);background:var(--white)"
+                      oninput="QB.setPrice(this.value)">
+                    <span style="padding:8px 10px;font-size:12px;color:var(--text2);background:var(--lavender-bg)">/yr</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- DISCOUNT -->
+              <div style="margin-bottom:18px">
+                <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:10px">Discount</div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap">
+                  <button class="qb-disc-btn on" data-disc="0" onclick="QB.setDisc(0,this)">0%</button>
+                  <button class="qb-disc-btn" data-disc="5" onclick="QB.setDisc(5,this)">5%</button>
+                  <button class="qb-disc-btn" data-disc="10" onclick="QB.setDisc(10,this)">10%</button>
+                  <button class="qb-disc-btn" data-disc="15" onclick="QB.setDisc(15,this)">15%</button>
+                  <button class="qb-disc-btn" data-disc="20" onclick="QB.setDisc(20,this)">20%</button>
+                  <button class="qb-disc-btn" data-disc="25" onclick="QB.setDisc(25,this)">25%</button>
+                  <button class="qb-disc-btn" data-disc="30" onclick="QB.setDisc(30,this)">30%</button>
+                </div>
+              </div>
+
+              <!-- ADD-ONS -->
+              <div>
+                <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:10px">Add-ons <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)">+$20/yr each</span></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                  <label class="qb-addon"><input type="checkbox" value="Pool" onchange="QB.calc()"><span>Pool</span></label>
+                  <label class="qb-addon"><input type="checkbox" value="Second Refrigerator" onchange="QB.calc()"><span>Second Refrigerator</span></label>
+                  <label class="qb-addon"><input type="checkbox" value="Septic" onchange="QB.calc()"><span>Septic</span></label>
+                  <label class="qb-addon"><input type="checkbox" value="Well Pump" onchange="QB.calc()"><span>Well Pump</span></label>
+                  <label class="qb-addon"><input type="checkbox" value="Ice Maker" onchange="QB.calc()"><span>Ice Maker</span></label>
+                  <label class="qb-addon"><input type="checkbox" value="Standalone Freezer" onchange="QB.calc()"><span>Standalone Freezer</span></label>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: LIVE SUMMARY -->
+        <div style="position:sticky;top:24px">
+          <div class="card">
+            <div class="card-head"><h2>Quote Summary</h2></div>
+            <div style="padding:20px 24px">
+
+              <div id="qb-summary-rows" style="margin-bottom:20px">
+                <div class="qb-sum-row"><span class="qb-sum-label">Term</span><span id="qs-term" class="qb-sum-val">1 Year + 1 Mo Free</span></div>
+                <div class="qb-sum-row"><span class="qb-sum-label">Base yearly price</span><span id="qs-base" class="qb-sum-val">$700.00</span></div>
+                <div class="qb-sum-row"><span class="qb-sum-label">Discount</span><span id="qs-disc" class="qb-sum-val" style="color:var(--green)">0%</span></div>
+                <div class="qb-sum-row"><span class="qb-sum-label">After discount</span><span id="qs-after-disc" class="qb-sum-val">$700.00</span></div>
+                <div class="qb-sum-row"><span class="qb-sum-label">Add-ons</span><span id="qs-addons" class="qb-sum-val">$0.00/yr</span></div>
+                <div style="border-top:1px solid var(--border-soft);margin:14px 0"></div>
+                <div class="qb-sum-row"><span class="qb-sum-label">Final yearly price</span><span id="qs-yearly" class="qb-sum-val" style="font-weight:600">$700.00</span></div>
+                <div class="qb-sum-row"><span class="qb-sum-label">Monthly equivalent</span><span id="qs-monthly" class="qb-sum-val" style="color:var(--text2)">$66.67/mo</span></div>
+                <div class="qb-sum-row"><span class="qb-sum-label">Bonus coverage</span><span id="qs-bonus" class="qb-sum-val" style="color:var(--brand)">1 Month Free</span></div>
+              </div>
+
+              <!-- TOTAL DUE -->
+              <div style="background:var(--lavender);border-radius:12px;padding:16px 18px;margin-bottom:16px;text-align:center">
+                <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--brand-dark);margin-bottom:6px">Total Due Today</div>
+                <div id="qs-total" style="font-size:32px;font-weight:600;color:var(--brand);letter-spacing:-0.03em">$700.00</div>
+                <div style="font-size:11px;color:var(--brand-dark);margin-top:6px">Paid in full · Policy starts in 30 days</div>
+              </div>
+
+              <!-- ADDON TAGS -->
+              <div id="qs-addon-tags" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px"></div>
+
+              <!-- ACTIONS -->
+              <button class="btn-cta" style="width:100%;margin-bottom:8px" onclick="QB.copyQuote()">Copy Quote to Clipboard</button>
+              <button class="btn-ghost" style="width:100%" onclick="QB.convertToPolicy()">Convert to Policy Sale</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PLAN DIRECTORY -->
+    <div id="v-plans" class="view">
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-head">
+          <h2>Plan Directory — All 50 States</h2>
+          <div class="filters">
+            <input type="text" id="plan-state-search" placeholder="Search state..." oninput="QB.filterPlans(this.value)"
+              style="padding:4px 12px;border-radius:var(--pill);border:1px solid var(--border);font-size:12px;font-family:var(--font);color:var(--text1);background:var(--white);width:160px">
+          </div>
+        </div>
+        <div id="plan-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:0;border-top:1px solid var(--border-soft)"></div>
+      </div>
+    </div>
+
   </div><!-- /content -->
 
 </div><!-- /main -->
@@ -517,7 +697,8 @@ function nav(v, el) {
   if (el) el.classList.add('active');
   document.getElementById('pg-title').textContent = {
     dashboard:'Dashboard', customers:'Customers', policies:'Policies',
-    claims:'Claims Management', vendors:'Vendor Directory'
+    claims:'Claims Management', vendors:'Vendor Directory',
+    sales:'Sales & Renewals', plans:'Plan Directory'
   }[v];
   document.getElementById('search-input').value = '';
   searchQ = '';
@@ -1099,6 +1280,180 @@ document.addEventListener('keydown', e => {
 
 // ── INIT ────────────────────────────────────────────────────
 render();
+
+// ── QUOTE BUILDER NAMESPACE ─────────────────────────────────
+const QB = (function(){
+  let _term = 1;
+  let _price = 700;
+  let _disc = 0;
+
+  const TERM_CONFIG = {
+    1: { max:700, bonus:'1 Month Free',  label:'1 Year + 1 Mo Free',   years:1 },
+    3: { max:600, bonus:'6 Months Free', label:'3 Years + 6 Mos Free', years:3 },
+    5: { max:500, bonus:'1 Year Free',   label:'5 Years + 1 Yr Free',  years:5 },
+  };
+
+  function setTerm(t, el) {
+    _term = t;
+    document.querySelectorAll('.qb-term-btn').forEach(b => b.classList.remove('on'));
+    el.classList.add('on');
+    const cfg = TERM_CONFIG[t];
+    _price = Math.min(_price, cfg.max);
+    document.getElementById('qb-price-slider').max = cfg.max;
+    document.getElementById('qb-price-slider').value = _price;
+    document.getElementById('qb-price-input').max = cfg.max;
+    document.getElementById('qb-price-input').value = _price;
+    calc();
+  }
+
+  function setPrice(val) {
+    const cfg = TERM_CONFIG[_term];
+    _price = Math.min(Math.max(parseInt(val)||400, 400), cfg.max);
+    document.getElementById('qb-price-slider').value = _price;
+    document.getElementById('qb-price-input').value = _price;
+    calc();
+  }
+
+  function setDisc(d, el) {
+    _disc = d;
+    document.querySelectorAll('.qb-disc-btn').forEach(b => b.classList.remove('on'));
+    el.classList.add('on');
+    calc();
+  }
+
+  function calc() {
+    const cfg = TERM_CONFIG[_term];
+    const addons = [...document.querySelectorAll('.qb-addon input:checked')].map(i => i.value);
+    const addonTotal = addons.length * 20;
+    const afterDisc = _price * (1 - _disc / 100);
+    const finalYearly = afterDisc + addonTotal;
+    const totalDue = finalYearly * cfg.years;
+    const monthly = (finalYearly + 100) / 12;
+
+    document.getElementById('qs-term').textContent = cfg.label;
+    document.getElementById('qs-base').textContent = '$' + _price.toFixed(2);
+    document.getElementById('qs-disc').textContent = _disc + '%' + (_disc > 0 ? ' (-$' + (_price * _disc/100).toFixed(2) + ')' : '');
+    document.getElementById('qs-after-disc').textContent = '$' + afterDisc.toFixed(2);
+    document.getElementById('qs-addons').textContent = '$' + addonTotal.toFixed(2) + '/yr' + (addons.length ? ' (' + addons.length + ' add-on' + (addons.length>1?'s':'') + ')' : '');
+    document.getElementById('qs-yearly').textContent = '$' + finalYearly.toFixed(2);
+    document.getElementById('qs-monthly').textContent = '$' + monthly.toFixed(2) + '/mo';
+    document.getElementById('qs-bonus').textContent = cfg.bonus;
+    document.getElementById('qs-total').textContent = '$' + totalDue.toFixed(2);
+
+    const tagsEl = document.getElementById('qs-addon-tags');
+    tagsEl.innerHTML = addons.map(a => `<span class="qb-tag">${a}</span>`).join('');
+  }
+
+  function copyQuote() {
+    const cfg = TERM_CONFIG[_term];
+    const addons = [...document.querySelectorAll('.qb-addon input:checked')].map(i => i.value);
+    const addonTotal = addons.length * 20;
+    const afterDisc = _price * (1 - _disc / 100);
+    const finalYearly = afterDisc + addonTotal;
+    const totalDue = finalYearly * cfg.years;
+    const monthly = (finalYearly + 100) / 12;
+    const custEl = document.getElementById('qb-customer');
+    const custName = custEl.value ? custEl.options[custEl.selectedIndex].text : 'Customer';
+
+    const txt = [
+      '=== DWELL HOME WARRANTY QUOTE ===',
+      'Customer: ' + custName,
+      'Term: ' + cfg.label,
+      'Base Price: $' + _price.toFixed(2) + '/yr',
+      _disc > 0 ? 'Discount: ' + _disc + '%' : null,
+      'Final Yearly: $' + finalYearly.toFixed(2),
+      addons.length ? 'Add-ons: ' + addons.join(', ') : null,
+      'Monthly Equivalent: $' + monthly.toFixed(2) + '/mo',
+      'Bonus Coverage: ' + cfg.bonus,
+      '',
+      'TOTAL DUE TODAY: $' + totalDue.toFixed(2),
+      'Paid in full — Policy starts in 30 days',
+      '================================',
+    ].filter(Boolean).join('\n');
+
+    navigator.clipboard.writeText(txt).then(() => {
+      if(typeof toast === 'function') toast('Quote copied to clipboard');
+    });
+  }
+
+  function convertToPolicy() {
+    const custEl = document.getElementById('qb-customer');
+    if (!custEl.value) { alert('Please select a customer first to convert to a policy.'); return; }
+    if (typeof openEditModal === 'function') {
+      openEditModal('customers', custEl.value);
+      if(typeof toast === 'function') toast('Open the customer record to update their policy details');
+    }
+  }
+
+  function populateCustomers() {
+    const sel = document.getElementById('qb-customer');
+    if (!sel) return;
+    const current = sel.value;
+    sel.innerHTML = '<option value="">— New customer / walk-in —</option>';
+    (typeof customers !== 'undefined' ? customers : []).forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c.id;
+      opt.textContent = c.name + ' — ' + c.policy;
+      sel.appendChild(opt);
+    });
+    if (current) sel.value = current;
+  }
+
+  // ── PLAN DIRECTORY DATA ──────────────────────────────────
+  const US_STATES = [
+    'Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut',
+    'Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa',
+    'Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan',
+    'Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire',
+    'New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio',
+    'Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota',
+    'Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia',
+    'Wisconsin','Wyoming'
+  ];
+
+  const PLAN_DATA = {
+    Basic:         { price1:700, price3:600, price5:500, color:'b-expired', covers:['HVAC','Plumbing','Electrical','Water Heater'] },
+    Comprehensive: { price1:700, price3:600, price5:500, color:'b-progress', covers:['HVAC','Plumbing','Electrical','Water Heater','Appliances','Garage Door'] },
+    Premium:       { price1:700, price3:600, price5:500, color:'b-plumbing', covers:['HVAC','Plumbing','Electrical','Water Heater','Appliances','Garage Door','Roof Leak','Pool Option'] },
+  };
+
+  function renderPlans(filter) {
+    const grid = document.getElementById('plan-grid');
+    if (!grid) return;
+    const q = (filter||'').toLowerCase();
+    const states = q ? US_STATES.filter(s => s.toLowerCase().includes(q)) : US_STATES;
+
+    grid.innerHTML = states.map(state => `
+      <div class="plan-state-card">
+        <div class="plan-state-name">${state}</div>
+        <div class="plan-row-head"><span>Plan</span><span>1 Yr</span><span>3 Yr</span><span>5 Yr</span></div>
+        ${Object.entries(PLAN_DATA).map(([name, p]) => `
+          <div class="plan-row">
+            <span><span class="badge ${p.color}" style="font-size:10px;padding:2px 8px">${name}</span></span>
+            <span style="color:var(--text2)">$${p.price1}</span>
+            <span style="color:var(--text2)">$${p.price3}</span>
+            <span style="color:var(--text2)">$${p.price5}</span>
+          </div>`).join('')}
+      </div>`).join('');
+  }
+
+  function filterPlans(q) { renderPlans(q); }
+
+  function initSalesView() {
+    populateCustomers();
+    renderPlans();
+    calc();
+  }
+
+  return { setTerm, setPrice, setDisc, calc, copyQuote, convertToPolicy, initSalesView, filterPlans, populateCustomers };
+})();
+
+// patch nav to init QB when sales/plans view is opened
+const _origNav = nav;
+function nav(v, el) {
+  _origNav(v, el);
+  if (v === 'sales' || v === 'plans') QB.initSalesView();
+}
 </script>
 </body>
 </html>
