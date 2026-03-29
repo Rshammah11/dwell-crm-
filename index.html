@@ -5,72 +5,126 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dwell CRM — Home Warranty</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
   --brand:#7C3AED;--brand-dark:#5B21B6;--brand-soft:#A78BFA;
   --lavender:#EDE9FE;--lavender-mid:#DDD6FE;--lavender-bg:#F5F3FF;
-  --white:#FFFFFF;--text1:#1E1B2E;--text2:#6B7280;--text3:#9CA3AF;
+  --white:#FFFFFF;--surface:#FAFAFA;
+  --text1:#1E1B2E;--text2:#6B7280;--text3:#9CA3AF;
   --border:#E5E7EB;--border-soft:#EDE9FE;
-  --green:#15803D;--green-bg:#DCFCE7;--amber:#B45309;--amber-bg:#FEF3C7;
-  --blue:#1D4ED8;--blue-bg:#DBEAFE;--red:#B91C1C;--red-bg:#FEE2E2;
+  --green:#15803D;--green-bg:#DCFCE7;
+  --amber:#B45309;--amber-bg:#FEF3C7;
+  --blue:#1D4ED8;--blue-bg:#DBEAFE;
+  --red:#B91C1C;--red-bg:#FEE2E2;
   --gray:#374151;--gray-bg:#F3F4F6;
-  --pill:999px;--radius:12px;--radiusLg:16px;--f:'Inter',sans-serif;
+  --radius:12px;--radiusLg:16px;--pill:999px;
+  --font:'Inter',sans-serif;
 }
-html,body{height:100%;font-family:var(--f);background:var(--lavender-bg);color:var(--text1);font-size:14px;line-height:1.5}
+html,body{height:100%;font-family:var(--font);background:var(--lavender-bg);color:var(--text1)}
 #app{display:flex;height:100vh;overflow:hidden}
-#sidebar{width:240px;flex-shrink:0;background:var(--white);border-right:1px solid var(--border-soft);display:flex;flex-direction:column}
-.s-logo{padding:22px 20px 18px;border-bottom:1px solid var(--border-soft);display:flex;align-items:center;gap:10px}
-.s-logo-mark{width:34px;height:34px;border-radius:9px;background:var(--lavender);display:flex;align-items:center;justify-content:center}
+
+/* ── SIDEBAR ── */
+#sidebar{
+  width:240px;flex-shrink:0;background:var(--white);
+  border-right:1px solid var(--border-soft);
+  display:flex;flex-direction:column;
+}
+.s-logo{
+  padding:22px 20px 18px;border-bottom:1px solid var(--border-soft);
+  display:flex;align-items:center;gap:10px;
+}
+.s-logo-mark{
+  width:34px;height:34px;border-radius:9px;background:var(--lavender);
+  display:flex;align-items:center;justify-content:center;
+}
 .s-logo-mark svg{width:17px;height:17px;stroke:var(--brand);fill:none;stroke-width:2}
-.s-name{font-size:15px;font-weight:600;letter-spacing:-0.02em;color:var(--text1)}
-.s-sub{font-size:10px;color:var(--text3);letter-spacing:0.04em;margin-top:1px}
-.s-grp{padding:16px 16px 5px;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3)}
-.s-item{display:flex;align-items:center;gap:9px;padding:9px 12px;margin:1px 8px;border-radius:9px;cursor:pointer;color:var(--text2);font-size:13px;font-weight:400;transition:all 0.12s;user-select:none}
+.s-logo-text .name{color:var(--text1);font-size:16px;font-weight:600;letter-spacing:-0.02em}
+.s-logo-text .sub{color:var(--text3);font-size:10px;letter-spacing:0.05em;margin-top:1px}
+.s-group{padding:18px 16px 6px;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);font-weight:600}
+.s-item{
+  display:flex;align-items:center;gap:9px;
+  padding:9px 12px;margin:1px 8px;border-radius:9px;
+  cursor:pointer;color:var(--text2);font-size:13.5px;
+  transition:all 0.12s;user-select:none;
+}
 .s-item:hover{background:var(--lavender-bg);color:var(--brand)}
 .s-item.active{background:var(--lavender);color:var(--brand);font-weight:500}
 .s-item svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
 .s-footer{margin-top:auto;padding:14px 20px;border-top:1px solid var(--border-soft);font-size:11px;color:var(--text3)}
+
+/* ── MAIN ── */
 #main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--lavender-bg);position:relative}
-#topbar{height:60px;background:var(--white);border-bottom:1px solid var(--border-soft);display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0}
-#pg-title{font-size:16px;font-weight:600;letter-spacing:-0.02em;color:var(--text1);flex:none}
+
+/* ── TOPBAR ── */
+#topbar{
+  height:60px;background:var(--white);border-bottom:1px solid var(--border-soft);
+  display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0;
+}
+#topbar h1{font-family:var(--font);font-size:18px;font-weight:600;font-style:normal;color:var(--text1);flex:none;letter-spacing:-0.02em}
 .search-box{flex:1;max-width:360px;position:relative}
-.search-box input{width:100%;height:36px;padding:0 12px 0 34px;background:var(--lavender-bg);border:1px solid var(--border-soft);border-radius:var(--pill);font-size:13px;font-family:var(--f);color:var(--text1)}
+.search-box input{
+  width:100%;height:36px;padding:0 12px 0 34px;
+  background:var(--lavender-bg);border:1px solid var(--border-soft);
+  border-radius:var(--pill);font-size:13px;font-family:var(--font);color:var(--text1);
+}
 .search-box input::placeholder{color:var(--text3)}
 .search-box input:focus{outline:none;border-color:var(--brand-soft);background:var(--white)}
 .search-box svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:13px;height:13px;stroke:var(--text3);fill:none;stroke-width:2.5}
-.btn-cta{margin-left:auto;height:36px;padding:0 18px;background:var(--brand);color:#fff;border:none;border-radius:var(--pill);font-size:13px;font-weight:500;cursor:pointer;font-family:var(--f);letter-spacing:-0.01em;white-space:nowrap}
+.btn-cta{
+  margin-left:auto;height:36px;padding:0 18px;background:var(--brand);
+  color:#fff;border:none;border-radius:var(--pill);font-size:13px;font-weight:500;
+  cursor:pointer;font-family:var(--font);letter-spacing:-0.01em;white-space:nowrap;
+}
 .btn-cta:hover{background:var(--brand-dark)}
+
+/* ── CONTENT ── */
 #content{flex:1;overflow-y:auto;padding:24px}
-.view{display:none}.view.active{display:block}
+.view{display:none}
+.view.active{display:block}
+
+/* ── STATS ── */
 .stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:20px}
 .stat{background:var(--white);border:1px solid var(--border-soft);border-radius:var(--radiusLg);padding:18px 20px}
-.stat-icon{width:34px;height:34px;border-radius:9px;background:var(--lavender);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
-.stat-icon svg{width:15px;height:15px;stroke:var(--brand);fill:none;stroke-width:2}
-.stat-label{font-size:11px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px}
+.stat-icon{width:36px;height:36px;border-radius:10px;background:var(--lavender);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.stat-icon svg{width:16px;height:16px;stroke:var(--brand);fill:none;stroke-width:2}
+.stat-label{font-size:12px;color:var(--text2);font-weight:500;margin-bottom:4px}
 .stat-num{font-size:26px;font-weight:600;letter-spacing:-0.03em;color:var(--text1)}
-.stat-sub{font-size:11px;color:var(--text3);margin-top:4px}
+.stat-sub{font-size:11px;color:var(--text3);margin-top:5px}
+
+/* ── CARDS / TABLES ── */
 .card{background:var(--white);border:1px solid var(--border-soft);border-radius:var(--radiusLg);overflow:hidden;margin-bottom:16px}
 .card:last-child{margin-bottom:0}
-.card-head{padding:14px 20px;border-bottom:1px solid var(--border-soft);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.card-head h2{font-size:13px;font-weight:600;letter-spacing:-0.01em;color:var(--text1)}
+.card-head{padding:15px 20px;border-bottom:1px solid var(--border-soft);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.card-head h2{font-size:14px;font-weight:600;letter-spacing:-0.01em;color:var(--text1)}
 .filters{display:flex;gap:6px;flex-wrap:wrap}
-.f-btn{padding:4px 12px;border-radius:var(--pill);font-size:12px;font-weight:500;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;font-family:var(--f);transition:all 0.1s}
+.f-btn{
+  padding:4px 12px;border-radius:var(--pill);font-size:12px;font-weight:500;
+  border:1px solid var(--border);background:transparent;color:var(--text2);
+  cursor:pointer;font-family:var(--font);transition:all 0.1s;
+}
 .f-btn:hover{border-color:var(--brand-soft);color:var(--brand)}
 .f-btn.on{background:var(--lavender);border-color:var(--lavender-mid);color:var(--brand)}
 .tbl-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:13px;min-width:600px}
-thead th{padding:9px 16px;text-align:left;font-size:11px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:var(--text3);background:var(--lavender-bg);border-bottom:1px solid var(--border-soft);white-space:nowrap}
+thead th{
+  padding:10px 16px;text-align:left;font-size:11px;font-weight:600;
+  letter-spacing:0.05em;text-transform:uppercase;color:var(--text3);
+  background:var(--lavender-bg);border-bottom:1px solid var(--border-soft);white-space:nowrap;
+}
 tbody tr{border-bottom:1px solid var(--border-soft);cursor:pointer;transition:background 0.08s}
 tbody tr:last-child{border-bottom:none}
 tbody tr:hover{background:var(--lavender-bg)}
-td{padding:12px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px}
+td{padding:13px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px}
 .mono{font-family:'SF Mono','Fira Code',monospace;font-size:11.5px;color:var(--brand);font-weight:500}
-.muted{color:var(--text2)}.fw{font-weight:500}
-.empty-row td{text-align:center;padding:52px 16px;color:var(--text3);font-size:13px;cursor:default;font-style:italic}
+.muted{color:var(--text2)}
+.fw{font-weight:500}
+.empty-row td{text-align:center;padding:48px;color:var(--text3);font-size:13px;cursor:default}
 .empty-row:hover{background:transparent}
-.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:var(--pill);font-size:11px;font-weight:600;white-space:nowrap}
+
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:var(--pill);font-size:11px;font-weight:600;white-space:nowrap}
 .b-active,.b-closed{background:var(--green-bg);color:var(--green)}
 .b-expired,.b-inactive{background:var(--gray-bg);color:var(--gray)}
 .b-pending,.b-open{background:var(--amber-bg);color:var(--amber)}
@@ -81,162 +135,969 @@ td{padding:12px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;w
 .b-appliance{background:#D1FAE5;color:#065F46}
 .b-roofing{background:#FCE7F3;color:#9D174D}
 .b-general{background:var(--gray-bg);color:var(--gray)}
-#panel{position:absolute;right:0;top:0;bottom:0;width:380px;background:var(--white);border-left:1px solid var(--border-soft);overflow-y:auto;z-index:20;display:none;flex-direction:column;box-shadow:-4px 0 24px rgba(124,58,237,0.06)}
+
+/* ── DETAIL MODAL (replaces side panel) ── */
+#panel{
+  display:none;position:fixed;inset:0;
+  background:rgba(30,27,46,0.45);z-index:50;
+  align-items:center;justify-content:center;
+  padding:24px;
+}
 #panel.open{display:flex}
-.p-head{padding:16px 20px;border-bottom:1px solid var(--border-soft);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--white);z-index:1}
-.p-head h3{font-size:14px;font-weight:600;letter-spacing:-0.01em;color:var(--text1)}
-.p-close{background:none;border:none;cursor:pointer;color:var(--text3);font-size:18px;line-height:1;padding:2px 4px;font-family:var(--f)}
+.panel-inner{
+  background:var(--white);border-radius:20px;
+  width:100%;max-width:720px;max-height:88vh;
+  overflow-y:auto;display:flex;flex-direction:column;
+}
+.p-head{
+  padding:22px 28px 18px;border-bottom:1px solid var(--border-soft);
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;background:var(--white);z-index:1;border-radius:20px 20px 0 0;
+}
+.p-head h3{font-family:var(--font);font-size:16px;font-weight:600;font-style:normal;color:var(--text1)}
+.p-close{background:none;border:none;cursor:pointer;color:var(--text3);font-size:22px;line-height:1;padding:2px 4px}
 .p-close:hover{color:var(--text1)}
-.p-sec{padding:16px 20px;border-bottom:1px solid var(--border-soft)}
-.p-lbl{font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);font-weight:600;margin-bottom:11px}
-.p-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;gap:12px}
+.p-body-inner{padding:0}
+.p-sec{padding:20px 28px;border-bottom:1px solid var(--border-soft)}
+.p-sec:last-child{border-bottom:none}
+.p-lbl{font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);font-weight:600;margin-bottom:14px}
+.p-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.p-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:16px}
 .p-key{font-size:13px;color:var(--text2);flex-shrink:0}
 .p-val{font-size:13px;font-weight:500;text-align:right;color:var(--text1);word-break:break-word}
-.av{width:42px;height:42px;border-radius:11px;background:var(--lavender);color:var(--brand);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
-.p-person{display:flex;align-items:center;gap:13px;margin-bottom:13px}
-.p-person-name{font-size:15px;font-weight:600;letter-spacing:-0.02em}
-.p-person-sub{font-family:'SF Mono','Fira Code',monospace;font-size:11px;color:var(--brand);margin-top:3px}
-.claim-mini{padding:11px;border:1px solid var(--border-soft);border-radius:9px;margin-bottom:8px;cursor:pointer;transition:border-color 0.1s;background:var(--lavender-bg)}
+.av{width:48px;height:48px;border-radius:14px;background:var(--lavender);color:var(--brand);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0}
+.p-person{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.p-person-name{font-size:18px;font-weight:600;letter-spacing:-0.02em}
+.p-person-sub{font-family:'SF Mono','Fira Code',monospace;font-size:12px;color:var(--brand);margin-top:4px}
+.claim-mini{padding:14px;border:1px solid var(--border-soft);border-radius:10px;margin-bottom:8px;cursor:pointer;transition:border-color 0.1s;background:var(--lavender-bg)}
 .claim-mini:hover{border-color:var(--brand-soft)}
-.p-actions{display:flex;gap:8px;flex-wrap:wrap;padding:14px 20px}
-.btn-sm{padding:7px 14px;border-radius:var(--pill);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--f);border:1px solid var(--border);background:transparent;color:var(--text2);transition:all 0.1s}
+.claims-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.p-actions{display:flex;gap:10px;flex-wrap:wrap;padding:18px 28px;border-top:1px solid var(--border-soft);background:var(--lavender-bg);border-radius:0 0 20px 20px}
+.btn-sm{padding:8px 18px;border-radius:var(--pill);font-size:13px;font-weight:500;cursor:pointer;font-family:var(--font);border:1px solid var(--border);background:var(--white);color:var(--text2);transition:all 0.1s}
 .btn-sm:hover{border-color:var(--brand-soft);color:var(--brand)}
 .btn-sm.on{background:var(--lavender);border-color:var(--lavender-mid);color:var(--brand)}
-.btn-danger{border-color:#FCA5A5;color:var(--red)}
+.btn-danger{border-color:#FCA5A5;color:var(--red);background:var(--white)}
 .btn-danger:hover{background:var(--red-bg);border-color:var(--red)}
-#modal-overlay{display:none;position:fixed;inset:0;background:rgba(30,27,46,0.4);z-index:100;align-items:center;justify-content:center;padding:20px}
+
+/* ── MODAL ── */
+#modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(30,27,46,0.4);z-index:100;
+  align-items:center;justify-content:center;
+  padding:20px;
+}
 #modal-overlay.open{display:flex}
-.modal{background:var(--white);border-radius:18px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto}
-.m-head{padding:20px 24px 15px;border-bottom:1px solid var(--border-soft);display:flex;align-items:center;justify-content:space-between}
-.m-head h3{font-size:15px;font-weight:600;letter-spacing:-0.02em;color:var(--text1)}
+.modal{background:var(--white);border-radius:20px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto}
+.m-head{padding:22px 24px 16px;border-bottom:1px solid var(--border-soft);display:flex;align-items:center;justify-content:space-between}
+.m-head h3{font-family:var(--font);font-size:16px;font-weight:600;font-style:normal}
 .m-body{padding:20px 24px}
-.fg{margin-bottom:14px}
-.fg label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:5px}
-.fg input,.fg select,.fg textarea{width:100%;padding:9px 12px;border:1px solid var(--border-soft);border-radius:9px;font-size:13px;font-family:var(--f);color:var(--text1);background:var(--lavender-bg);transition:border-color 0.1s}
+.fg{margin-bottom:15px}
+.fg label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:6px}
+.fg input,.fg select,.fg textarea{
+  width:100%;padding:9px 13px;border:1px solid var(--border-soft);border-radius:10px;
+  font-size:14px;font-family:var(--font);color:var(--text1);background:var(--lavender-bg);
+  transition:border-color 0.1s;
+}
 .fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--brand-soft);background:var(--white)}
-.fg textarea{resize:vertical;min-height:68px}
+.fg textarea{resize:vertical;min-height:72px}
 .fr{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.m-foot{padding:13px 24px;border-top:1px solid var(--border-soft);display:flex;gap:8px;justify-content:flex-end}
-.btn-ghost{background:transparent;border:1px solid var(--border);padding:8px 16px;border-radius:var(--pill);font-size:13px;cursor:pointer;font-family:var(--f);color:var(--text2)}
+.m-foot{padding:14px 24px;border-top:1px solid var(--border-soft);display:flex;gap:8px;justify-content:flex-end}
+.btn-ghost{background:transparent;border:1px solid var(--border);padding:8px 18px;border-radius:var(--pill);font-size:13px;cursor:pointer;font-family:var(--font);color:var(--text2)}
 .btn-ghost:hover{border-color:var(--brand-soft);color:var(--brand)}
-#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--text1);color:#fff;padding:9px 20px;border-radius:var(--pill);font-size:13px;font-weight:500;font-family:var(--f);opacity:0;transition:all 0.25s;z-index:200;pointer-events:none;white-space:nowrap}
+
+/* ── TOAST ── */
+#toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--text1);color:#fff;padding:10px 20px;border-radius:var(--pill);
+  font-size:13px;font-weight:500;opacity:0;transition:all 0.3s;z-index:200;pointer-events:none;
+}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── CONFIRM DIALOG ── */
 #confirm-overlay{display:none;position:fixed;inset:0;background:rgba(30,27,46,0.4);z-index:150;align-items:center;justify-content:center}
 #confirm-overlay.open{display:flex}
 .confirm-box{background:var(--white);border-radius:16px;padding:28px;max-width:360px;width:100%;margin:20px}
-.confirm-box h4{font-size:15px;font-weight:600;margin-bottom:8px;letter-spacing:-0.01em}
+.confirm-box h4{font-size:16px;font-weight:600;margin-bottom:8px}
 .confirm-box p{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:20px}
 .confirm-btns{display:flex;gap:8px;justify-content:flex-end}
-.btn-del{background:var(--red);color:#fff;border:none;padding:8px 18px;border-radius:var(--pill);font-size:13px;font-weight:500;cursor:pointer;font-family:var(--f)}
+.btn-del{background:var(--red);color:#fff;border:none;padding:8px 18px;border-radius:var(--pill);font-size:13px;cursor:pointer;font-family:var(--font)}
 </style>
 </head>
 <body>
+
 <div id="app">
+
+<!-- SIDEBAR -->
 <div id="sidebar">
   <div class="s-logo">
-    <div class="s-logo-mark"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></div>
-    <div><div class="s-name">dwell</div><div class="s-sub">Home Warranty CRM</div></div>
+    <div class="s-logo-mark">
+      <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+    </div>
+    <div class="s-logo-text">
+      <div class="name">dwell</div>
+      <div class="sub">Home Warranty CRM</div>
+    </div>
   </div>
-  <div class="s-grp">Menu</div>
-  <div class="s-item active" onclick="nav('dashboard',this)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</div>
-  <div class="s-item" onclick="nav('customers',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Customers</div>
-  <div class="s-item" onclick="nav('policies',this)"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>Policies</div>
-  <div class="s-item" onclick="nav('claims',this)"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>Claims</div>
-  <div class="s-item" onclick="nav('vendors',this)"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>Vendors</div>
+  <div class="s-group">Menu</div>
+  <div class="s-item active" data-view="dashboard" onclick="nav('dashboard',this)">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    Dashboard
+  </div>
+  <div class="s-item" data-view="customers" onclick="nav('customers',this)">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    Customers
+  </div>
+  <div class="s-item" data-view="policies" onclick="nav('policies',this)">
+    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+    Policies
+  </div>
+  <div class="s-item" data-view="claims" onclick="nav('claims',this)">
+    <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+    Claims
+  </div>
+  <div class="s-item" data-view="vendors" onclick="nav('vendors',this)">
+    <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+    Vendors
+  </div>
   <div class="s-footer">Dwell Home Protection &copy; 2026</div>
 </div>
+
+<!-- MAIN -->
 <div id="main">
   <div id="topbar">
-    <div id="pg-title">Dashboard</div>
+    <h1 id="pg-title">Dashboard</h1>
     <div class="search-box">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
       <input type="text" id="search-input" placeholder="Search policy #, name, address..." oninput="globalSearch(this.value)">
     </div>
     <button class="btn-cta" onclick="openAddModal()">+ Add New</button>
   </div>
+
   <div id="content">
+
+    <!-- DASHBOARD -->
     <div id="v-dashboard" class="view active">
       <div class="stats-grid">
-        <div class="stat"><div class="stat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><div class="stat-label">Total Customers</div><div class="stat-num" id="s-customers">0</div><div class="stat-sub" id="s-customers-sub">No customers yet</div></div>
-        <div class="stat"><div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="stat-label">Active Policies</div><div class="stat-num" id="s-policies">0</div><div class="stat-sub" id="s-policies-sub">No active policies</div></div>
-        <div class="stat"><div class="stat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="1" fill="var(--brand)" stroke="none"/></svg></div><div class="stat-label">Open Claims</div><div class="stat-num" id="s-claims">0</div><div class="stat-sub" id="s-claims-sub">No open claims</div></div>
-        <div class="stat"><div class="stat-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div><div class="stat-label">Active Vendors</div><div class="stat-num" id="s-vendors">0</div><div class="stat-sub" id="s-vendors-sub">No vendors yet</div></div>
+        <div class="stat">
+          <div class="stat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+          <div class="stat-label">Total Customers</div>
+          <div class="stat-num" id="s-customers">0</div>
+          <div class="stat-sub" id="s-customers-sub"></div>
+        </div>
+        <div class="stat">
+          <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div class="stat-label">Active Policies</div>
+          <div class="stat-num" id="s-policies">0</div>
+          <div class="stat-sub" id="s-policies-sub"></div>
+        </div>
+        <div class="stat">
+          <div class="stat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="1" fill="var(--brand)" stroke="none"/></svg></div>
+          <div class="stat-label">Open Claims</div>
+          <div class="stat-num" id="s-claims">0</div>
+          <div class="stat-sub" id="s-claims-sub"></div>
+        </div>
+        <div class="stat">
+          <div class="stat-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
+          <div class="stat-label">Active Vendors</div>
+          <div class="stat-num" id="s-vendors">0</div>
+          <div class="stat-sub" id="s-vendors-sub"></div>
+        </div>
       </div>
-      <div class="card"><div class="card-head"><h2>Recent Claims</h2></div><div class="tbl-wrap"><table><thead><tr><th style="width:130px">Claim #</th><th style="width:180px">Customer</th><th>Issue</th><th style="width:120px">Status</th><th style="width:110px">Filed</th></tr></thead><tbody id="db-claims"></tbody></table></div></div>
-      <div class="card" style="margin-top:16px"><div class="card-head"><h2>Recent Customers</h2></div><div class="tbl-wrap"><table><thead><tr><th style="width:190px">Name</th><th style="width:145px">Policy #</th><th>Address</th><th style="width:100px">Status</th><th style="width:100px">Plan</th></tr></thead><tbody id="db-customers"></tbody></table></div></div>
+      <div class="card">
+        <div class="card-head"><h2>Recent Claims</h2></div>
+        <div class="tbl-wrap">
+          <table><thead><tr>
+            <th style="width:130px">Claim #</th><th style="width:170px">Customer</th>
+            <th>Issue</th><th style="width:120px">Status</th><th style="width:110px">Filed</th>
+          </tr></thead><tbody id="db-claims"></tbody></table>
+        </div>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="card-head"><h2>Recent Customers</h2></div>
+        <div class="tbl-wrap">
+          <table><thead><tr>
+            <th style="width:180px">Name</th><th style="width:140px">Policy #</th>
+            <th>Address</th><th style="width:100px">Status</th><th style="width:100px">Plan</th>
+          </tr></thead><tbody id="db-customers"></tbody></table>
+        </div>
+      </div>
     </div>
-    <div id="v-customers" class="view"><div class="card"><div class="card-head"><h2>All Customers</h2><div class="filters"><button class="f-btn on" onclick="fCust('all',this)">All</button><button class="f-btn" onclick="fCust('active',this)">Active</button><button class="f-btn" onclick="fCust('pending',this)">Pending</button><button class="f-btn" onclick="fCust('expired',this)">Expired</button></div></div><div class="tbl-wrap"><table><thead><tr><th style="width:190px">Name</th><th style="width:145px">Policy #</th><th>Address</th><th style="width:145px">Phone</th><th style="width:90px">Status</th><th style="width:105px">Expiry</th><th style="width:110px">Plan</th></tr></thead><tbody id="t-customers"></tbody></table></div></div></div>
-    <div id="v-policies" class="view"><div class="card"><div class="card-head"><h2>Policies</h2><div class="filters"><button class="f-btn on" onclick="fPol('all',this)">All</button><button class="f-btn" onclick="fPol('active',this)">Active</button><button class="f-btn" onclick="fPol('pending',this)">Pending</button><button class="f-btn" onclick="fPol('expired',this)">Expired</button></div></div><div class="tbl-wrap"><table><thead><tr><th style="width:145px">Policy #</th><th style="width:180px">Holder</th><th>Address</th><th style="width:115px">Plan</th><th style="width:90px">Status</th><th style="width:110px">Start</th><th style="width:110px">Expiry</th><th style="width:70px">Claims</th></tr></thead><tbody id="t-policies"></tbody></table></div></div></div>
-    <div id="v-claims" class="view"><div class="card"><div class="card-head"><h2>Claims Management</h2><div class="filters"><button class="f-btn on" onclick="fClaim('all',this)">All</button><button class="f-btn" onclick="fClaim('open',this)">Open</button><button class="f-btn" onclick="fClaim('progress',this)">In Progress</button><button class="f-btn" onclick="fClaim('closed',this)">Closed</button></div></div><div class="tbl-wrap"><table><thead><tr><th style="width:130px">Claim #</th><th style="width:165px">Customer</th><th style="width:135px">Policy #</th><th>Issue</th><th style="width:110px">Category</th><th style="width:165px">Vendor</th><th style="width:110px">Status</th><th style="width:110px">Filed</th></tr></thead><tbody id="t-claims"></tbody></table></div></div></div>
-    <div id="v-vendors" class="view"><div class="card"><div class="card-head"><h2>Vendor Directory</h2><div class="filters"><button class="f-btn on" onclick="fVend('all',this)">All</button><button class="f-btn" onclick="fVend('plumbing',this)">Plumbing</button><button class="f-btn" onclick="fVend('electrical',this)">Electrical</button><button class="f-btn" onclick="fVend('hvac',this)">HVAC</button><button class="f-btn" onclick="fVend('appliance',this)">Appliance</button><button class="f-btn" onclick="fVend('roofing',this)">Roofing</button><button class="f-btn" onclick="fVend('general',this)">General</button></div></div><div class="tbl-wrap"><table><thead><tr><th style="width:200px">Company</th><th style="width:110px">Category</th><th style="width:155px">Contact</th><th style="width:145px">Phone</th><th>Service Area</th><th style="width:75px">Rating</th><th style="width:65px">Jobs</th></tr></thead><tbody id="t-vendors"></tbody></table></div></div></div>
+
+    <!-- CUSTOMERS -->
+    <div id="v-customers" class="view">
+      <div class="card">
+        <div class="card-head">
+          <h2>All Customers</h2>
+          <div class="filters">
+            <button class="f-btn on" onclick="fCust('all',this)">All</button>
+            <button class="f-btn" onclick="fCust('active',this)">Active</button>
+            <button class="f-btn" onclick="fCust('expired',this)">Expired</button>
+            <button class="f-btn" onclick="fCust('pending',this)">Pending</button>
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <table><thead><tr>
+            <th style="width:180px">Name</th><th style="width:140px">Policy #</th>
+            <th>Address</th><th style="width:145px">Phone</th>
+            <th style="width:90px">Status</th><th style="width:110px">Renewed</th><th style="width:90px">Plan</th>
+          </tr></thead><tbody id="t-customers"></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- POLICIES -->
+    <div id="v-policies" class="view">
+      <div class="card">
+        <div class="card-head">
+          <h2>Policies</h2>
+          <div class="filters">
+            <button class="f-btn on" onclick="fPol('all',this)">All</button>
+            <button class="f-btn" onclick="fPol('active',this)">Active</button>
+            <button class="f-btn" onclick="fPol('expired',this)">Expired</button>
+            <button class="f-btn" onclick="fPol('pending',this)">Pending</button>
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <table><thead><tr>
+            <th style="width:140px">Policy #</th><th style="width:170px">Holder</th>
+            <th>Address</th><th style="width:110px">Plan</th>
+            <th style="width:90px">Status</th><th style="width:110px">Start</th><th style="width:110px">Expiry</th><th style="width:70px">Claims</th>
+          </tr></thead><tbody id="t-policies"></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLAIMS -->
+    <div id="v-claims" class="view">
+      <div class="card">
+        <div class="card-head">
+          <h2>Claims Management</h2>
+          <div class="filters">
+            <button class="f-btn on" onclick="fClaim('all',this)">All</button>
+            <button class="f-btn" onclick="fClaim('open',this)">Open</button>
+            <button class="f-btn" onclick="fClaim('progress',this)">In Progress</button>
+            <button class="f-btn" onclick="fClaim('closed',this)">Closed</button>
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <table><thead><tr>
+            <th style="width:130px">Claim #</th><th style="width:160px">Customer</th>
+            <th style="width:130px">Policy #</th><th>Issue</th>
+            <th style="width:110px">Category</th><th style="width:160px">Vendor</th>
+            <th style="width:110px">Status</th><th style="width:110px">Filed</th>
+          </tr></thead><tbody id="t-claims"></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- VENDORS -->
+    <div id="v-vendors" class="view">
+      <div class="card">
+        <div class="card-head">
+          <h2>Vendor Directory</h2>
+          <div class="filters">
+            <button class="f-btn on" onclick="fVend('all',this)">All</button>
+            <button class="f-btn" onclick="fVend('plumbing',this)">Plumbing</button>
+            <button class="f-btn" onclick="fVend('electrical',this)">Electrical</button>
+            <button class="f-btn" onclick="fVend('hvac',this)">HVAC</button>
+            <button class="f-btn" onclick="fVend('appliance',this)">Appliance</button>
+            <button class="f-btn" onclick="fVend('roofing',this)">Roofing</button>
+            <button class="f-btn" onclick="fVend('general',this)">General</button>
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <table><thead><tr>
+            <th style="width:190px">Company</th><th style="width:110px">Category</th>
+            <th style="width:155px">Contact</th><th style="width:145px">Phone</th>
+            <th>Service Area</th><th style="width:75px">Rating</th><th style="width:65px">Jobs</th>
+          </tr></thead><tbody id="t-vendors"></tbody></table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+</div><!-- /main -->
+</div><!-- /app -->
+
+<!-- DETAIL PANEL MODAL -->
+<div id="panel">
+  <div class="panel-inner">
+    <div class="p-head">
+      <h3 id="p-title">Details</h3>
+      <button class="p-close" onclick="closePanel()">&#x2715;</button>
+    </div>
+    <div id="p-body" class="p-body-inner"></div>
   </div>
-  <div id="panel"><div class="p-head"><h3 id="p-title">Details</h3><button class="p-close" onclick="closePanel()">&#x2715;</button></div><div id="p-body"></div></div>
 </div>
+
+<!-- ADD/EDIT MODAL -->
+<div id="modal-overlay">
+  <div class="modal">
+    <div class="m-head">
+      <h3 id="m-title">Add record</h3>
+      <button class="p-close" onclick="closeModal()">&#x2715;</button>
+    </div>
+    <div class="m-body" id="m-body"></div>
+    <div class="m-foot">
+      <button class="btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn-cta" id="m-save-btn" onclick="saveRecord()">Save</button>
+    </div>
+  </div>
 </div>
-<div id="modal-overlay"><div class="modal"><div class="m-head"><h3 id="m-title">Add record</h3><button class="p-close" onclick="closeModal()">&#x2715;</button></div><div class="m-body" id="m-body"></div><div class="m-foot"><button class="btn-ghost" onclick="closeModal()">Cancel</button><button class="btn-cta" onclick="saveRecord()">Save</button></div></div></div>
-<div id="confirm-overlay"><div class="confirm-box"><h4 id="confirm-title">Delete record?</h4><p id="confirm-msg">This cannot be undone.</p><div class="confirm-btns"><button class="btn-ghost" onclick="closeConfirm()">Cancel</button><button class="btn-del" id="confirm-ok">Delete</button></div></div></div>
+
+<!-- CONFIRM DELETE -->
+<div id="confirm-overlay">
+  <div class="confirm-box">
+    <h4 id="confirm-title">Delete record?</h4>
+    <p id="confirm-msg">This action cannot be undone.</p>
+    <div class="confirm-btns">
+      <button class="btn-ghost" onclick="closeConfirm()">Cancel</button>
+      <button class="btn-del" id="confirm-ok">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
 <div id="toast"></div>
+
 <script>
-const K={c:'dwell_customers',cl:'dwell_claims',v:'dwell_vendors'};
-function load(k){try{const d=localStorage.getItem(k);return d?JSON.parse(d):[]}catch(e){return[]}}
-function save(){try{localStorage.setItem(K.c,JSON.stringify(customers));localStorage.setItem(K.cl,JSON.stringify(claims));localStorage.setItem(K.v,JSON.stringify(vendors))}catch(e){toast('Storage error')}}
-let customers=load(K.c),claims=load(K.cl),vendors=load(K.v);
-function uid(p){return p+Date.now().toString(36)+Math.random().toString(36).slice(2,5)}
-function nextPolicy(){const yr=new Date().getFullYear();const nums=customers.map(c=>parseInt((c.policy||'').split('-').pop())||0);return'DW-'+yr+'-'+String(Math.max(0,...nums)+1).padStart(5,'0')}
-function nextClaim(){const yr=new Date().getFullYear();const nums=claims.map(c=>parseInt((c.num||'').split('-').pop())||0);return'CLM-'+yr+'-'+String(Math.max(0,...nums)+1).padStart(4,'0')}
-let view='dashboard',cf='all',clf='all',vf='all',pf='all',searchQ='';
-let editId=null,editType=null,currentForm=null,pendingDelete=null;
-function nav(v,el){view=v;document.querySelectorAll('.view').forEach(e=>e.classList.remove('active'));document.getElementById('v-'+v).classList.add('active');document.querySelectorAll('.s-item').forEach(e=>e.classList.remove('active'));if(el)el.classList.add('active');document.getElementById('pg-title').textContent={dashboard:'Dashboard',customers:'Customers',policies:'Policies',claims:'Claims Management',vendors:'Vendor Directory'}[v];document.getElementById('search-input').value='';searchQ='';closePanel();render()}
-function globalSearch(q){searchQ=q.toLowerCase().trim();render()}
-function render(){updateStats();if(view==='dashboard'){rDash();return}if(view==='customers')rCust();if(view==='policies')rPol();if(view==='claims')rClaim();if(view==='vendors')rVend()}
-function updateStats(){const active=customers.filter(c=>c.status==='active').length;const open=claims.filter(c=>c.status==='open'||c.status==='progress').length;set('s-customers',customers.length);set('s-customers-sub',active+' active'+(customers.length===0?' — add your first customer':''));set('s-policies',active);set('s-policies-sub',customers.length?Math.round(active/customers.length*100)+'% retention':'No policies yet');set('s-claims',open);set('s-claims-sub',claims.filter(c=>c.status==='open').length+' awaiting action');set('s-vendors',vendors.length);set('s-vendors-sub',vendors.filter(v=>v.lic).length+' licensed')}
-function rDash(){const rc=[...claims].sort((a,b)=>b.filed.localeCompare(a.filed)).slice(0,6);g('db-claims').innerHTML=rc.length?rc.map(c=>`<tr onclick="sClaim('${c.id}')"><td class="mono">${c.num}</td><td class="fw">${esc(c.customerName)}</td><td class="muted">${esc(c.issue)}</td><td>${bs(c.status)}</td><td class="muted">${fmt(c.filed)}</td></tr>`).join(''):emptyRow(5,'No claims yet');const rc2=[...customers].reverse().slice(0,6);g('db-customers').innerHTML=rc2.length?rc2.map(c=>`<tr onclick="sCust('${c.id}')"><td class="fw">${esc(c.name)}</td><td class="mono">${c.policy}</td><td class="muted">${esc(c.address)}</td><td>${bs(c.status)}</td><td>${esc(c.plan)}</td></tr>`).join(''):emptyRow(5,'No customers yet — click "+ Add New" to get started')}
-function rCust(){let l=customers;if(cf!=='all')l=l.filter(c=>c.status===cf);if(searchQ)l=l.filter(c=>c.name.toLowerCase().includes(searchQ)||c.policy.toLowerCase().includes(searchQ)||(c.address||'').toLowerCase().includes(searchQ)||(c.phone||'').includes(searchQ)||(c.email||'').toLowerCase().includes(searchQ));g('t-customers').innerHTML=l.length?l.map(c=>`<tr onclick="sCust('${c.id}')"><td class="fw">${esc(c.name)}</td><td class="mono">${c.policy}</td><td class="muted">${esc(c.address)}</td><td class="muted">${esc(c.phone)}</td><td>${bs(c.status)}</td><td class="muted">${fmt(c.expiry)}</td><td>${esc(c.plan)}</td></tr>`).join(''):emptyRow(7,searchQ?'No customers match your search':'No customers yet — click "+ Add New" to get started')}
-function rPol(){let l=customers;if(pf!=='all')l=l.filter(c=>c.status===pf);if(searchQ)l=l.filter(c=>c.policy.toLowerCase().includes(searchQ)||c.name.toLowerCase().includes(searchQ)||(c.address||'').toLowerCase().includes(searchQ));g('t-policies').innerHTML=l.length?l.map(c=>{const cc=claims.filter(x=>x.customerId===c.id).length;return`<tr onclick="sCust('${c.id}')"><td class="mono">${c.policy}</td><td class="fw">${esc(c.name)}</td><td class="muted">${esc(c.address)}</td><td>${esc(c.plan)}</td><td>${bs(c.status)}</td><td class="muted">${fmt(c.since)}</td><td class="muted">${fmt(c.expiry)}</td><td style="text-align:center">${cc}</td></tr>`}).join(''):emptyRow(8,searchQ?'No policies match your search':'No policies yet')}
-function rClaim(){let l=claims;if(clf!=='all')l=l.filter(c=>c.status===clf);if(searchQ)l=l.filter(c=>c.num.toLowerCase().includes(searchQ)||c.customerName.toLowerCase().includes(searchQ)||(c.policy||'').toLowerCase().includes(searchQ)||c.issue.toLowerCase().includes(searchQ)||(c.vendorName||'').toLowerCase().includes(searchQ));g('t-claims').innerHTML=l.length?l.map(c=>`<tr onclick="sClaim('${c.id}')"><td class="mono">${c.num}</td><td class="fw">${esc(c.customerName)}</td><td class="mono">${c.policy||''}</td><td class="muted">${esc(c.issue)}</td><td>${bc(c.cat)}</td><td class="muted">${esc(c.vendorName||'Unassigned')}</td><td>${bs(c.status)}</td><td class="muted">${fmt(c.filed)}</td></tr>`).join(''):emptyRow(8,searchQ?'No claims match your search':'No claims yet')}
-function rVend(){let l=vendors;if(vf!=='all')l=l.filter(v=>v.cat===vf);if(searchQ)l=l.filter(v=>v.co.toLowerCase().includes(searchQ)||(v.contact||'').toLowerCase().includes(searchQ)||(v.phone||'').includes(searchQ)||(v.area||'').toLowerCase().includes(searchQ)||v.cat.toLowerCase().includes(searchQ));g('t-vendors').innerHTML=l.length?l.map(v=>`<tr onclick="sVend('${v.id}')"><td><span class="fw">${esc(v.co)}</span>${v.lic?' <span class="badge b-active" style="font-size:10px;padding:1px 7px;margin-left:4px">Lic</span>':''}</td><td>${bc(v.cat)}</td><td class="muted">${esc(v.contact)}</td><td class="muted">${esc(v.phone)}</td><td class="muted">${esc(v.area)}</td><td class="fw">${v.rating||'—'}</td><td style="text-align:center">${v.jobs||0}</td></tr>`).join(''):emptyRow(7,searchQ?'No vendors match your search':'No vendors yet — click "+ Add New" to add your first vendor')}
-function sCust(id){const c=customers.find(x=>x.id===id);if(!c)return;const cc=claims.filter(x=>x.customerId===id);g('p-title').textContent='Customer record';g('p-body').innerHTML=`<div class="p-sec"><div class="p-person"><div class="av">${ini(c.name)}</div><div><div class="p-person-name">${esc(c.name)}</div><div class="p-person-sub">${c.policy}</div></div></div>${bs(c.status)}</div><div class="p-sec"><div class="p-lbl">Contact</div><div class="p-row"><span class="p-key">Phone</span><span class="p-val">${esc(c.phone)||'—'}</span></div><div class="p-row"><span class="p-key">Email</span><span class="p-val" style="font-size:12px">${esc(c.email)||'—'}</span></div><div class="p-row"><span class="p-key">Address</span><span class="p-val" style="font-size:12px">${esc(c.address)||'—'}</span></div></div><div class="p-sec"><div class="p-lbl">Policy</div><div class="p-row"><span class="p-key">Policy #</span><span class="p-val mono">${c.policy}</span></div><div class="p-row"><span class="p-key">Plan</span><span class="p-val">${esc(c.plan)}</span></div><div class="p-row"><span class="p-key">Start</span><span class="p-val">${fmt(c.since)}</span></div><div class="p-row"><span class="p-key">Expiry</span><span class="p-val">${fmt(c.expiry)}</span></div><div class="p-row"><span class="p-key">Claims</span><span class="p-val">${cc.length}</span></div></div>${c.notes?`<div class="p-sec"><div class="p-lbl">Notes</div><p style="font-size:13px;color:var(--text2);line-height:1.6">${esc(c.notes)}</p></div>`:''}<div class="p-sec"><div class="p-lbl">Claim History</div>${cc.length?cc.map(cl=>`<div class="claim-mini" onclick="sClaim('${cl.id}')"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span class="mono">${cl.num}</span>${bs(cl.status)}</div><div style="font-size:13px;color:var(--text2)">${esc(cl.issue)}</div><div style="font-size:11px;color:var(--text3);margin-top:3px">${fmt(cl.filed)}</div></div>`).join(''):'<p style="font-size:13px;color:var(--text3);font-style:italic">No claims on file.</p>'}</div><div class="p-actions"><button class="btn-sm" onclick="openEditModal(\'customers\',\'${id}\')">Edit</button><button class="btn-sm btn-danger" onclick="confirmDelete(\'customers\',\'${id}\',\'${esc(c.name).replace(/'/g,'')}'\')">Delete</button></div>`;openPanel()}
-function sClaim(id){const c=claims.find(x=>x.id===id);if(!c)return;const cu=customers.find(x=>x.id===c.customerId);g('p-title').textContent='Claim details';g('p-body').innerHTML=`<div class="p-sec"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span class="mono" style="font-size:14px">${c.num}</span>${bs(c.status)}</div><p style="font-size:14px;font-weight:600;margin-bottom:4px">${esc(c.issue)}</p><p style="font-size:13px;color:var(--text2)">Filed ${fmt(c.filed)}</p></div><div class="p-sec"><div class="p-lbl">Customer & Policy</div><div class="p-row"><span class="p-key">Customer</span><span class="p-val">${esc(c.customerName)}</span></div><div class="p-row"><span class="p-key">Policy #</span><span class="p-val mono">${c.policy||'—'}</span></div><div class="p-row"><span class="p-key">Address</span><span class="p-val" style="font-size:12px">${cu?esc(cu.address):'—'}</span></div></div><div class="p-sec"><div class="p-lbl">Claim Info</div><div class="p-row"><span class="p-key">Category</span><span class="p-val">${bc(c.cat)}</span></div><div class="p-row"><span class="p-key">Vendor</span><span class="p-val">${esc(c.vendorName||'Unassigned')}</span></div><div class="p-row"><span class="p-key">Est. Cost</span><span class="p-val">${esc(c.amount||'TBD')}</span></div></div>${c.notes?`<div class="p-sec"><div class="p-lbl">Notes</div><p style="font-size:13px;color:var(--text2);line-height:1.6">${esc(c.notes)}</p></div>`:''}<div class="p-sec"><div class="p-lbl">Update Status</div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn-sm${c.status==='open'?' on':''}" onclick="updClaim('${id}','open')">Open</button><button class="btn-sm${c.status==='progress'?' on':''}" onclick="updClaim('${id}','progress')">In Progress</button><button class="btn-sm${c.status==='closed'?' on':''}" onclick="updClaim('${id}','closed')">Closed</button></div></div><div class="p-actions"><button class="btn-sm" onclick="openEditModal(\'claims\',\'${id}\')">Edit</button><button class="btn-sm btn-danger" onclick="confirmDelete(\'claims\',\'${id}\',\'${c.num}\')">Delete</button></div>`;openPanel()}
-function sVend(id){const v=vendors.find(x=>x.id===id);if(!v)return;const vc=claims.filter(c=>c.vendorId===id);g('p-title').textContent='Vendor profile';g('p-body').innerHTML=`<div class="p-sec"><div class="p-person"><div class="av" style="border-radius:10px">${v.co.slice(0,2).toUpperCase()}</div><div><div class="p-person-name">${esc(v.co)}</div><div style="margin-top:5px">${bc(v.cat)}</div></div></div></div><div class="p-sec"><div class="p-lbl">Contact</div><div class="p-row"><span class="p-key">Name</span><span class="p-val">${esc(v.contact)||'—'}</span></div><div class="p-row"><span class="p-key">Phone</span><span class="p-val">${esc(v.phone)||'—'}</span></div><div class="p-row"><span class="p-key">Email</span><span class="p-val" style="font-size:12px">${esc(v.email)||'—'}</span></div></div><div class="p-sec"><div class="p-lbl">Service Info</div><div class="p-row"><span class="p-key">Area</span><span class="p-val">${esc(v.area)||'—'}</span></div><div class="p-row"><span class="p-key">Licensed</span><span class="p-val">${v.lic?'Yes':'No'}</span></div><div class="p-row"><span class="p-key">Rating</span><span class="p-val">${v.rating||'—'} / 5.0</span></div><div class="p-row"><span class="p-key">Total Jobs</span><span class="p-val">${v.jobs||0}</span></div></div>${v.notes?`<div class="p-sec"><div class="p-lbl">Notes</div><p style="font-size:13px;color:var(--text2);line-height:1.6">${esc(v.notes)}</p></div>`:''}<div class="p-sec"><div class="p-lbl">Claims Handled (${vc.length})</div>${vc.length?vc.map(c=>`<div class="claim-mini" onclick="sClaim('${c.id}')"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span class="mono">${c.num}</span>${bs(c.status)}</div><div style="font-size:13px;color:var(--text2)">${esc(c.issue)}</div><div style="font-size:11px;color:var(--text3);margin-top:3px">${esc(c.customerName)} &middot; ${fmt(c.filed)}</div></div>`).join(''):'<p style="font-size:13px;color:var(--text3);font-style:italic">No claims assigned yet.</p>'}</div><div class="p-actions"><button class="btn-sm" onclick="openEditModal(\'vendors\',\'${id}\')">Edit</button><button class="btn-sm btn-danger" onclick="confirmDelete(\'vendors\',\'${id}\',\'${esc(v.co).replace(/'/g,'')}\')">Delete</button></div>`;openPanel()}
-function updClaim(id,status){const c=claims.find(x=>x.id===id);if(!c)return;c.status=status;save();sClaim(id);if(view==='claims')rClaim();if(view==='dashboard')rDash();updateStats();toast('Status updated')}
-function fCust(f,btn){cf=f;setF('#v-customers',btn);rCust()}
-function fClaim(f,btn){clf=f;setF('#v-claims',btn);rClaim()}
-function fVend(f,btn){vf=f;setF('#v-vendors',btn);rVend()}
-function fPol(f,btn){pf=f;setF('#v-policies',btn);rPol()}
-function setF(s,btn){document.querySelectorAll(s+' .f-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on')}
-const FORMS={
-  customers:{addTitle:'Add customer',editTitle:'Edit customer',
-    fields(){return`<div class="fr"><div class="fg"><label>First Name *</label><input id="f-fname" type="text" placeholder="Maria"></div><div class="fg"><label>Last Name *</label><input id="f-lname" type="text" placeholder="Santos"></div></div><div class="fr"><div class="fg"><label>Phone</label><input id="f-phone" type="tel" placeholder="(718) 555-0000"></div><div class="fg"><label>Email</label><input id="f-email" type="email" placeholder="email@example.com"></div></div><div class="fg"><label>Property Address *</label><input id="f-address" type="text" placeholder="123 Main St, Brooklyn, NY 11201"></div><div class="fr"><div class="fg"><label>Plan *</label><select id="f-plan"><option>Basic</option><option>Comprehensive</option><option>Premium</option></select></div><div class="fg"><label>Status</label><select id="f-status"><option value="active">Active</option><option value="pending">Pending</option><option value="expired">Expired</option></select></div></div><div class="fr"><div class="fg"><label>Start Date</label><input id="f-since" type="date"></div><div class="fg"><label>Expiry Date</label><input id="f-expiry" type="date"></div></div><div class="fg"><label>Notes</label><textarea id="f-notes" placeholder="Internal notes..."></textarea></div>`},
-    populate(id){const c=customers.find(x=>x.id===id);if(!c)return;const p=c.name.split(' ');g('f-fname').value=p[0]||'';g('f-lname').value=p.slice(1).join(' ')||'';g('f-phone').value=c.phone||'';g('f-email').value=c.email||'';g('f-address').value=c.address||'';g('f-plan').value=c.plan||'Basic';g('f-status').value=c.status||'active';g('f-since').value=c.since||'';g('f-expiry').value=c.expiry||'';g('f-notes').value=c.notes||''},
-    save(id){const fn=g('f-fname').value.trim(),ln=g('f-lname').value.trim();if(!fn){alert('First name is required');return false}if(!g('f-address').value.trim()){alert('Address is required');return false}const d={name:fn+(ln?' '+ln:''),phone:g('f-phone').value.trim(),email:g('f-email').value.trim(),address:g('f-address').value.trim(),plan:g('f-plan').value,status:g('f-status').value,since:g('f-since').value,renewed:g('f-since').value,expiry:g('f-expiry').value,notes:g('f-notes').value.trim()};if(id){const i=customers.findIndex(x=>x.id===id);customers[i]={...customers[i],...d}}else{customers.push({id:uid('c'),policy:nextPolicy(),...d})}return true}},
-  claims:{addTitle:'File new claim',editTitle:'Edit claim',
-    fields(){const co=customers.map(c=>`<option value="${c.id}">${esc(c.name)} — ${c.policy}</option>`).join('');const vo=vendors.map(v=>`<option value="${v.id}">${esc(v.co)}</option>`).join('');return`<div class="fg"><label>Customer *</label><select id="f-cust"><option value="">Select customer...</option>${co}</select></div><div class="fg"><label>Issue Description *</label><textarea id="f-issue" placeholder="Describe the problem..." rows="2"></textarea></div><div class="fr"><div class="fg"><label>Category *</label><select id="f-cat"><option value="plumbing">Plumbing</option><option value="electrical">Electrical</option><option value="hvac">HVAC</option><option value="appliance">Appliance</option><option value="roofing">Roofing</option><option value="general">General</option></select></div><div class="fg"><label>Assign Vendor</label><select id="f-vend"><option value="">Unassigned</option>${vo}</select></div></div><div class="fr"><div class="fg"><label>Estimated Cost</label><input id="f-amt" type="text" placeholder="$0.00"></div><div class="fg"><label>Date Filed</label><input id="f-filed" type="date"></div></div><div class="fg"><label>Status</label><select id="f-status"><option value="open">Open</option><option value="progress">In Progress</option><option value="closed">Closed</option></select></div><div class="fg"><label>Notes</label><textarea id="f-notes" placeholder="Internal notes..."></textarea></div>`},
-    populate(id){const c=claims.find(x=>x.id===id);if(!c)return;g('f-cust').value=c.customerId||'';g('f-issue').value=c.issue||'';g('f-cat').value=c.cat||'plumbing';g('f-vend').value=c.vendorId||'';g('f-amt').value=c.amount||'';g('f-filed').value=c.filed||'';g('f-status').value=c.status||'open';g('f-notes').value=c.notes||''},
-    save(id){const custId=g('f-cust').value,issue=g('f-issue').value.trim();if(!custId){alert('Please select a customer');return false}if(!issue){alert('Issue description is required');return false}const cust=customers.find(x=>x.id===custId);const vendId=g('f-vend').value,vend=vendors.find(x=>x.id===vendId);const today=new Date().toISOString().slice(0,10);const d={customerId:custId,customerName:cust?cust.name:'',policy:cust?cust.policy:'',issue,cat:g('f-cat').value,vendorId:vendId||'',vendorName:vend?vend.co:'Unassigned',amount:g('f-amt').value.trim()||'TBD',filed:g('f-filed').value||today,status:g('f-status').value,notes:g('f-notes').value.trim()};if(id){const i=claims.findIndex(x=>x.id===id);claims[i]={...claims[i],...d}}else{claims.push({id:uid('cl'),num:nextClaim(),...d})}return true}},
-  vendors:{addTitle:'Add vendor',editTitle:'Edit vendor',
-    fields(){return`<div class="fg"><label>Company Name *</label><input id="f-co" type="text" placeholder="ABC Plumbing Inc."></div><div class="fr"><div class="fg"><label>Category *</label><select id="f-cat"><option value="plumbing">Plumbing</option><option value="electrical">Electrical</option><option value="hvac">HVAC</option><option value="appliance">Appliance</option><option value="roofing">Roofing</option><option value="general">General</option></select></div><div class="fg"><label>Licensed?</label><select id="f-lic"><option value="1">Yes</option><option value="0">No</option></select></div></div><div class="fr"><div class="fg"><label>Contact Name</label><input id="f-contact" type="text" placeholder="Jane Smith"></div><div class="fg"><label>Phone</label><input id="f-phone" type="tel" placeholder="(718) 555-0000"></div></div><div class="fg"><label>Email</label><input id="f-email" type="email" placeholder="dispatch@company.com"></div><div class="fg"><label>Service Area</label><input id="f-area" type="text" placeholder="Brooklyn, Queens, Manhattan"></div><div class="fr"><div class="fg"><label>Rating (0-5)</label><input id="f-rating" type="number" min="0" max="5" step="0.1" placeholder="4.5"></div><div class="fg"><label>Jobs Completed</label><input id="f-jobs" type="number" min="0" placeholder="0"></div></div><div class="fg"><label>Notes</label><textarea id="f-notes" placeholder="Specialties, hours, notes..."></textarea></div>`},
-    populate(id){const v=vendors.find(x=>x.id===id);if(!v)return;g('f-co').value=v.co||'';g('f-cat').value=v.cat||'plumbing';g('f-lic').value=v.lic?'1':'0';g('f-contact').value=v.contact||'';g('f-phone').value=v.phone||'';g('f-email').value=v.email||'';g('f-area').value=v.area||'';g('f-rating').value=v.rating||'';g('f-jobs').value=v.jobs||'';g('f-notes').value=v.notes||''},
-    save(id){const co=g('f-co').value.trim();if(!co){alert('Company name is required');return false}const d={co,cat:g('f-cat').value,lic:g('f-lic').value==='1',contact:g('f-contact').value.trim(),phone:g('f-phone').value.trim(),email:g('f-email').value.trim(),area:g('f-area').value.trim(),rating:g('f-rating').value||'0.0',jobs:parseInt(g('f-jobs').value)||0,notes:g('f-notes').value.trim()};if(id){const i=vendors.findIndex(x=>x.id===id);vendors[i]={...vendors[i],...d}}else{vendors.push({id:uid('v'),...d})}return true}}
+// ── DATA STORE ──────────────────────────────────────────────
+const KEYS = { customers:'dwell_customers', claims:'dwell_claims', vendors:'dwell_vendors' };
+
+const DEMO_CUSTOMERS = [];
+const DEMO_CLAIMS = [];
+const DEMO_VENDORS = [];
+
+function load(key, demo) {
+  try { const d = localStorage.getItem(key); return d ? JSON.parse(d) : demo.map(x=>({...x})); }
+  catch(e) { return demo.map(x=>({...x})); }
+}
+function save(key, data) {
+  try { localStorage.setItem(key, JSON.stringify(data)); } catch(e) {}
+}
+
+let customers = load(KEYS.customers, DEMO_CUSTOMERS);
+let claims    = load(KEYS.claims,    DEMO_CLAIMS);
+let vendors   = load(KEYS.vendors,   DEMO_VENDORS);
+
+function persist() {
+  save(KEYS.customers, customers);
+  save(KEYS.claims, claims);
+  save(KEYS.vendors, vendors);
+}
+
+// ── ID / NUMBER GENERATORS ──────────────────────────────────
+function uid(prefix) { return prefix + Date.now().toString(36) + Math.random().toString(36).slice(2,5); }
+function nextPolicyNum() {
+  const nums = customers.map(c => parseInt((c.policy||'').replace(/\D/g,'')) || 0);
+  const next = Math.max(0, ...nums) + 1;
+  return 'DW-' + new Date().getFullYear() + '-' + String(next).padStart(5,'0');
+}
+function nextClaimNum() {
+  const nums = claims.map(c => parseInt((c.num||'').replace(/\D/g,'')) || 0);
+  const next = Math.max(0, ...nums) + 1;
+  return 'CLM-' + new Date().getFullYear() + '-' + String(next).padStart(4,'0');
+}
+
+// ── UI STATE ────────────────────────────────────────────────
+let view = 'dashboard';
+let cf = 'all', clf = 'all', vf = 'all', pf = 'all';
+let searchQ = '';
+let editId = null, editType = null;
+let pendingDelete = null;
+
+// ── NAVIGATION ──────────────────────────────────────────────
+function nav(v, el) {
+  view = v;
+  document.querySelectorAll('.view').forEach(e => e.classList.remove('active'));
+  const el2 = document.getElementById('v-' + v);
+  if (el2) el2.classList.add('active');
+  document.querySelectorAll('.s-item').forEach(e => e.classList.remove('active'));
+  if (el) el.classList.add('active');
+  document.getElementById('pg-title').textContent = {
+    dashboard:'Dashboard', customers:'Customers', policies:'Policies',
+    claims:'Claims Management', vendors:'Vendor Directory'
+  }[v];
+  document.getElementById('search-input').value = '';
+  searchQ = '';
+  closePanel();
+  render();
+}
+
+// ── SEARCH ──────────────────────────────────────────────────
+function globalSearch(q) {
+  searchQ = q.toLowerCase().trim();
+  render();
+}
+
+// ── MASTER RENDER ───────────────────────────────────────────
+function render() {
+  updateStats();
+  if (view === 'dashboard') { rDash(); return; }
+  if (view === 'customers') rCust();
+  if (view === 'policies')  rPol();
+  if (view === 'claims')    rClaim();
+  if (view === 'vendors')   rVend();
+}
+
+// ── STATS ───────────────────────────────────────────────────
+function updateStats() {
+  const active = customers.filter(c => c.status === 'active').length;
+  const openC  = claims.filter(c => c.status === 'open' || c.status === 'progress').length;
+  document.getElementById('s-customers').textContent  = customers.length;
+  document.getElementById('s-customers-sub').textContent = active + ' active';
+  document.getElementById('s-policies').textContent   = active;
+  document.getElementById('s-policies-sub').textContent = customers.length ? Math.round(active/customers.length*100)+'% retention' : '';
+  document.getElementById('s-claims').textContent     = openC;
+  document.getElementById('s-claims-sub').textContent = claims.filter(c=>c.status==='open').length + ' awaiting action';
+  document.getElementById('s-vendors').textContent    = vendors.length;
+  document.getElementById('s-vendors-sub').textContent = vendors.filter(v=>v.lic).length + ' licensed';
+}
+
+// ── DASHBOARD ───────────────────────────────────────────────
+function rDash() {
+  const rc = [...claims].sort((a,b) => b.filed.localeCompare(a.filed)).slice(0, 6);
+  document.getElementById('db-claims').innerHTML = rc.length
+    ? rc.map(c => `<tr onclick="sClaim('${c.id}')">
+        <td class="mono">${c.num}</td><td class="fw">${c.customerName}</td>
+        <td class="muted">${c.issue}</td><td>${bs(c.status)}</td>
+        <td class="muted">${fmt(c.filed)}</td></tr>`).join('')
+    : emptyRow(5, 'No claims yet — file your first claim');
+
+  const rc2 = [...customers].reverse().slice(0, 6);
+  document.getElementById('db-customers').innerHTML = rc2.length
+    ? rc2.map(c => `<tr onclick="sCust('${c.id}')">
+        <td class="fw">${c.name}</td><td class="mono">${c.policy}</td>
+        <td class="muted">${c.address}</td><td>${bs(c.status)}</td>
+        <td>${c.plan}</td></tr>`).join('')
+    : emptyRow(5, 'No customers yet — add your first customer');
+}
+
+// ── CUSTOMERS ───────────────────────────────────────────────
+function rCust() {
+  let l = customers;
+  if (cf !== 'all') l = l.filter(c => c.status === cf);
+  if (searchQ) l = l.filter(c =>
+    c.name.toLowerCase().includes(searchQ) ||
+    c.policy.toLowerCase().includes(searchQ) ||
+    c.address.toLowerCase().includes(searchQ) ||
+    c.phone.includes(searchQ) ||
+    (c.email||'').toLowerCase().includes(searchQ)
+  );
+  document.getElementById('t-customers').innerHTML = l.length
+    ? l.map(c => `<tr onclick="sCust('${c.id}')">
+        <td class="fw">${esc(c.name)}</td><td class="mono">${c.policy}</td>
+        <td class="muted">${esc(c.address)}</td><td class="muted">${esc(c.phone)}</td>
+        <td>${bs(c.status)}</td><td class="muted">${fmt(c.renewed)}</td><td>${esc(c.plan)}</td></tr>`).join('')
+    : emptyRow(7);
+}
+
+// ── POLICIES ────────────────────────────────────────────────
+function rPol() {
+  let l = customers;
+  if (pf !== 'all') l = l.filter(c => c.status === pf);
+  if (searchQ) l = l.filter(c =>
+    c.policy.toLowerCase().includes(searchQ) ||
+    c.name.toLowerCase().includes(searchQ) ||
+    c.address.toLowerCase().includes(searchQ)
+  );
+  document.getElementById('t-policies').innerHTML = l.length
+    ? l.map(c => {
+        const cc = claims.filter(x => x.customerId === c.id).length;
+        return `<tr onclick="sCust('${c.id}')">
+          <td class="mono">${c.policy}</td><td class="fw">${esc(c.name)}</td>
+          <td class="muted">${esc(c.address)}</td><td>${esc(c.plan)}</td>
+          <td>${bs(c.status)}</td><td class="muted">${fmt(c.since)}</td>
+          <td class="muted">${fmt(c.expiry)}</td>
+          <td style="text-align:center">${cc}</td></tr>`;
+      }).join('')
+    : emptyRow(8);
+}
+
+// ── CLAIMS ──────────────────────────────────────────────────
+function rClaim() {
+  let l = claims;
+  if (clf !== 'all') l = l.filter(c => c.status === clf);
+  if (searchQ) l = l.filter(c =>
+    c.num.toLowerCase().includes(searchQ) ||
+    c.customerName.toLowerCase().includes(searchQ) ||
+    c.policy.toLowerCase().includes(searchQ) ||
+    c.issue.toLowerCase().includes(searchQ) ||
+    (c.vendorName||'').toLowerCase().includes(searchQ)
+  );
+  document.getElementById('t-claims').innerHTML = l.length
+    ? l.map(c => `<tr onclick="sClaim('${c.id}')">
+        <td class="mono">${c.num}</td><td class="fw">${esc(c.customerName)}</td>
+        <td class="mono">${c.policy}</td><td class="muted">${esc(c.issue)}</td>
+        <td>${bc(c.cat)}</td><td class="muted">${esc(c.vendorName)}</td>
+        <td>${bs(c.status)}</td><td class="muted">${fmt(c.filed)}</td></tr>`).join('')
+    : emptyRow(8);
+}
+
+// ── VENDORS ─────────────────────────────────────────────────
+function rVend() {
+  let l = vendors;
+  if (vf !== 'all') l = l.filter(v => v.cat === vf);
+  if (searchQ) l = l.filter(v =>
+    v.co.toLowerCase().includes(searchQ) ||
+    v.contact.toLowerCase().includes(searchQ) ||
+    v.phone.includes(searchQ) ||
+    v.area.toLowerCase().includes(searchQ) ||
+    v.cat.toLowerCase().includes(searchQ)
+  );
+  document.getElementById('t-vendors').innerHTML = l.length
+    ? l.map(v => `<tr onclick="sVend('${v.id}')">
+        <td><span class="fw">${esc(v.co)}</span>${v.lic ? ' <span class="badge b-active" style="font-size:10px;padding:1px 7px">Lic</span>' : ''}</td>
+        <td>${bc(v.cat)}</td><td class="muted">${esc(v.contact)}</td>
+        <td class="muted">${esc(v.phone)}</td><td class="muted">${esc(v.area)}</td>
+        <td class="fw">${v.rating}</td><td style="text-align:center">${v.jobs}</td></tr>`).join('')
+    : emptyRow(7);
+}
+
+// ── DETAIL PANELS ───────────────────────────────────────────
+function sCust(id) {
+  const c = customers.find(x => x.id === id); if (!c) return;
+  const cc = claims.filter(x => x.customerId === id);
+  document.getElementById('p-title').textContent = 'Customer record';
+  document.getElementById('p-body').innerHTML = `
+    <div class="p-sec" style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+      <div class="p-person" style="margin-bottom:0">
+        <div class="av">${ini(c.name)}</div>
+        <div><div class="p-person-name">${esc(c.name)}</div><div class="p-person-sub">${c.policy}</div></div>
+      </div>
+      ${bs(c.status)}
+    </div>
+    <div class="p-sec" style="display:grid;grid-template-columns:1fr 1fr;gap:0 32px">
+      <div>
+        <div class="p-lbl">Contact</div>
+        <div class="p-row"><span class="p-key">Phone</span><span class="p-val">${esc(c.phone)||'—'}</span></div>
+        <div class="p-row"><span class="p-key">Email</span><span class="p-val" style="font-size:12px">${esc(c.email)||'—'}</span></div>
+        <div class="p-row"><span class="p-key">Address</span><span class="p-val" style="font-size:12px">${esc(c.address)||'—'}</span></div>
+      </div>
+      <div>
+        <div class="p-lbl">Policy</div>
+        <div class="p-row"><span class="p-key">Policy #</span><span class="p-val mono">${c.policy}</span></div>
+        <div class="p-row"><span class="p-key">Plan</span><span class="p-val">${esc(c.plan)}</span></div>
+        <div class="p-row"><span class="p-key">Start</span><span class="p-val">${fmt(c.since)}</span></div>
+        <div class="p-row"><span class="p-key">Expiry</span><span class="p-val">${fmt(c.expiry)}</span></div>
+        <div class="p-row"><span class="p-key">Total Claims</span><span class="p-val">${cc.length}</span></div>
+      </div>
+    </div>
+    ${c.notes ? `<div class="p-sec"><div class="p-lbl">Notes</div><p style="font-size:13px;color:var(--text2);line-height:1.6">${esc(c.notes)}</p></div>` : ''}
+    <div class="p-sec">
+      <div class="p-lbl">Claim History (${cc.length})</div>
+      ${cc.length ? `<div class="claims-grid">${cc.map(cl => `
+        <div class="claim-mini" onclick="sClaim('${cl.id}')">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span class="mono">${cl.num}</span>${bs(cl.status)}</div>
+          <div style="font-size:13px;color:var(--text2);margin-bottom:3px">${esc(cl.issue)}</div>
+          <div style="font-size:11px;color:var(--text3)">${fmt(cl.filed)} &middot; ${esc(cl.vendorName)}</div>
+        </div>`).join('')}</div>` : '<p style="font-size:13px;color:var(--text3)">No claims on file.</p>'}
+    </div>
+    <div class="p-actions">
+      <button class="btn-sm" onclick="openEditModal('customers','${id}')">Edit Record</button>
+      <button class="btn-sm btn-danger" onclick="confirmDelete('customers','${id}','${esc(c.name)}')">Delete</button>
+    </div>`;
+  openPanel();
+}
+
+function sClaim(id) {
+  const c = claims.find(x => x.id === id); if (!c) return;
+  const cu = customers.find(x => x.id === c.customerId);
+  document.getElementById('p-title').textContent = 'Claim details';
+  document.getElementById('p-body').innerHTML = `
+    <div class="p-sec">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <span class="mono" style="font-size:15px">${c.num}</span>${bs(c.status)}
+      </div>
+      <p style="font-size:16px;font-weight:600;margin-bottom:6px;letter-spacing:-0.01em">${esc(c.issue)}</p>
+      <p style="font-size:13px;color:var(--text2)">Filed ${fmt(c.filed)}</p>
+    </div>
+    <div class="p-sec" style="display:grid;grid-template-columns:1fr 1fr;gap:0 32px">
+      <div>
+        <div class="p-lbl">Customer & Policy</div>
+        <div class="p-row"><span class="p-key">Customer</span><span class="p-val">${esc(c.customerName)}</span></div>
+        <div class="p-row"><span class="p-key">Policy #</span><span class="p-val mono">${c.policy}</span></div>
+        <div class="p-row"><span class="p-key">Address</span><span class="p-val" style="font-size:12px">${cu ? esc(cu.address) : '—'}</span></div>
+      </div>
+      <div>
+        <div class="p-lbl">Claim Info</div>
+        <div class="p-row"><span class="p-key">Category</span><span class="p-val">${bc(c.cat)}</span></div>
+        <div class="p-row"><span class="p-key">Vendor</span><span class="p-val">${esc(c.vendorName)}</span></div>
+        <div class="p-row"><span class="p-key">Est. Cost</span><span class="p-val">${esc(c.amount)}</span></div>
+      </div>
+    </div>
+    ${c.notes ? `<div class="p-sec"><div class="p-lbl">Notes</div><p style="font-size:13px;color:var(--text2);line-height:1.6">${esc(c.notes)}</p></div>` : ''}
+    <div class="p-sec">
+      <div class="p-lbl">Update Status</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn-sm${c.status==='open'?' on':''}" onclick="updClaimStatus('${id}','open')">Open</button>
+        <button class="btn-sm${c.status==='progress'?' on':''}" onclick="updClaimStatus('${id}','progress')">In Progress</button>
+        <button class="btn-sm${c.status==='closed'?' on':''}" onclick="updClaimStatus('${id}','closed')">Closed</button>
+      </div>
+    </div>
+    <div class="p-actions">
+      <button class="btn-sm" onclick="openEditModal('claims','${id}')">Edit Claim</button>
+      <button class="btn-sm btn-danger" onclick="confirmDelete('claims','${id}','claim ${c.num}')">Delete</button>
+    </div>`;
+  openPanel();
+}
+
+function sVend(id) {
+  const v = vendors.find(x => x.id === id); if (!v) return;
+  const vc = claims.filter(c => c.vendorId === id);
+  document.getElementById('p-title').textContent = 'Vendor profile';
+  document.getElementById('p-body').innerHTML = `
+    <div class="p-sec" style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+      <div class="p-person" style="margin-bottom:0">
+        <div class="av" style="border-radius:12px">${v.co.slice(0,2).toUpperCase()}</div>
+        <div><div class="p-person-name">${esc(v.co)}</div><div style="margin-top:6px">${bc(v.cat)}</div></div>
+      </div>
+      ${v.lic ? '<span class="badge b-active">Licensed</span>' : '<span class="badge b-expired">Unlicensed</span>'}
+    </div>
+    <div class="p-sec" style="display:grid;grid-template-columns:1fr 1fr;gap:0 32px">
+      <div>
+        <div class="p-lbl">Contact</div>
+        <div class="p-row"><span class="p-key">Name</span><span class="p-val">${esc(v.contact)||'—'}</span></div>
+        <div class="p-row"><span class="p-key">Phone</span><span class="p-val">${esc(v.phone)||'—'}</span></div>
+        <div class="p-row"><span class="p-key">Email</span><span class="p-val" style="font-size:12px">${esc(v.email)||'—'}</span></div>
+      </div>
+      <div>
+        <div class="p-lbl">Service Info</div>
+        <div class="p-row"><span class="p-key">Area</span><span class="p-val">${esc(v.area)||'—'}</span></div>
+        <div class="p-row"><span class="p-key">Rating</span><span class="p-val">${v.rating} / 5.0</span></div>
+        <div class="p-row"><span class="p-key">Total Jobs</span><span class="p-val">${v.jobs}</span></div>
+      </div>
+    </div>
+    ${v.notes ? `<div class="p-sec"><div class="p-lbl">Notes</div><p style="font-size:13px;color:var(--text2);line-height:1.6">${esc(v.notes)}</p></div>` : ''}
+    <div class="p-sec">
+      <div class="p-lbl">Claims Handled (${vc.length})</div>
+      ${vc.length ? `<div class="claims-grid">${vc.map(c => `
+        <div class="claim-mini" onclick="sClaim('${c.id}')">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span class="mono">${c.num}</span>${bs(c.status)}</div>
+          <div style="font-size:13px;color:var(--text2);margin-bottom:3px">${esc(c.issue)}</div>
+          <div style="font-size:11px;color:var(--text3)">${esc(c.customerName)} &middot; ${fmt(c.filed)}</div>
+        </div>`).join('')}</div>` : '<p style="font-size:13px;color:var(--text3)">No claims assigned yet.</p>'}
+    </div>
+    <div class="p-actions">
+      <button class="btn-sm" onclick="openEditModal('vendors','${id}')">Edit Vendor</button>
+      <button class="btn-sm btn-danger" onclick="confirmDelete('vendors','${id}','${esc(v.co)}')">Delete</button>
+    </div>`;
+  openPanel();
+}
+
+// ── STATUS UPDATE ───────────────────────────────────────────
+function updClaimStatus(id, status) {
+  const c = claims.find(x => x.id === id); if (!c) return;
+  c.status = status;
+  persist();
+  sClaim(id);
+  if (view === 'claims') rClaim();
+  if (view === 'dashboard') rDash();
+  toast('Status updated');
+}
+
+// ── FILTERS ─────────────────────────────────────────────────
+function fCust(f,btn){ cf=f; setFilter('#v-customers',btn); rCust(); }
+function fClaim(f,btn){ clf=f; setFilter('#v-claims',btn); rClaim(); }
+function fVend(f,btn){ vf=f; setFilter('#v-vendors',btn); rVend(); }
+function fPol(f,btn){ pf=f; setFilter('#v-policies',btn); rPol(); }
+function setFilter(scope, btn) {
+  document.querySelectorAll(scope + ' .f-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+// ── MODAL FORMS ─────────────────────────────────────────────
+const FORMS = {
+  customers: {
+    addTitle: 'Add customer',
+    editTitle: 'Edit customer',
+    fields: () => {
+      const vOpts = vendors.map(v => `<option value="${v.id}">${esc(v.co)}</option>`).join('');
+      return `
+      <div class="fr"><div class="fg"><label>First Name *</label><input id="f-fname" type="text" placeholder="Maria" required></div>
+      <div class="fg"><label>Last Name *</label><input id="f-lname" type="text" placeholder="Santos" required></div></div>
+      <div class="fr"><div class="fg"><label>Phone *</label><input id="f-phone" type="tel" placeholder="(718) 555-0000"></div>
+      <div class="fg"><label>Email</label><input id="f-email" type="email" placeholder="email@example.com"></div></div>
+      <div class="fg"><label>Property Address *</label><input id="f-address" type="text" placeholder="123 Main St, Brooklyn, NY 11201"></div>
+      <div class="fr"><div class="fg"><label>Plan *</label><select id="f-plan"><option>Basic</option><option>Comprehensive</option><option>Premium</option></select></div>
+      <div class="fg"><label>Status</label><select id="f-status"><option value="active">Active</option><option value="pending">Pending</option><option value="expired">Expired</option></select></div></div>
+      <div class="fr"><div class="fg"><label>Start Date</label><input id="f-since" type="date"></div>
+      <div class="fg"><label>Expiry Date</label><input id="f-expiry" type="date"></div></div>
+      <div class="fg"><label>Notes</label><textarea id="f-notes" placeholder="Internal notes..."></textarea></div>`;
+    },
+    populate: (id) => {
+      const c = customers.find(x => x.id === id); if (!c) return;
+      const [fn, ...ln] = c.name.split(' ');
+      document.getElementById('f-fname').value = fn || '';
+      document.getElementById('f-lname').value = ln.join(' ') || '';
+      document.getElementById('f-phone').value = c.phone || '';
+      document.getElementById('f-email').value = c.email || '';
+      document.getElementById('f-address').value = c.address || '';
+      document.getElementById('f-plan').value = c.plan || 'Basic';
+      document.getElementById('f-status').value = c.status || 'active';
+      document.getElementById('f-since').value = c.since || '';
+      document.getElementById('f-expiry').value = c.expiry || '';
+      document.getElementById('f-notes').value = c.notes || '';
+    },
+    save: (id) => {
+      const fname = document.getElementById('f-fname').value.trim();
+      const lname = document.getElementById('f-lname').value.trim();
+      if (!fname) { alert('First name is required'); return false; }
+      const phone = document.getElementById('f-phone').value.trim();
+      const address = document.getElementById('f-address').value.trim();
+      if (!address) { alert('Address is required'); return false; }
+      const data = {
+        name: fname + (lname ? ' ' + lname : ''),
+        phone, email: document.getElementById('f-email').value.trim(),
+        address, plan: document.getElementById('f-plan').value,
+        status: document.getElementById('f-status').value,
+        since: document.getElementById('f-since').value,
+        renewed: document.getElementById('f-since').value,
+        expiry: document.getElementById('f-expiry').value,
+        notes: document.getElementById('f-notes').value.trim(),
+      };
+      if (id) {
+        const i = customers.findIndex(x => x.id === id);
+        customers[i] = { ...customers[i], ...data };
+      } else {
+        const newId = uid('c');
+        customers.push({ id: newId, policy: nextPolicyNum(), ...data });
+      }
+      return true;
+    }
+  },
+  claims: {
+    addTitle: 'File new claim',
+    editTitle: 'Edit claim',
+    fields: () => {
+      const custOpts = customers.map(c => `<option value="${c.id}" data-policy="${c.policy}">${esc(c.name)} — ${c.policy}</option>`).join('');
+      const vendOpts = vendors.map(v => `<option value="${v.id}">${esc(v.co)}</option>`).join('');
+      return `
+      <div class="fg"><label>Customer *</label>
+        <select id="f-cust"><option value="">Select customer...</option>${custOpts}</select></div>
+      <div class="fg"><label>Issue Description *</label><textarea id="f-issue" placeholder="Describe the problem..." rows="2"></textarea></div>
+      <div class="fr"><div class="fg"><label>Category *</label>
+        <select id="f-cat"><option value="plumbing">Plumbing</option><option value="electrical">Electrical</option><option value="hvac">HVAC</option><option value="appliance">Appliance</option><option value="roofing">Roofing</option><option value="general">General</option></select></div>
+      <div class="fg"><label>Assign Vendor</label>
+        <select id="f-vend"><option value="">Unassigned</option>${vendOpts}</select></div></div>
+      <div class="fr"><div class="fg"><label>Estimated Cost</label><input id="f-amt" type="text" placeholder="$0.00"></div>
+      <div class="fg"><label>Date Filed</label><input id="f-filed" type="date"></div></div>
+      <div class="fg"><label>Status</label>
+        <select id="f-status"><option value="open">Open</option><option value="progress">In Progress</option><option value="closed">Closed</option></select></div>
+      <div class="fg"><label>Notes</label><textarea id="f-notes" placeholder="Internal notes..."></textarea></div>`;
+    },
+    populate: (id) => {
+      const c = claims.find(x => x.id === id); if (!c) return;
+      document.getElementById('f-cust').value = c.customerId || '';
+      document.getElementById('f-issue').value = c.issue || '';
+      document.getElementById('f-cat').value = c.cat || 'plumbing';
+      document.getElementById('f-vend').value = c.vendorId || '';
+      document.getElementById('f-amt').value = c.amount || '';
+      document.getElementById('f-filed').value = c.filed || '';
+      document.getElementById('f-status').value = c.status || 'open';
+      document.getElementById('f-notes').value = c.notes || '';
+    },
+    save: (id) => {
+      const custId = document.getElementById('f-cust').value;
+      const issue = document.getElementById('f-issue').value.trim();
+      if (!custId) { alert('Please select a customer'); return false; }
+      if (!issue) { alert('Issue description is required'); return false; }
+      const cust = customers.find(x => x.id === custId);
+      const vendId = document.getElementById('f-vend').value;
+      const vend = vendors.find(x => x.id === vendId);
+      const today = new Date().toISOString().slice(0,10);
+      const data = {
+        customerId: custId,
+        customerName: cust ? cust.name : '',
+        policy: cust ? cust.policy : '',
+        issue,
+        cat: document.getElementById('f-cat').value,
+        vendorId: vendId || '',
+        vendorName: vend ? vend.co : 'Unassigned',
+        amount: document.getElementById('f-amt').value.trim() || 'TBD',
+        filed: document.getElementById('f-filed').value || today,
+        status: document.getElementById('f-status').value,
+        notes: document.getElementById('f-notes').value.trim(),
+      };
+      if (id) {
+        const i = claims.findIndex(x => x.id === id);
+        claims[i] = { ...claims[i], ...data };
+      } else {
+        claims.push({ id: uid('cl'), num: nextClaimNum(), ...data });
+      }
+      return true;
+    }
+  },
+  vendors: {
+    addTitle: 'Add vendor',
+    editTitle: 'Edit vendor',
+    fields: () => `
+      <div class="fg"><label>Company Name *</label><input id="f-co" type="text" placeholder="ABC Plumbing Inc."></div>
+      <div class="fr"><div class="fg"><label>Category *</label>
+        <select id="f-cat"><option value="plumbing">Plumbing</option><option value="electrical">Electrical</option><option value="hvac">HVAC</option><option value="appliance">Appliance</option><option value="roofing">Roofing</option><option value="general">General</option></select></div>
+      <div class="fg"><label>Licensed?</label>
+        <select id="f-lic"><option value="1">Yes</option><option value="0">No</option></select></div></div>
+      <div class="fr"><div class="fg"><label>Contact Name</label><input id="f-contact" type="text" placeholder="Jane Smith"></div>
+      <div class="fg"><label>Phone</label><input id="f-phone" type="tel" placeholder="(718) 555-0000"></div></div>
+      <div class="fg"><label>Email</label><input id="f-email" type="email" placeholder="dispatch@company.com"></div>
+      <div class="fg"><label>Service Area</label><input id="f-area" type="text" placeholder="Brooklyn, Queens"></div>
+      <div class="fr"><div class="fg"><label>Rating (0-5)</label><input id="f-rating" type="number" min="0" max="5" step="0.1" placeholder="4.5"></div>
+      <div class="fg"><label>Jobs Completed</label><input id="f-jobs" type="number" min="0" placeholder="0"></div></div>
+      <div class="fg"><label>Notes</label><textarea id="f-notes" placeholder="Specialties, availability..."></textarea></div>`,
+    populate: (id) => {
+      const v = vendors.find(x => x.id === id); if (!v) return;
+      document.getElementById('f-co').value = v.co || '';
+      document.getElementById('f-cat').value = v.cat || 'plumbing';
+      document.getElementById('f-lic').value = v.lic ? '1' : '0';
+      document.getElementById('f-contact').value = v.contact || '';
+      document.getElementById('f-phone').value = v.phone || '';
+      document.getElementById('f-email').value = v.email || '';
+      document.getElementById('f-area').value = v.area || '';
+      document.getElementById('f-rating').value = v.rating || '';
+      document.getElementById('f-jobs').value = v.jobs || '';
+      document.getElementById('f-notes').value = v.notes || '';
+    },
+    save: (id) => {
+      const co = document.getElementById('f-co').value.trim();
+      if (!co) { alert('Company name is required'); return false; }
+      const data = {
+        co, cat: document.getElementById('f-cat').value,
+        lic: document.getElementById('f-lic').value === '1',
+        contact: document.getElementById('f-contact').value.trim(),
+        phone: document.getElementById('f-phone').value.trim(),
+        email: document.getElementById('f-email').value.trim(),
+        area: document.getElementById('f-area').value.trim(),
+        rating: document.getElementById('f-rating').value || '0.0',
+        jobs: parseInt(document.getElementById('f-jobs').value) || 0,
+        notes: document.getElementById('f-notes').value.trim(),
+      };
+      if (id) {
+        const i = vendors.findIndex(x => x.id === id);
+        vendors[i] = { ...vendors[i], ...data };
+      } else {
+        vendors.push({ id: uid('v'), ...data });
+      }
+      return true;
+    }
+  }
 };
-function openAddModal(){const type=view==='dashboard'?'customers':view;editId=null;editType=type;currentForm=FORMS[type];if(!currentForm)return;g('m-title').textContent=currentForm.addTitle;g('m-body').innerHTML=currentForm.fields();g('modal-overlay').classList.add('open')}
-function openEditModal(type,id){editId=id;editType=type;currentForm=FORMS[type];if(!currentForm)return;g('m-title').textContent=currentForm.editTitle;g('m-body').innerHTML=currentForm.fields();currentForm.populate(id);g('modal-overlay').classList.add('open')}
-function saveRecord(){if(!currentForm)return;if(!currentForm.save(editId))return;save();closeModal();closePanel();render();toast(editId?'Record updated':'Record saved')}
-function closeModal(){g('modal-overlay').classList.remove('open');editId=null;editType=null;currentForm=null}
-function confirmDelete(type,id,label){pendingDelete={type,id};g('confirm-title').textContent='Delete '+(type==='customers'?'customer':type==='claims'?'claim':'vendor')+'?';g('confirm-msg').textContent='Permanently delete "'+label+'"? This cannot be undone.';g('confirm-overlay').classList.add('open');g('confirm-ok').onclick=doDelete}
-function doDelete(){if(!pendingDelete)return;const{type,id}=pendingDelete;if(type==='customers')customers=customers.filter(x=>x.id!==id);if(type==='claims')claims=claims.filter(x=>x.id!==id);if(type==='vendors')vendors=vendors.filter(x=>x.id!==id);save();closeConfirm();closePanel();render();toast('Record deleted')}
-function closeConfirm(){g('confirm-overlay').classList.remove('open');pendingDelete=null}
-function openPanel(){g('panel').classList.add('open')}
-function closePanel(){g('panel').classList.remove('open')}
-function g(id){return document.getElementById(id)}
-function set(id,val){const el=g(id);if(el)el.textContent=val}
-function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-function ini(n){return(n||'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}
-function fmt(d){if(!d||d==='-')return'—';try{return new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}catch(e){return d}}
-function emptyRow(cols,msg){return`<tr class="empty-row"><td colspan="${cols}">${msg||'No records found'}</td></tr>`}
-function bs(s){const m={active:['b-active','Active'],expired:['b-expired','Expired'],pending:['b-pending','Pending'],open:['b-open','Open'],closed:['b-closed','Closed'],progress:['b-progress','In Progress']};const[c,l]=m[s]||['b-pending',s];return`<span class="badge ${c}">${l}</span>`}
-function bc(c){const m={plumbing:['b-plumbing','Plumbing'],electrical:['b-electrical','Electrical'],hvac:['b-hvac','HVAC'],appliance:['b-appliance','Appliance'],roofing:['b-roofing','Roofing'],general:['b-general','General']};const[cl,l]=m[c]||['b-general',c];return`<span class="badge ${cl}">${l}</span>`}
-function toast(msg){const t=g('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400)}
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closePanel();closeConfirm()}});
+
+let currentForm = null;
+
+function openAddModal() {
+  const type = view === 'dashboard' ? 'customers' : view;
+  editId = null; editType = type;
+  currentForm = FORMS[type];
+  if (!currentForm) return;
+  document.getElementById('m-title').textContent = currentForm.addTitle;
+  document.getElementById('m-body').innerHTML = currentForm.fields();
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function openEditModal(type, id) {
+  editId = id; editType = type;
+  currentForm = FORMS[type];
+  if (!currentForm) return;
+  document.getElementById('m-title').textContent = currentForm.editTitle;
+  document.getElementById('m-body').innerHTML = currentForm.fields();
+  currentForm.populate(id);
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function saveRecord() {
+  if (!currentForm) return;
+  const ok = currentForm.save(editId);
+  if (!ok) return;
+  persist();
+  closeModal();
+  closePanel();
+  render();
+  toast(editId ? 'Record updated' : 'Record saved');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  editId = null; editType = null; currentForm = null;
+}
+
+// ── DELETE ──────────────────────────────────────────────────
+function confirmDelete(type, id, label) {
+  pendingDelete = { type, id };
+  document.getElementById('confirm-title').textContent = 'Delete ' + (type === 'customers' ? 'customer' : type === 'claims' ? 'claim' : 'vendor') + '?';
+  document.getElementById('confirm-msg').textContent = 'This will permanently delete "' + label + '". This cannot be undone.';
+  document.getElementById('confirm-overlay').classList.add('open');
+  document.getElementById('confirm-ok').onclick = doDelete;
+}
+
+function doDelete() {
+  if (!pendingDelete) return;
+  const { type, id } = pendingDelete;
+  if (type === 'customers') customers = customers.filter(x => x.id !== id);
+  if (type === 'claims')    claims    = claims.filter(x => x.id !== id);
+  if (type === 'vendors')   vendors   = vendors.filter(x => x.id !== id);
+  persist();
+  closeConfirm();
+  closePanel();
+  render();
+  toast('Record deleted');
+}
+
+function closeConfirm() {
+  document.getElementById('confirm-overlay').classList.remove('open');
+  pendingDelete = null;
+}
+
+// ── PANEL ───────────────────────────────────────────────────
+function openPanel() {
+  const p = document.getElementById('panel');
+  p.classList.add('open');
+  p.onclick = function(e){ if(e.target === p) closePanel(); };
+}
+function closePanel() { document.getElementById('panel').classList.remove('open'); }
+
+// ── HELPERS ─────────────────────────────────────────────────
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function ini(n) { return (n||'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(); }
+function fmt(d) {
+  if (!d || d === '-') return '-';
+  try {
+    const dt = new Date(d + 'T12:00:00');
+    return dt.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+  } catch(e) { return d; }
+}
+function emptyRow(cols, msg) {
+  return `<tr class="empty-row"><td colspan="${cols}">${msg || 'No records found'}</td></tr>`;
+}
+function bs(s) {
+  const m = { active:['b-active','Active'], expired:['b-expired','Expired'], pending:['b-pending','Pending'],
+    open:['b-open','Open'], closed:['b-closed','Closed'], progress:['b-progress','In Progress'] };
+  const [c,l] = m[s] || ['b-pending', s];
+  return `<span class="badge ${c}">${l}</span>`;
+}
+function bc(c) {
+  const m = { plumbing:['b-plumbing','Plumbing'], electrical:['b-electrical','Electrical'],
+    hvac:['b-hvac','HVAC'], appliance:['b-appliance','Appliance'],
+    roofing:['b-roofing','Roofing'], general:['b-general','General'] };
+  const [cl,l] = m[c] || ['b-general', c];
+  return `<span class="badge ${cl}">${l}</span>`;
+}
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+// ── KEYBOARD ────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModal(); closePanel(); closeConfirm(); }
+});
+
+// ── INIT ────────────────────────────────────────────────────
 render();
 </script>
 </body>
