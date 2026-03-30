@@ -4,12 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dwell CRM — Home Warranty</title>
-<link rel="preconnect" href="https://cdn.jsdelivr.net">
-<link rel="preconnect" href="https://xplqesygcseqicmuxwkb.supabase.co">
-<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -594,11 +590,81 @@ td{padding:13px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;w
 <div id="toast"></div>
 
 <script>
-// ── SUPABASE INIT ────────────────────────────────────────────
+// ── SUPABASE CONFIG ──────────────────────────────────────────
 const SUPA_URL = 'https://xplqesygcseqicmuxwkb.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhwbHFlc3lnY3NlcWljbXV4d2tiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2MzA4NzEsImV4cCI6MjA5MDIwNjg3MX0.d6HgUkW4krrlfr-d0MP64UhCd6Dbm161QhoJJ44ouGA';
-const { createClient } = supabase;
-const db = createClient(SUPA_URL, SUPA_KEY);
+let _token = localStorage.getItem('dwell_token') || null;
+let _refreshToken = localStorage.getItem('dwell_refresh') || null;
+
+// ── DIRECT REST HELPERS ──────────────────────────────────────
+async function sbFetch(path, opts={}) {
+  const headers = { 'Content-Type':'application/json', 'apikey':SUPA_KEY, 'Authorization':'Bearer '+(_token||SUPA_KEY), ...opts.headers };
+  const res = await fetch(SUPA_URL + path, { ...opts, headers });
+  if (!res.ok) { const e = await res.json().catch(()=>{}); throw new Error((e&&e.error_description)||'Request failed'); }
+  return res.status===204 ? {} : res.json();
+}
+
+async function sbFrom(table) {
+  return {
+    select: async (cols='*', filter='') => {
+      const data = await sbFetch(`/rest/v1/${table}?select=${cols}${filter}&order=created_at.desc`);
+      return { data: data||[] };
+    },
+    insert: async (row) => {
+      const data = await sbFetch(`/rest/v1/${table}?select=*`, { method:'POST', body:JSON.stringify(row), headers:{'Prefer':'return=representation'} });
+      return { data: Array.isArray(data)?data[0]:data };
+    },
+    update: async (row, eqCol, eqVal) => {
+      await sbFetch(`/rest/v1/${table}?${eqCol}=eq.${eqVal}`, { method:'PATCH', body:JSON.stringify(row), headers:{'Prefer':'return=minimal'} });
+      return {};
+    },
+    delete: async (eqCol, eqVal) => {
+      await sbFetch(`/rest/v1/${table}?${eqCol}=eq.${eqVal}`, { method:'DELETE' });
+      return {};
+    }
+  };
+}
+
+// Simplified db object mirroring old API shape
+const db = {
+  from: (table) => ({
+    select: (cols='*') => ({ order: () => sbFrom(table).then(t=>t.select(cols)) }),
+    insert: (row) => ({ select: () => ({ single: () => sbFrom(table).then(t=>t.insert(row)) }) }),
+    update: (row) => ({ eq: (col,val) => sbFrom(table).then(t=>t.update(row,col,val)) }),
+    delete: () => ({ eq: (col,val) => sbFrom(table).then(t=>t.delete(col,val)) }),
+  }),
+  auth: {
+    signInWithPassword: async ({email,password}) => {
+      try {
+        const data = await sbFetch('/auth/v1/token?grant_type=password', {
+          method:'POST', body:JSON.stringify({email,password}),
+          headers:{'Content-Type':'application/json','apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY}
+        });
+        _token = data.access_token;
+        _refreshToken = data.refresh_token;
+        localStorage.setItem('dwell_token', _token);
+        localStorage.setItem('dwell_refresh', _refreshToken);
+        return { error: null };
+      } catch(e) { return { error: e }; }
+    },
+    signOut: async () => {
+      _token = null; _refreshToken = null;
+      localStorage.removeItem('dwell_token');
+      localStorage.removeItem('dwell_refresh');
+    },
+    getSession: async () => {
+      if (!_token) return { data: { session: null } };
+      try {
+        // Try a lightweight call to verify token is still valid
+        await sbFetch('/auth/v1/user', { headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+_token} });
+        return { data: { session: { access_token: _token } } };
+      } catch(e) {
+        _token = null; localStorage.removeItem('dwell_token');
+        return { data: { session: null } };
+      }
+    }
+  }
+};
 
 // ── AUTH ─────────────────────────────────────────────────────
 async function doLogin() {
@@ -615,6 +681,8 @@ async function doLogin() {
     errEl.style.display = 'block';
     btn.disabled = false;
     btn.textContent = 'Sign In';
+  } else {
+    await showApp();
   }
 }
 
@@ -625,22 +693,27 @@ async function doLogout() {
   document.getElementById('login-password').value = '';
 }
 
-db.auth.onAuthStateChange(async (event, session) => {
-  if (session) {
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('app').classList.add('visible');
-    showLoading(true);
-    await loadAllData();
-    showLoading(false);
-    render();
+async function showApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').classList.add('visible');
+  showLoading(true);
+  await loadAllData();
+  showLoading(false);
+  render();
+}
+
+// Check existing session on load
+window.addEventListener('load', async () => {
+  if (_token) {
+    const { data } = await db.auth.getSession();
+    if (data.session) {
+      await showApp();
+    } else {
+      document.getElementById('login-screen').style.display = 'flex';
+    }
   } else {
-    document.getElementById('app').classList.remove('visible');
     document.getElementById('login-screen').style.display = 'flex';
   }
-});
-
-document.getElementById('login-password').addEventListener('keydown', e => {
-  if (e.key === 'Enter') doLogin();
 });
 
 // ── LOADING ──────────────────────────────────────────────────
@@ -655,13 +728,13 @@ let vendors = [];
 
 async function loadAllData() {
   const [c, cl, v] = await Promise.all([
-    db.from('customers').select('*').order('created_at', { ascending: false }),
-    db.from('claims').select('*').order('created_at', { ascending: false }),
-    db.from('vendors').select('*').order('created_at', { ascending: false }),
+    sbFetch('/rest/v1/customers?select=*&order=created_at.desc'),
+    sbFetch('/rest/v1/claims?select=*&order=created_at.desc'),
+    sbFetch('/rest/v1/vendors?select=*&order=created_at.desc'),
   ]);
-  customers = (c.data || []).map(mapCustomer);
-  claims    = (cl.data || []).map(mapClaim);
-  vendors   = (v.data || []).map(mapVendor);
+  customers = (c||[]).map(mapCustomer);
+  claims    = (cl||[]).map(mapClaim);
+  vendors   = (v||[]).map(mapVendor);
 }
 
 function mapCustomer(r) {
@@ -910,7 +983,7 @@ function sVend(id) {
 async function updClaimStatus(id, status) {
   const c = claims.find(x => x.id === id); if (!c) return;
   c.status = status;
-  await db.from('claims').update({ status }).eq('id', id);
+  await sbFetch(`/rest/v1/claims?id=eq.${id}`, { method:'PATCH', body:JSON.stringify({status}), headers:{'Prefer':'return=minimal'} });
   sClaim(id);
   if (view === 'claims') rClaim();
   if (view === 'dashboard') rDash();
@@ -970,13 +1043,13 @@ const FORMS = {
         notes: document.getElementById('f-notes').value.trim(),
       };
       if (id) {
-        await db.from('customers').update(data).eq('id', id);
+        await sbFetch(`/rest/v1/customers?id=eq.${id}`, { method:'PATCH', body:JSON.stringify(data), headers:{'Prefer':'return=minimal'} });
         const i = customers.findIndex(x => x.id === id);
         customers[i] = { ...customers[i], ...data, since:data.since||'', renewed:data.renewed||'', expiry:data.expiry||'' };
       } else {
         const policy = nextPolicyNum();
-        const { data: row } = await db.from('customers').insert({ ...data, policy }).select().single();
-        if (row) customers.unshift(mapCustomer(row));
+        const rows = await sbFetch('/rest/v1/customers?select=*', { method:'POST', body:JSON.stringify({...data,policy}), headers:{'Prefer':'return=representation'} });
+        if (rows && rows[0]) customers.unshift(mapCustomer(rows[0]));
       }
       return true;
     }
@@ -1027,13 +1100,13 @@ const FORMS = {
         notes: document.getElementById('f-notes').value.trim(),
       };
       if (id) {
-        await db.from('claims').update(data).eq('id', id);
+        await sbFetch(`/rest/v1/claims?id=eq.${id}`, { method:'PATCH', body:JSON.stringify(data), headers:{'Prefer':'return=minimal'} });
         const i = claims.findIndex(x => x.id === id);
         claims[i] = { ...claims[i], ...mapClaim({...data, id}) };
       } else {
         const num = nextClaimNum();
-        const { data: row } = await db.from('claims').insert({ ...data, num }).select().single();
-        if (row) claims.unshift(mapClaim(row));
+        const rows = await sbFetch('/rest/v1/claims?select=*', { method:'POST', body:JSON.stringify({...data,num}), headers:{'Prefer':'return=representation'} });
+        if (rows && rows[0]) claims.unshift(mapClaim(rows[0]));
       }
       return true;
     }
@@ -1079,12 +1152,12 @@ const FORMS = {
         notes: document.getElementById('f-notes').value.trim(),
       };
       if (id) {
-        await db.from('vendors').update(data).eq('id', id);
+        await sbFetch(`/rest/v1/vendors?id=eq.${id}`, { method:'PATCH', body:JSON.stringify(data), headers:{'Prefer':'return=minimal'} });
         const i = vendors.findIndex(x => x.id === id);
         vendors[i] = { ...vendors[i], ...data };
       } else {
-        const { data: row } = await db.from('vendors').insert(data).select().single();
-        if (row) vendors.unshift(mapVendor(row));
+        const rows = await sbFetch('/rest/v1/vendors?select=*', { method:'POST', body:JSON.stringify(data), headers:{'Prefer':'return=representation'} });
+        if (rows && rows[0]) vendors.unshift(mapVendor(rows[0]));
       }
       return true;
     }
@@ -1139,7 +1212,7 @@ async function doDelete() {
   if (!pendingDelete) return;
   const { type, id } = pendingDelete;
   showLoading(true);
-  await db.from(type).delete().eq('id', id);
+  await sbFetch(`/rest/v1/${type}?id=eq.${id}`, { method:'DELETE' });
   if (type==='customers') customers = customers.filter(x => x.id !== id);
   if (type==='claims')    claims    = claims.filter(x => x.id !== id);
   if (type==='vendors')   vendors   = vendors.filter(x => x.id !== id);
@@ -1176,6 +1249,7 @@ function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg
 
 document.addEventListener('keydown', e => {
   if (e.key==='Escape') { closeModal(); closePanel(); closeConfirm(); }
+  if (e.key==='Enter' && document.activeElement.id==='login-password') doLogin();
 });
 
 // ── QUOTE BUILDER ─────────────────────────────────────────────
