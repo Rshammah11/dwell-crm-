@@ -6,6 +6,7 @@
 <title>Dwell CRM — Home Warranty</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -23,66 +24,86 @@
   --font:'Inter',sans-serif;
 }
 html,body{height:100%;font-family:var(--font);background:var(--lavender-bg);color:var(--text1)}
-#app{display:flex;height:100vh;overflow:hidden}
+
+/* ── LOGIN SCREEN ── */
+#login-screen{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;background:var(--lavender-bg);padding:20px;
+}
+.login-card{
+  background:var(--white);border-radius:20px;border:1px solid var(--border-soft);
+  padding:40px;width:100%;max-width:400px;
+}
+.login-logo{display:flex;align-items:center;gap:12px;margin-bottom:32px;justify-content:center}
+.login-logo-mark{width:42px;height:42px;border-radius:12px;background:var(--lavender);display:flex;align-items:center;justify-content:center}
+.login-logo-mark svg{width:22px;height:22px;stroke:var(--brand);fill:none;stroke-width:2}
+.login-logo-text .name{font-size:20px;font-weight:600;letter-spacing:-0.02em;color:var(--text1)}
+.login-logo-text .sub{font-size:11px;color:var(--text3);letter-spacing:0.05em}
+.login-title{font-size:18px;font-weight:600;color:var(--text1);margin-bottom:6px;text-align:center}
+.login-sub{font-size:13px;color:var(--text2);text-align:center;margin-bottom:28px}
+.login-fg{margin-bottom:16px}
+.login-fg label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:6px}
+.login-fg input{
+  width:100%;padding:10px 14px;border:1px solid var(--border-soft);border-radius:10px;
+  font-size:14px;font-family:var(--font);color:var(--text1);background:var(--lavender-bg);
+}
+.login-fg input:focus{outline:none;border-color:var(--brand-soft);background:var(--white)}
+.login-btn{
+  width:100%;padding:12px;background:var(--brand);color:#fff;border:none;
+  border-radius:var(--pill);font-size:14px;font-weight:500;cursor:pointer;
+  font-family:var(--font);margin-top:8px;
+}
+.login-btn:hover{background:var(--brand-dark)}
+.login-btn:disabled{opacity:0.6;cursor:not-allowed}
+.login-error{background:var(--red-bg);color:var(--red);padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:16px;display:none}
+
+/* ── APP ── */
+#app{display:none;flex;height:100vh;overflow:hidden}
+#app.visible{display:flex}
 
 /* ── SIDEBAR ── */
-#sidebar{
-  width:240px;flex-shrink:0;background:var(--white);
-  border-right:1px solid var(--border-soft);
-  display:flex;flex-direction:column;
-}
-.s-logo{
-  padding:22px 20px 18px;border-bottom:1px solid var(--border-soft);
-  display:flex;align-items:center;gap:10px;
-}
-.s-logo-mark{
-  width:34px;height:34px;border-radius:9px;background:var(--lavender);
-  display:flex;align-items:center;justify-content:center;
-}
+#sidebar{width:240px;flex-shrink:0;background:var(--white);border-right:1px solid var(--border-soft);display:flex;flex-direction:column}
+.s-logo{padding:22px 20px 18px;border-bottom:1px solid var(--border-soft);display:flex;align-items:center;gap:10px}
+.s-logo-mark{width:34px;height:34px;border-radius:9px;background:var(--lavender);display:flex;align-items:center;justify-content:center}
 .s-logo-mark svg{width:17px;height:17px;stroke:var(--brand);fill:none;stroke-width:2}
 .s-logo-text .name{color:var(--text1);font-size:16px;font-weight:600;letter-spacing:-0.02em}
 .s-logo-text .sub{color:var(--text3);font-size:10px;letter-spacing:0.05em;margin-top:1px}
 .s-group{padding:18px 16px 6px;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);font-weight:600}
-.s-item{
-  display:flex;align-items:center;gap:9px;
-  padding:9px 12px;margin:1px 8px;border-radius:9px;
-  cursor:pointer;color:var(--text2);font-size:13.5px;
-  transition:all 0.12s;user-select:none;
-}
+.s-item{display:flex;align-items:center;gap:9px;padding:9px 12px;margin:1px 8px;border-radius:9px;cursor:pointer;color:var(--text2);font-size:13.5px;transition:all 0.12s;user-select:none}
 .s-item:hover{background:var(--lavender-bg);color:var(--brand)}
 .s-item.active{background:var(--lavender);color:var(--brand);font-weight:500}
 .s-item svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
-.s-footer{margin-top:auto;padding:14px 20px;border-top:1px solid var(--border-soft);font-size:11px;color:var(--text3)}
+.s-footer{margin-top:auto;padding:14px 20px;border-top:1px solid var(--border-soft);font-size:11px;color:var(--text3);display:flex;align-items:center;justify-content:space-between}
+.s-logout{font-size:11px;color:var(--brand);cursor:pointer;font-weight:500;background:none;border:none;font-family:var(--font)}
+.s-logout:hover{color:var(--brand-dark)}
 
 /* ── MAIN ── */
 #main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--lavender-bg);position:relative}
 
 /* ── TOPBAR ── */
-#topbar{
-  height:60px;background:var(--white);border-bottom:1px solid var(--border-soft);
-  display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0;
-}
+#topbar{height:60px;background:var(--white);border-bottom:1px solid var(--border-soft);display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0}
 #topbar h1{font-family:var(--font);font-size:18px;font-weight:600;font-style:normal;color:var(--text1);flex:none;letter-spacing:-0.02em}
 .search-box{flex:1;max-width:360px;position:relative}
-.search-box input{
-  width:100%;height:36px;padding:0 12px 0 34px;
-  background:var(--lavender-bg);border:1px solid var(--border-soft);
-  border-radius:var(--pill);font-size:13px;font-family:var(--font);color:var(--text1);
-}
+.search-box input{width:100%;height:36px;padding:0 12px 0 34px;background:var(--lavender-bg);border:1px solid var(--border-soft);border-radius:var(--pill);font-size:13px;font-family:var(--font);color:var(--text1)}
 .search-box input::placeholder{color:var(--text3)}
 .search-box input:focus{outline:none;border-color:var(--brand-soft);background:var(--white)}
 .search-box svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:13px;height:13px;stroke:var(--text3);fill:none;stroke-width:2.5}
-.btn-cta{
-  margin-left:auto;height:36px;padding:0 18px;background:var(--brand);
-  color:#fff;border:none;border-radius:var(--pill);font-size:13px;font-weight:500;
-  cursor:pointer;font-family:var(--font);letter-spacing:-0.01em;white-space:nowrap;
-}
+.btn-cta{margin-left:auto;height:36px;padding:0 18px;background:var(--brand);color:#fff;border:none;border-radius:var(--pill);font-size:13px;font-weight:500;cursor:pointer;font-family:var(--font);letter-spacing:-0.01em;white-space:nowrap}
 .btn-cta:hover{background:var(--brand-dark)}
 
 /* ── CONTENT ── */
 #content{flex:1;overflow-y:auto;padding:24px}
 .view{display:none}
 .view.active{display:block}
+
+/* ── LOADING OVERLAY ── */
+#loading-overlay{
+  display:none;position:fixed;inset:0;background:rgba(245,243,255,0.85);
+  z-index:300;align-items:center;justify-content:center;flex-direction:column;gap:14px;
+}
+#loading-overlay.show{display:flex}
+.loader{width:32px;height:32px;border:3px solid var(--lavender-mid);border-top-color:var(--brand);border-radius:50%;animation:spin 0.7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 /* ── STATS ── */
 .stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:20px}
@@ -99,20 +120,12 @@ html,body{height:100%;font-family:var(--font);background:var(--lavender-bg);colo
 .card-head{padding:15px 20px;border-bottom:1px solid var(--border-soft);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .card-head h2{font-size:14px;font-weight:600;letter-spacing:-0.01em;color:var(--text1)}
 .filters{display:flex;gap:6px;flex-wrap:wrap}
-.f-btn{
-  padding:4px 12px;border-radius:var(--pill);font-size:12px;font-weight:500;
-  border:1px solid var(--border);background:transparent;color:var(--text2);
-  cursor:pointer;font-family:var(--font);transition:all 0.1s;
-}
+.f-btn{padding:4px 12px;border-radius:var(--pill);font-size:12px;font-weight:500;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;font-family:var(--font);transition:all 0.1s}
 .f-btn:hover{border-color:var(--brand-soft);color:var(--brand)}
 .f-btn.on{background:var(--lavender);border-color:var(--lavender-mid);color:var(--brand)}
 .tbl-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:13px;min-width:600px}
-thead th{
-  padding:10px 16px;text-align:left;font-size:11px;font-weight:600;
-  letter-spacing:0.05em;text-transform:uppercase;color:var(--text3);
-  background:var(--lavender-bg);border-bottom:1px solid var(--border-soft);white-space:nowrap;
-}
+thead th{padding:10px 16px;text-align:left;font-size:11px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:var(--text3);background:var(--lavender-bg);border-bottom:1px solid var(--border-soft);white-space:nowrap}
 tbody tr{border-bottom:1px solid var(--border-soft);cursor:pointer;transition:background 0.08s}
 tbody tr:last-child{border-bottom:none}
 tbody tr:hover{background:var(--lavender-bg)}
@@ -136,32 +149,18 @@ td{padding:13px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;w
 .b-roofing{background:#FCE7F3;color:#9D174D}
 .b-general{background:var(--gray-bg);color:var(--gray)}
 
-/* ── DETAIL MODAL (replaces side panel) ── */
-#panel{
-  display:none;position:fixed;inset:0;
-  background:rgba(30,27,46,0.45);z-index:50;
-  align-items:center;justify-content:center;
-  padding:24px;
-}
+/* ── DETAIL MODAL ── */
+#panel{display:none;position:fixed;inset:0;background:rgba(30,27,46,0.45);z-index:50;align-items:center;justify-content:center;padding:24px}
 #panel.open{display:flex}
-.panel-inner{
-  background:var(--white);border-radius:20px;
-  width:100%;max-width:720px;max-height:88vh;
-  overflow-y:auto;display:flex;flex-direction:column;
-}
-.p-head{
-  padding:22px 28px 18px;border-bottom:1px solid var(--border-soft);
-  display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;background:var(--white);z-index:1;border-radius:20px 20px 0 0;
-}
-.p-head h3{font-family:var(--font);font-size:16px;font-weight:600;font-style:normal;color:var(--text1)}
+.panel-inner{background:var(--white);border-radius:20px;width:100%;max-width:720px;max-height:88vh;overflow-y:auto;display:flex;flex-direction:column}
+.p-head{padding:22px 28px 18px;border-bottom:1px solid var(--border-soft);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--white);z-index:1;border-radius:20px 20px 0 0}
+.p-head h3{font-family:var(--font);font-size:16px;font-weight:600;color:var(--text1)}
 .p-close{background:none;border:none;cursor:pointer;color:var(--text3);font-size:22px;line-height:1;padding:2px 4px}
 .p-close:hover{color:var(--text1)}
 .p-body-inner{padding:0}
 .p-sec{padding:20px 28px;border-bottom:1px solid var(--border-soft)}
 .p-sec:last-child{border-bottom:none}
 .p-lbl{font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);font-weight:600;margin-bottom:14px}
-.p-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
 .p-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:16px}
 .p-key{font-size:13px;color:var(--text2);flex-shrink:0}
 .p-val{font-size:13px;font-weight:500;text-align:right;color:var(--text1);word-break:break-word}
@@ -180,24 +179,15 @@ td{padding:13px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;w
 .btn-danger:hover{background:var(--red-bg);border-color:var(--red)}
 
 /* ── MODAL ── */
-#modal-overlay{
-  display:none;position:fixed;inset:0;
-  background:rgba(30,27,46,0.4);z-index:100;
-  align-items:center;justify-content:center;
-  padding:20px;
-}
+#modal-overlay{display:none;position:fixed;inset:0;background:rgba(30,27,46,0.4);z-index:100;align-items:center;justify-content:center;padding:20px}
 #modal-overlay.open{display:flex}
 .modal{background:var(--white);border-radius:20px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto}
 .m-head{padding:22px 24px 16px;border-bottom:1px solid var(--border-soft);display:flex;align-items:center;justify-content:space-between}
-.m-head h3{font-family:var(--font);font-size:16px;font-weight:600;font-style:normal}
+.m-head h3{font-family:var(--font);font-size:16px;font-weight:600}
 .m-body{padding:20px 24px}
 .fg{margin-bottom:15px}
 .fg label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:6px}
-.fg input,.fg select,.fg textarea{
-  width:100%;padding:9px 13px;border:1px solid var(--border-soft);border-radius:10px;
-  font-size:14px;font-family:var(--font);color:var(--text1);background:var(--lavender-bg);
-  transition:border-color 0.1s;
-}
+.fg input,.fg select,.fg textarea{width:100%;padding:9px 13px;border:1px solid var(--border-soft);border-radius:10px;font-size:14px;font-family:var(--font);color:var(--text1);background:var(--lavender-bg);transition:border-color 0.1s}
 .fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--brand-soft);background:var(--white)}
 .fg textarea{resize:vertical;min-height:72px}
 .fr{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -206,11 +196,7 @@ td{padding:13px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;w
 .btn-ghost:hover{border-color:var(--brand-soft);color:var(--brand)}
 
 /* ── TOAST ── */
-#toast{
-  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
-  background:var(--text1);color:#fff;padding:10px 20px;border-radius:var(--pill);
-  font-size:13px;font-weight:500;opacity:0;transition:all 0.3s;z-index:200;pointer-events:none;
-}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text1);color:#fff;padding:10px 20px;border-radius:var(--pill);font-size:13px;font-weight:500;opacity:0;transition:all 0.3s;z-index:200;pointer-events:none}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* ── CONFIRM DIALOG ── */
@@ -221,26 +207,15 @@ td{padding:13px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;w
 .confirm-box p{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:20px}
 .confirm-btns{display:flex;gap:8px;justify-content:flex-end}
 .btn-del{background:var(--red);color:#fff;border:none;padding:8px 18px;border-radius:var(--pill);font-size:13px;cursor:pointer;font-family:var(--font)}
-/* ── QUOTE BUILDER (QB) ── */
-.qb-term-btn{
-  border:1px solid var(--border-soft);border-radius:12px;padding:14px 12px;
-  cursor:pointer;text-align:center;background:var(--white);transition:all 0.12s;
-  font-family:var(--font);color:var(--text1);
-}
+
+/* ── QUOTE BUILDER ── */
+.qb-term-btn{border:1px solid var(--border-soft);border-radius:12px;padding:14px 12px;cursor:pointer;text-align:center;background:var(--white);transition:all 0.12s;font-family:var(--font);color:var(--text1)}
 .qb-term-btn:hover{border-color:var(--brand-soft);background:var(--lavender-bg)}
 .qb-term-btn.on{border:2px solid var(--brand);background:var(--lavender)}
-.qb-disc-btn{
-  padding:6px 14px;border-radius:var(--pill);font-size:13px;font-weight:500;
-  border:1px solid var(--border);background:transparent;color:var(--text2);
-  cursor:pointer;font-family:var(--font);transition:all 0.1s;
-}
+.qb-disc-btn{padding:6px 14px;border-radius:var(--pill);font-size:13px;font-weight:500;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;font-family:var(--font);transition:all 0.1s}
 .qb-disc-btn:hover{border-color:var(--brand-soft);color:var(--brand)}
 .qb-disc-btn.on{background:var(--lavender);border-color:var(--brand);color:var(--brand)}
-.qb-addon{
-  display:flex;align-items:center;gap:10px;padding:10px 12px;
-  border:1px solid var(--border-soft);border-radius:9px;cursor:pointer;
-  font-size:13px;color:var(--text1);background:var(--white);transition:all 0.1s;
-}
+.qb-addon{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border-soft);border-radius:9px;cursor:pointer;font-size:13px;color:var(--text1);background:var(--white);transition:all 0.1s}
 .qb-addon:hover{border-color:var(--brand-soft);background:var(--lavender-bg)}
 .qb-addon input[type=checkbox]{accent-color:var(--brand);width:15px;height:15px;flex-shrink:0}
 .qb-addon input:checked ~ span{color:var(--brand);font-weight:500}
@@ -257,347 +232,322 @@ td{padding:13px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;w
 </head>
 <body>
 
-<div id="app">
-
-<!-- SIDEBAR -->
-<div id="sidebar">
-  <div class="s-logo">
-    <div class="s-logo-mark">
-      <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-mark">
+        <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+      </div>
+      <div class="login-logo-text">
+        <div class="name">dwell</div>
+        <div class="sub">Home Warranty CRM</div>
+      </div>
     </div>
-    <div class="s-logo-text">
-      <div class="name">dwell</div>
-      <div class="sub">Home Warranty CRM</div>
+    <div class="login-title">Welcome back</div>
+    <div class="login-sub">Sign in to your CRM</div>
+    <div id="login-error" class="login-error"></div>
+    <div class="login-fg">
+      <label>Email</label>
+      <input type="email" id="login-email" placeholder="you@dwell.com" autocomplete="email">
     </div>
+    <div class="login-fg">
+      <label>Password</label>
+      <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button class="login-btn" id="login-btn" onclick="doLogin()">Sign In</button>
   </div>
-  <div class="s-group">Menu</div>
-  <div class="s-item active" data-view="dashboard" onclick="nav('dashboard',this)">
-    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-    Dashboard
-  </div>
-  <div class="s-item" data-view="customers" onclick="nav('customers',this)">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-    Customers
-  </div>
-  <div class="s-item" data-view="policies" onclick="nav('policies',this)">
-    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
-    Policies
-  </div>
-  <div class="s-item" data-view="claims" onclick="nav('claims',this)">
-    <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
-    Claims
-  </div>
-  <div class="s-item" data-view="vendors" onclick="nav('vendors',this)">
-    <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
-    Vendors
-  </div>
-  <div class="s-group">Tools</div>
-  <div class="s-item" data-view="sales" onclick="nav('sales',this)">
-    <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-    Sales & Renewals
-  </div>
-  <div class="s-item" data-view="plans" onclick="nav('plans',this)">
-    <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
-    Plan Directory
-  </div>
-  <div class="s-footer">Dwell Home Protection &copy; 2026</div>
 </div>
 
-<!-- MAIN -->
-<div id="main">
-  <div id="topbar">
-    <h1 id="pg-title">Dashboard</h1>
-    <div class="search-box">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
-      <input type="text" id="search-input" placeholder="Search policy #, name, address..." oninput="globalSearch(this.value)">
+<!-- LOADING OVERLAY -->
+<div id="loading-overlay">
+  <div class="loader"></div>
+  <div style="font-size:13px;color:var(--text2)">Loading...</div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <div id="sidebar">
+    <div class="s-logo">
+      <div class="s-logo-mark">
+        <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+      </div>
+      <div class="s-logo-text">
+        <div class="name">dwell</div>
+        <div class="sub">Home Warranty CRM</div>
+      </div>
     </div>
-    <button class="btn-cta" onclick="openAddModal()">+ Add New</button>
+    <div class="s-group">Menu</div>
+    <div class="s-item active" data-view="dashboard" onclick="nav('dashboard',this)">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard
+    </div>
+    <div class="s-item" data-view="customers" onclick="nav('customers',this)">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Customers
+    </div>
+    <div class="s-item" data-view="policies" onclick="nav('policies',this)">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>Policies
+    </div>
+    <div class="s-item" data-view="claims" onclick="nav('claims',this)">
+      <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>Claims
+    </div>
+    <div class="s-item" data-view="vendors" onclick="nav('vendors',this)">
+      <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>Vendors
+    </div>
+    <div class="s-group">Tools</div>
+    <div class="s-item" data-view="sales" onclick="nav('sales',this)">
+      <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Sales & Renewals
+    </div>
+    <div class="s-item" data-view="plans" onclick="nav('plans',this)">
+      <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Plan Directory
+    </div>
+    <div class="s-footer">
+      <span>Dwell &copy; 2026</span>
+      <button class="s-logout" onclick="doLogout()">Sign out</button>
+    </div>
   </div>
 
-  <div id="content">
-
-    <!-- DASHBOARD -->
-    <div id="v-dashboard" class="view active">
-      <div class="stats-grid">
-        <div class="stat">
-          <div class="stat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
-          <div class="stat-label">Total Customers</div>
-          <div class="stat-num" id="s-customers">0</div>
-          <div class="stat-sub" id="s-customers-sub"></div>
-        </div>
-        <div class="stat">
-          <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-          <div class="stat-label">Active Policies</div>
-          <div class="stat-num" id="s-policies">0</div>
-          <div class="stat-sub" id="s-policies-sub"></div>
-        </div>
-        <div class="stat">
-          <div class="stat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="1" fill="var(--brand)" stroke="none"/></svg></div>
-          <div class="stat-label">Open Claims</div>
-          <div class="stat-num" id="s-claims">0</div>
-          <div class="stat-sub" id="s-claims-sub"></div>
-        </div>
-        <div class="stat">
-          <div class="stat-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
-          <div class="stat-label">Active Vendors</div>
-          <div class="stat-num" id="s-vendors">0</div>
-          <div class="stat-sub" id="s-vendors-sub"></div>
-        </div>
+  <div id="main">
+    <div id="topbar">
+      <h1 id="pg-title">Dashboard</h1>
+      <div class="search-box">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+        <input type="text" id="search-input" placeholder="Search policy #, name, address..." oninput="globalSearch(this.value)">
       </div>
-      <div class="card">
-        <div class="card-head"><h2>Recent Claims</h2></div>
-        <div class="tbl-wrap">
-          <table><thead><tr>
-            <th style="width:130px">Claim #</th><th style="width:170px">Customer</th>
-            <th>Issue</th><th style="width:120px">Status</th><th style="width:110px">Filed</th>
-          </tr></thead><tbody id="db-claims"></tbody></table>
-        </div>
-      </div>
-      <div class="card" style="margin-top:16px">
-        <div class="card-head"><h2>Recent Customers</h2></div>
-        <div class="tbl-wrap">
-          <table><thead><tr>
-            <th style="width:180px">Name</th><th style="width:140px">Policy #</th>
-            <th>Address</th><th style="width:100px">Status</th><th style="width:100px">Plan</th>
-          </tr></thead><tbody id="db-customers"></tbody></table>
-        </div>
-      </div>
+      <button class="btn-cta" onclick="openAddModal()">+ Add New</button>
     </div>
 
-    <!-- CUSTOMERS -->
-    <div id="v-customers" class="view">
-      <div class="card">
-        <div class="card-head">
-          <h2>All Customers</h2>
-          <div class="filters">
-            <button class="f-btn on" onclick="fCust('all',this)">All</button>
-            <button class="f-btn" onclick="fCust('active',this)">Active</button>
-            <button class="f-btn" onclick="fCust('expired',this)">Expired</button>
-            <button class="f-btn" onclick="fCust('pending',this)">Pending</button>
+    <div id="content">
+
+      <!-- DASHBOARD -->
+      <div id="v-dashboard" class="view active">
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="stat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+            <div class="stat-label">Total Customers</div>
+            <div class="stat-num" id="s-customers">0</div>
+            <div class="stat-sub" id="s-customers-sub"></div>
+          </div>
+          <div class="stat">
+            <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+            <div class="stat-label">Active Policies</div>
+            <div class="stat-num" id="s-policies">0</div>
+            <div class="stat-sub" id="s-policies-sub"></div>
+          </div>
+          <div class="stat">
+            <div class="stat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="1" fill="var(--brand)" stroke="none"/></svg></div>
+            <div class="stat-label">Open Claims</div>
+            <div class="stat-num" id="s-claims">0</div>
+            <div class="stat-sub" id="s-claims-sub"></div>
+          </div>
+          <div class="stat">
+            <div class="stat-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
+            <div class="stat-label">Active Vendors</div>
+            <div class="stat-num" id="s-vendors">0</div>
+            <div class="stat-sub" id="s-vendors-sub"></div>
           </div>
         </div>
-        <div class="tbl-wrap">
-          <table><thead><tr>
+        <div class="card">
+          <div class="card-head"><h2>Recent Claims</h2></div>
+          <div class="tbl-wrap"><table><thead><tr>
+            <th style="width:130px">Claim #</th><th style="width:170px">Customer</th>
+            <th>Issue</th><th style="width:120px">Status</th><th style="width:110px">Filed</th>
+          </tr></thead><tbody id="db-claims"></tbody></table></div>
+        </div>
+        <div class="card" style="margin-top:16px">
+          <div class="card-head"><h2>Recent Customers</h2></div>
+          <div class="tbl-wrap"><table><thead><tr>
+            <th style="width:180px">Name</th><th style="width:140px">Policy #</th>
+            <th>Address</th><th style="width:100px">Status</th><th style="width:100px">Plan</th>
+          </tr></thead><tbody id="db-customers"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- CUSTOMERS -->
+      <div id="v-customers" class="view">
+        <div class="card">
+          <div class="card-head">
+            <h2>All Customers</h2>
+            <div class="filters">
+              <button class="f-btn on" onclick="fCust('all',this)">All</button>
+              <button class="f-btn" onclick="fCust('active',this)">Active</button>
+              <button class="f-btn" onclick="fCust('expired',this)">Expired</button>
+              <button class="f-btn" onclick="fCust('pending',this)">Pending</button>
+            </div>
+          </div>
+          <div class="tbl-wrap"><table><thead><tr>
             <th style="width:180px">Name</th><th style="width:140px">Policy #</th>
             <th>Address</th><th style="width:145px">Phone</th>
             <th style="width:90px">Status</th><th style="width:110px">Renewed</th><th style="width:90px">Plan</th>
-          </tr></thead><tbody id="t-customers"></tbody></table>
+          </tr></thead><tbody id="t-customers"></tbody></table></div>
         </div>
       </div>
-    </div>
 
-    <!-- POLICIES -->
-    <div id="v-policies" class="view">
-      <div class="card">
-        <div class="card-head">
-          <h2>Policies</h2>
-          <div class="filters">
-            <button class="f-btn on" onclick="fPol('all',this)">All</button>
-            <button class="f-btn" onclick="fPol('active',this)">Active</button>
-            <button class="f-btn" onclick="fPol('expired',this)">Expired</button>
-            <button class="f-btn" onclick="fPol('pending',this)">Pending</button>
+      <!-- POLICIES -->
+      <div id="v-policies" class="view">
+        <div class="card">
+          <div class="card-head">
+            <h2>Policies</h2>
+            <div class="filters">
+              <button class="f-btn on" onclick="fPol('all',this)">All</button>
+              <button class="f-btn" onclick="fPol('active',this)">Active</button>
+              <button class="f-btn" onclick="fPol('expired',this)">Expired</button>
+              <button class="f-btn" onclick="fPol('pending',this)">Pending</button>
+            </div>
           </div>
-        </div>
-        <div class="tbl-wrap">
-          <table><thead><tr>
+          <div class="tbl-wrap"><table><thead><tr>
             <th style="width:140px">Policy #</th><th style="width:170px">Holder</th>
             <th>Address</th><th style="width:110px">Plan</th>
             <th style="width:90px">Status</th><th style="width:110px">Start</th><th style="width:110px">Expiry</th><th style="width:70px">Claims</th>
-          </tr></thead><tbody id="t-policies"></tbody></table>
+          </tr></thead><tbody id="t-policies"></tbody></table></div>
         </div>
       </div>
-    </div>
 
-    <!-- CLAIMS -->
-    <div id="v-claims" class="view">
-      <div class="card">
-        <div class="card-head">
-          <h2>Claims Management</h2>
-          <div class="filters">
-            <button class="f-btn on" onclick="fClaim('all',this)">All</button>
-            <button class="f-btn" onclick="fClaim('open',this)">Open</button>
-            <button class="f-btn" onclick="fClaim('progress',this)">In Progress</button>
-            <button class="f-btn" onclick="fClaim('closed',this)">Closed</button>
+      <!-- CLAIMS -->
+      <div id="v-claims" class="view">
+        <div class="card">
+          <div class="card-head">
+            <h2>Claims Management</h2>
+            <div class="filters">
+              <button class="f-btn on" onclick="fClaim('all',this)">All</button>
+              <button class="f-btn" onclick="fClaim('open',this)">Open</button>
+              <button class="f-btn" onclick="fClaim('progress',this)">In Progress</button>
+              <button class="f-btn" onclick="fClaim('closed',this)">Closed</button>
+            </div>
           </div>
-        </div>
-        <div class="tbl-wrap">
-          <table><thead><tr>
+          <div class="tbl-wrap"><table><thead><tr>
             <th style="width:130px">Claim #</th><th style="width:160px">Customer</th>
             <th style="width:130px">Policy #</th><th>Issue</th>
             <th style="width:110px">Category</th><th style="width:160px">Vendor</th>
             <th style="width:110px">Status</th><th style="width:110px">Filed</th>
-          </tr></thead><tbody id="t-claims"></tbody></table>
+          </tr></thead><tbody id="t-claims"></tbody></table></div>
         </div>
       </div>
-    </div>
 
-    <!-- VENDORS -->
-    <div id="v-vendors" class="view">
-      <div class="card">
-        <div class="card-head">
-          <h2>Vendor Directory</h2>
-          <div class="filters">
-            <button class="f-btn on" onclick="fVend('all',this)">All</button>
-            <button class="f-btn" onclick="fVend('plumbing',this)">Plumbing</button>
-            <button class="f-btn" onclick="fVend('electrical',this)">Electrical</button>
-            <button class="f-btn" onclick="fVend('hvac',this)">HVAC</button>
-            <button class="f-btn" onclick="fVend('appliance',this)">Appliance</button>
-            <button class="f-btn" onclick="fVend('roofing',this)">Roofing</button>
-            <button class="f-btn" onclick="fVend('general',this)">General</button>
+      <!-- VENDORS -->
+      <div id="v-vendors" class="view">
+        <div class="card">
+          <div class="card-head">
+            <h2>Vendor Directory</h2>
+            <div class="filters">
+              <button class="f-btn on" onclick="fVend('all',this)">All</button>
+              <button class="f-btn" onclick="fVend('plumbing',this)">Plumbing</button>
+              <button class="f-btn" onclick="fVend('electrical',this)">Electrical</button>
+              <button class="f-btn" onclick="fVend('hvac',this)">HVAC</button>
+              <button class="f-btn" onclick="fVend('appliance',this)">Appliance</button>
+              <button class="f-btn" onclick="fVend('roofing',this)">Roofing</button>
+              <button class="f-btn" onclick="fVend('general',this)">General</button>
+            </div>
           </div>
-        </div>
-        <div class="tbl-wrap">
-          <table><thead><tr>
+          <div class="tbl-wrap"><table><thead><tr>
             <th style="width:190px">Company</th><th style="width:110px">Category</th>
             <th style="width:155px">Contact</th><th style="width:145px">Phone</th>
             <th>Service Area</th><th style="width:75px">Rating</th><th style="width:65px">Jobs</th>
-          </tr></thead><tbody id="t-vendors"></tbody></table>
+          </tr></thead><tbody id="t-vendors"></tbody></table></div>
         </div>
       </div>
-    </div>
 
-    <!-- SALES & RENEWALS -->
-    <div id="v-sales" class="view">
-      <div style="display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:start">
-
-        <!-- LEFT: BUILDER -->
-        <div>
-          <div class="card" style="margin-bottom:16px">
-            <div class="card-head"><h2>Quote Builder</h2></div>
-            <div style="padding:20px 24px">
-
-              <!-- CUSTOMER -->
-              <div class="fg" style="margin-bottom:18px">
-                <label style="display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:6px">Customer (optional)</label>
-                <select id="qb-customer" style="width:100%;padding:9px 13px;border:1px solid var(--border-soft);border-radius:10px;font-size:14px;font-family:var(--font);color:var(--text1);background:var(--lavender-bg)" onchange="QB.calc()">
-                  <option value="">— New customer / walk-in —</option>
-                </select>
-              </div>
-
-              <!-- TERM -->
-              <div style="margin-bottom:18px">
-                <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:10px">Term</div>
-                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
-                  <div class="qb-term-btn on" data-term="1" onclick="QB.setTerm(1,this)">
-                    <div style="font-size:15px;font-weight:600">1 Year</div>
-                    <div style="font-size:11px;color:var(--text2);margin-top:3px">+ 1 Month Free</div>
-                    <div style="font-size:12px;font-weight:500;color:var(--brand);margin-top:6px">from $700/yr</div>
+      <!-- SALES & RENEWALS -->
+      <div id="v-sales" class="view">
+        <div style="display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:start">
+          <div>
+            <div class="card" style="margin-bottom:16px">
+              <div class="card-head"><h2>Quote Builder</h2></div>
+              <div style="padding:20px 24px">
+                <div class="fg" style="margin-bottom:18px">
+                  <label style="display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:6px">Customer (optional)</label>
+                  <select id="qb-customer" style="width:100%;padding:9px 13px;border:1px solid var(--border-soft);border-radius:10px;font-size:14px;font-family:var(--font);color:var(--text1);background:var(--lavender-bg)" onchange="QB.calc()">
+                    <option value="">— New customer / walk-in —</option>
+                  </select>
+                </div>
+                <div style="margin-bottom:18px">
+                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:10px">Term</div>
+                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+                    <div class="qb-term-btn on" data-term="1" onclick="QB.setTerm(1,this)"><div style="font-size:15px;font-weight:600">1 Year</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 1 Month Free</div><div style="font-size:12px;font-weight:500;color:var(--brand);margin-top:6px">from $700/yr</div></div>
+                    <div class="qb-term-btn" data-term="3" onclick="QB.setTerm(3,this)"><div style="font-size:15px;font-weight:600">3 Years</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 6 Months Free</div><div style="font-size:12px;font-weight:500;color:var(--brand);margin-top:6px">from $600/yr</div></div>
+                    <div class="qb-term-btn" data-term="5" onclick="QB.setTerm(5,this)"><div style="font-size:15px;font-weight:600">5 Years</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 1 Year Free</div><div style="font-size:12px;font-weight:500;color:var(--brand);margin-top:6px">from $500/yr</div></div>
                   </div>
-                  <div class="qb-term-btn" data-term="3" onclick="QB.setTerm(3,this)">
-                    <div style="font-size:15px;font-weight:600">3 Years</div>
-                    <div style="font-size:11px;color:var(--text2);margin-top:3px">+ 6 Months Free</div>
-                    <div style="font-size:12px;font-weight:500;color:var(--brand);margin-top:6px">from $600/yr</div>
+                </div>
+                <div style="margin-bottom:18px">
+                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:8px">Base Yearly Price</div>
+                  <div style="display:flex;align-items:center;gap:14px">
+                    <input type="range" id="qb-price-slider" min="400" max="700" step="10" value="700" style="flex:1;accent-color:var(--brand)" oninput="QB.setPrice(this.value)">
+                    <div style="display:flex;align-items:center;border:1px solid var(--border-soft);border-radius:8px;overflow:hidden">
+                      <span style="padding:8px 10px;font-size:13px;color:var(--text2);background:var(--lavender-bg)">$</span>
+                      <input type="number" id="qb-price-input" value="700" min="400" max="700" step="10" style="width:70px;padding:8px 10px;border:none;font-size:14px;font-weight:600;font-family:var(--font);color:var(--text1);background:var(--white)" oninput="QB.setPrice(this.value)">
+                      <span style="padding:8px 10px;font-size:12px;color:var(--text2);background:var(--lavender-bg)">/yr</span>
+                    </div>
                   </div>
-                  <div class="qb-term-btn" data-term="5" onclick="QB.setTerm(5,this)">
-                    <div style="font-size:15px;font-weight:600">5 Years</div>
-                    <div style="font-size:11px;color:var(--text2);margin-top:3px">+ 1 Year Free</div>
-                    <div style="font-size:12px;font-weight:500;color:var(--brand);margin-top:6px">from $500/yr</div>
+                </div>
+                <div style="margin-bottom:18px">
+                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:10px">Discount</div>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap">
+                    <button class="qb-disc-btn on" onclick="QB.setDisc(0,this)">0%</button>
+                    <button class="qb-disc-btn" onclick="QB.setDisc(5,this)">5%</button>
+                    <button class="qb-disc-btn" onclick="QB.setDisc(10,this)">10%</button>
+                    <button class="qb-disc-btn" onclick="QB.setDisc(15,this)">15%</button>
+                    <button class="qb-disc-btn" onclick="QB.setDisc(20,this)">20%</button>
+                    <button class="qb-disc-btn" onclick="QB.setDisc(25,this)">25%</button>
+                    <button class="qb-disc-btn" onclick="QB.setDisc(30,this)">30%</button>
+                  </div>
+                </div>
+                <div>
+                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:10px">Add-ons <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)">+$20/yr each</span></div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                    <label class="qb-addon"><input type="checkbox" value="Pool" onchange="QB.calc()"><span>Pool</span></label>
+                    <label class="qb-addon"><input type="checkbox" value="Second Refrigerator" onchange="QB.calc()"><span>Second Refrigerator</span></label>
+                    <label class="qb-addon"><input type="checkbox" value="Septic" onchange="QB.calc()"><span>Septic</span></label>
+                    <label class="qb-addon"><input type="checkbox" value="Well Pump" onchange="QB.calc()"><span>Well Pump</span></label>
+                    <label class="qb-addon"><input type="checkbox" value="Ice Maker" onchange="QB.calc()"><span>Ice Maker</span></label>
+                    <label class="qb-addon"><input type="checkbox" value="Standalone Freezer" onchange="QB.calc()"><span>Standalone Freezer</span></label>
                   </div>
                 </div>
               </div>
-
-              <!-- BASE PRICE -->
-              <div style="margin-bottom:18px">
-                <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:8px">Base Yearly Price</div>
-                <div style="display:flex;align-items:center;gap:14px">
-                  <input type="range" id="qb-price-slider" min="400" max="700" step="10" value="700"
-                    style="flex:1;accent-color:var(--brand)" oninput="QB.setPrice(this.value)">
-                  <div style="display:flex;align-items:center;border:1px solid var(--border-soft);border-radius:8px;overflow:hidden">
-                    <span style="padding:8px 10px;font-size:13px;color:var(--text2);background:var(--lavender-bg)">$</span>
-                    <input type="number" id="qb-price-input" value="700" min="400" max="700" step="10"
-                      style="width:70px;padding:8px 10px;border:none;font-size:14px;font-weight:600;font-family:var(--font);color:var(--text1);background:var(--white)"
-                      oninput="QB.setPrice(this.value)">
-                    <span style="padding:8px 10px;font-size:12px;color:var(--text2);background:var(--lavender-bg)">/yr</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- DISCOUNT -->
-              <div style="margin-bottom:18px">
-                <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:10px">Discount</div>
-                <div style="display:flex;gap:8px;flex-wrap:wrap">
-                  <button class="qb-disc-btn on" data-disc="0" onclick="QB.setDisc(0,this)">0%</button>
-                  <button class="qb-disc-btn" data-disc="5" onclick="QB.setDisc(5,this)">5%</button>
-                  <button class="qb-disc-btn" data-disc="10" onclick="QB.setDisc(10,this)">10%</button>
-                  <button class="qb-disc-btn" data-disc="15" onclick="QB.setDisc(15,this)">15%</button>
-                  <button class="qb-disc-btn" data-disc="20" onclick="QB.setDisc(20,this)">20%</button>
-                  <button class="qb-disc-btn" data-disc="25" onclick="QB.setDisc(25,this)">25%</button>
-                  <button class="qb-disc-btn" data-disc="30" onclick="QB.setDisc(30,this)">30%</button>
-                </div>
-              </div>
-
-              <!-- ADD-ONS -->
-              <div>
-                <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:10px">Add-ons <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)">+$20/yr each</span></div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-                  <label class="qb-addon"><input type="checkbox" value="Pool" onchange="QB.calc()"><span>Pool</span></label>
-                  <label class="qb-addon"><input type="checkbox" value="Second Refrigerator" onchange="QB.calc()"><span>Second Refrigerator</span></label>
-                  <label class="qb-addon"><input type="checkbox" value="Septic" onchange="QB.calc()"><span>Septic</span></label>
-                  <label class="qb-addon"><input type="checkbox" value="Well Pump" onchange="QB.calc()"><span>Well Pump</span></label>
-                  <label class="qb-addon"><input type="checkbox" value="Ice Maker" onchange="QB.calc()"><span>Ice Maker</span></label>
-                  <label class="qb-addon"><input type="checkbox" value="Standalone Freezer" onchange="QB.calc()"><span>Standalone Freezer</span></label>
-                </div>
-              </div>
-
             </div>
           </div>
-        </div>
-
-        <!-- RIGHT: LIVE SUMMARY -->
-        <div style="position:sticky;top:24px">
-          <div class="card">
-            <div class="card-head"><h2>Quote Summary</h2></div>
-            <div style="padding:20px 24px">
-
-              <div id="qb-summary-rows" style="margin-bottom:20px">
-                <div class="qb-sum-row"><span class="qb-sum-label">Term</span><span id="qs-term" class="qb-sum-val">1 Year + 1 Mo Free</span></div>
-                <div class="qb-sum-row"><span class="qb-sum-label">Base yearly price</span><span id="qs-base" class="qb-sum-val">$700.00</span></div>
-                <div class="qb-sum-row"><span class="qb-sum-label">Discount</span><span id="qs-disc" class="qb-sum-val" style="color:var(--green)">0%</span></div>
-                <div class="qb-sum-row"><span class="qb-sum-label">After discount</span><span id="qs-after-disc" class="qb-sum-val">$700.00</span></div>
-                <div class="qb-sum-row"><span class="qb-sum-label">Add-ons</span><span id="qs-addons" class="qb-sum-val">$0.00/yr</span></div>
-                <div style="border-top:1px solid var(--border-soft);margin:14px 0"></div>
-                <div class="qb-sum-row"><span class="qb-sum-label">Final yearly price</span><span id="qs-yearly" class="qb-sum-val" style="font-weight:600">$700.00</span></div>
-                <div class="qb-sum-row"><span class="qb-sum-label">Monthly equivalent</span><span id="qs-monthly" class="qb-sum-val" style="color:var(--text2)">$66.67/mo</span></div>
-                <div class="qb-sum-row"><span class="qb-sum-label">Bonus coverage</span><span id="qs-bonus" class="qb-sum-val" style="color:var(--brand)">1 Month Free</span></div>
+          <div style="position:sticky;top:24px">
+            <div class="card">
+              <div class="card-head"><h2>Quote Summary</h2></div>
+              <div style="padding:20px 24px">
+                <div style="margin-bottom:20px">
+                  <div class="qb-sum-row"><span class="qb-sum-label">Term</span><span id="qs-term" class="qb-sum-val">1 Year + 1 Mo Free</span></div>
+                  <div class="qb-sum-row"><span class="qb-sum-label">Base yearly price</span><span id="qs-base" class="qb-sum-val">$700.00</span></div>
+                  <div class="qb-sum-row"><span class="qb-sum-label">Discount</span><span id="qs-disc" class="qb-sum-val" style="color:var(--green)">0%</span></div>
+                  <div class="qb-sum-row"><span class="qb-sum-label">After discount</span><span id="qs-after-disc" class="qb-sum-val">$700.00</span></div>
+                  <div class="qb-sum-row"><span class="qb-sum-label">Add-ons</span><span id="qs-addons" class="qb-sum-val">$0.00/yr</span></div>
+                  <div style="border-top:1px solid var(--border-soft);margin:14px 0"></div>
+                  <div class="qb-sum-row"><span class="qb-sum-label">Final yearly price</span><span id="qs-yearly" class="qb-sum-val" style="font-weight:600">$700.00</span></div>
+                  <div class="qb-sum-row"><span class="qb-sum-label">Monthly equivalent</span><span id="qs-monthly" class="qb-sum-val" style="color:var(--text2)">$66.67/mo</span></div>
+                  <div class="qb-sum-row"><span class="qb-sum-label">Bonus coverage</span><span id="qs-bonus" class="qb-sum-val" style="color:var(--brand)">1 Month Free</span></div>
+                </div>
+                <div style="background:var(--lavender);border-radius:12px;padding:16px 18px;margin-bottom:16px;text-align:center">
+                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--brand-dark);margin-bottom:6px">Total Due Today</div>
+                  <div id="qs-total" style="font-size:32px;font-weight:600;color:var(--brand);letter-spacing:-0.03em">$700.00</div>
+                  <div style="font-size:11px;color:var(--brand-dark);margin-top:6px">Paid in full · Policy starts in 30 days</div>
+                </div>
+                <div id="qs-addon-tags" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px"></div>
+                <button class="btn-cta" style="width:100%;margin-bottom:8px" onclick="QB.copyQuote()">Copy Quote to Clipboard</button>
+                <button class="btn-ghost" style="width:100%" onclick="QB.convertToPolicy()">Convert to Policy Sale</button>
               </div>
-
-              <!-- TOTAL DUE -->
-              <div style="background:var(--lavender);border-radius:12px;padding:16px 18px;margin-bottom:16px;text-align:center">
-                <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--brand-dark);margin-bottom:6px">Total Due Today</div>
-                <div id="qs-total" style="font-size:32px;font-weight:600;color:var(--brand);letter-spacing:-0.03em">$700.00</div>
-                <div style="font-size:11px;color:var(--brand-dark);margin-top:6px">Paid in full · Policy starts in 30 days</div>
-              </div>
-
-              <!-- ADDON TAGS -->
-              <div id="qs-addon-tags" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px"></div>
-
-              <!-- ACTIONS -->
-              <button class="btn-cta" style="width:100%;margin-bottom:8px" onclick="QB.copyQuote()">Copy Quote to Clipboard</button>
-              <button class="btn-ghost" style="width:100%" onclick="QB.convertToPolicy()">Convert to Policy Sale</button>
-
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- PLAN DIRECTORY -->
-    <div id="v-plans" class="view">
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-head">
-          <h2>Plan Directory — All 50 States</h2>
-          <div class="filters">
-            <input type="text" id="plan-state-search" placeholder="Search state..." oninput="QB.filterPlans(this.value)"
-              style="padding:4px 12px;border-radius:var(--pill);border:1px solid var(--border);font-size:12px;font-family:var(--font);color:var(--text1);background:var(--white);width:160px">
+      <!-- PLAN DIRECTORY -->
+      <div id="v-plans" class="view">
+        <div class="card">
+          <div class="card-head">
+            <h2>Plan Directory — All 50 States</h2>
+            <div class="filters">
+              <input type="text" id="plan-state-search" placeholder="Search state..." oninput="QB.filterPlans(this.value)" style="padding:4px 12px;border-radius:var(--pill);border:1px solid var(--border);font-size:12px;font-family:var(--font);color:var(--text1);background:var(--white);width:160px">
+            </div>
           </div>
+          <div id="plan-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:0;border-top:1px solid var(--border-soft)"></div>
         </div>
-        <div id="plan-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:0;border-top:1px solid var(--border-soft)"></div>
       </div>
-    </div>
 
-  </div><!-- /content -->
-
-</div><!-- /main -->
+    </div><!-- /content -->
+  </div><!-- /main -->
 </div><!-- /app -->
 
 <!-- DETAIL PANEL MODAL -->
@@ -621,7 +571,7 @@ td{padding:13px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;w
     <div class="m-body" id="m-body"></div>
     <div class="m-foot">
       <button class="btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn-cta" id="m-save-btn" onclick="saveRecord()">Save</button>
+      <button class="btn-cta" onclick="saveRecord()">Save</button>
     </div>
   </div>
 </div>
@@ -638,56 +588,126 @@ td{padding:13px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;w
   </div>
 </div>
 
-<!-- TOAST -->
 <div id="toast"></div>
 
 <script>
-// ── DATA STORE ──────────────────────────────────────────────
-const KEYS = { customers:'dwell_customers', claims:'dwell_claims', vendors:'dwell_vendors' };
+// ── SUPABASE INIT ────────────────────────────────────────────
+const SUPA_URL = 'https://xplqesygcseqicmuxwkb.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhwbHFlc3lnY3NlcWljbXV4d2tiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2MzA4NzEsImV4cCI6MjA5MDIwNjg3MX0.d6HgUkW4krrlfr-d0MP64UhCd6Dbm161QhoJJ44ouGA';
+const { createClient } = supabase;
+const db = createClient(SUPA_URL, SUPA_KEY);
 
-const DEMO_CUSTOMERS = [];
-const DEMO_CLAIMS = [];
-const DEMO_VENDORS = [];
-
-function load(key, demo) {
-  try { const d = localStorage.getItem(key); return d ? JSON.parse(d) : demo.map(x=>({...x})); }
-  catch(e) { return demo.map(x=>({...x})); }
+// ── AUTH ─────────────────────────────────────────────────────
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const btn = document.getElementById('login-btn');
+  const errEl = document.getElementById('login-error');
+  errEl.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'Signing in...';
+  const { error } = await db.auth.signInWithPassword({ email, password });
+  if (error) {
+    errEl.textContent = 'Invalid email or password. Please try again.';
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Sign In';
+  }
 }
-function save(key, data) {
-  try { localStorage.setItem(key, JSON.stringify(data)); } catch(e) {}
+
+async function doLogout() {
+  await db.auth.signOut();
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('login-password').value = '';
 }
 
-let customers = load(KEYS.customers, DEMO_CUSTOMERS);
-let claims    = load(KEYS.claims,    DEMO_CLAIMS);
-let vendors   = load(KEYS.vendors,   DEMO_VENDORS);
+db.auth.onAuthStateChange(async (event, session) => {
+  if (session) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').classList.add('visible');
+    showLoading(true);
+    await loadAllData();
+    showLoading(false);
+    render();
+  } else {
+    document.getElementById('app').classList.remove('visible');
+    document.getElementById('login-screen').style.display = 'flex';
+  }
+});
 
-function persist() {
-  save(KEYS.customers, customers);
-  save(KEYS.claims, claims);
-  save(KEYS.vendors, vendors);
+document.getElementById('login-password').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+// ── LOADING ──────────────────────────────────────────────────
+function showLoading(show) {
+  document.getElementById('loading-overlay').classList.toggle('show', show);
 }
 
-// ── ID / NUMBER GENERATORS ──────────────────────────────────
-function uid(prefix) { return prefix + Date.now().toString(36) + Math.random().toString(36).slice(2,5); }
+// ── DATA ─────────────────────────────────────────────────────
+let customers = [];
+let claims = [];
+let vendors = [];
+
+async function loadAllData() {
+  const [c, cl, v] = await Promise.all([
+    db.from('customers').select('*').order('created_at', { ascending: false }),
+    db.from('claims').select('*').order('created_at', { ascending: false }),
+    db.from('vendors').select('*').order('created_at', { ascending: false }),
+  ]);
+  customers = (c.data || []).map(mapCustomer);
+  claims    = (cl.data || []).map(mapClaim);
+  vendors   = (v.data || []).map(mapVendor);
+}
+
+function mapCustomer(r) {
+  return {
+    id: r.id, name: r.name, policy: r.policy || '', address: r.address || '',
+    phone: r.phone || '', email: r.email || '', status: r.status || 'active',
+    since: r.since || '', renewed: r.renewed || '', expiry: r.expiry || '',
+    plan: r.plan || 'Basic', notes: r.notes || '',
+  };
+}
+function mapClaim(r) {
+  return {
+    id: r.id, num: r.num || '', customerId: r.customer_id || '',
+    customerName: r.customer_name || '', policy: r.policy || '',
+    issue: r.issue || '', cat: r.cat || 'general',
+    vendorId: r.vendor_id || '', vendorName: r.vendor_name || '',
+    status: r.status || 'open', filed: r.filed || '',
+    amount: r.amount || 'TBD', notes: r.notes || '',
+  };
+}
+function mapVendor(r) {
+  return {
+    id: r.id, co: r.co || '', cat: r.cat || 'general',
+    contact: r.contact || '', phone: r.phone || '', email: r.email || '',
+    area: r.area || '', rating: r.rating || '0.0',
+    jobs: r.jobs || 0, lic: r.lic || false, notes: r.notes || '',
+  };
+}
+
+// ── NUMBER GENERATORS ────────────────────────────────────────
 function nextPolicyNum() {
-  const nums = customers.map(c => parseInt((c.policy||'').replace(/\D/g,'')) || 0);
-  const next = Math.max(0, ...nums) + 1;
+  const nums = customers.map(c => parseInt((c.policy||'').replace(/\D/g,''))||0);
+  const next = Math.max(0,...nums) + 1;
   return 'DW-' + new Date().getFullYear() + '-' + String(next).padStart(5,'0');
 }
 function nextClaimNum() {
-  const nums = claims.map(c => parseInt((c.num||'').replace(/\D/g,'')) || 0);
-  const next = Math.max(0, ...nums) + 1;
+  const nums = claims.map(c => parseInt((c.num||'').replace(/\D/g,''))||0);
+  const next = Math.max(0,...nums) + 1;
   return 'CLM-' + new Date().getFullYear() + '-' + String(next).padStart(4,'0');
 }
 
-// ── UI STATE ────────────────────────────────────────────────
+// ── UI STATE ─────────────────────────────────────────────────
 let view = 'dashboard';
 let cf = 'all', clf = 'all', vf = 'all', pf = 'all';
 let searchQ = '';
-let editId = null, editType = null;
+let editId = null, editType = null, currentForm = null;
 let pendingDelete = null;
 
-// ── NAVIGATION ──────────────────────────────────────────────
+// ── NAVIGATION ───────────────────────────────────────────────
 function nav(v, el) {
   view = v;
   document.querySelectorAll('.view').forEach(e => e.classList.remove('active'));
@@ -707,13 +727,9 @@ function nav(v, el) {
   render();
 }
 
-// ── SEARCH ──────────────────────────────────────────────────
-function globalSearch(q) {
-  searchQ = q.toLowerCase().trim();
-  render();
-}
+function globalSearch(q) { searchQ = q.toLowerCase().trim(); render(); }
 
-// ── MASTER RENDER ───────────────────────────────────────────
+// ── RENDER ───────────────────────────────────────────────────
 function render() {
   updateStats();
   if (view === 'dashboard') { rDash(); return; }
@@ -723,142 +739,83 @@ function render() {
   if (view === 'vendors')   rVend();
 }
 
-// ── STATS ───────────────────────────────────────────────────
 function updateStats() {
   const active = customers.filter(c => c.status === 'active').length;
   const openC  = claims.filter(c => c.status === 'open' || c.status === 'progress').length;
-  document.getElementById('s-customers').textContent  = customers.length;
+  document.getElementById('s-customers').textContent = customers.length;
   document.getElementById('s-customers-sub').textContent = active + ' active';
-  document.getElementById('s-policies').textContent   = active;
+  document.getElementById('s-policies').textContent = active;
   document.getElementById('s-policies-sub').textContent = customers.length ? Math.round(active/customers.length*100)+'% retention' : '';
-  document.getElementById('s-claims').textContent     = openC;
+  document.getElementById('s-claims').textContent = openC;
   document.getElementById('s-claims-sub').textContent = claims.filter(c=>c.status==='open').length + ' awaiting action';
-  document.getElementById('s-vendors').textContent    = vendors.length;
+  document.getElementById('s-vendors').textContent = vendors.length;
   document.getElementById('s-vendors-sub').textContent = vendors.filter(v=>v.lic).length + ' licensed';
 }
 
-// ── DASHBOARD ───────────────────────────────────────────────
 function rDash() {
-  const rc = [...claims].sort((a,b) => b.filed.localeCompare(a.filed)).slice(0, 6);
+  const rc = [...claims].sort((a,b) => (b.filed||'').localeCompare(a.filed||'')).slice(0,6);
   document.getElementById('db-claims').innerHTML = rc.length
-    ? rc.map(c => `<tr onclick="sClaim('${c.id}')">
-        <td class="mono">${c.num}</td><td class="fw">${c.customerName}</td>
-        <td class="muted">${c.issue}</td><td>${bs(c.status)}</td>
-        <td class="muted">${fmt(c.filed)}</td></tr>`).join('')
-    : emptyRow(5, 'No claims yet — file your first claim');
-
-  const rc2 = [...customers].reverse().slice(0, 6);
+    ? rc.map(c => `<tr onclick="sClaim('${c.id}')"><td class="mono">${c.num}</td><td class="fw">${esc(c.customerName)}</td><td class="muted">${esc(c.issue)}</td><td>${bs(c.status)}</td><td class="muted">${fmt(c.filed)}</td></tr>`).join('')
+    : emptyRow(5,'No claims yet — file your first claim');
+  const rc2 = [...customers].slice(0,6);
   document.getElementById('db-customers').innerHTML = rc2.length
-    ? rc2.map(c => `<tr onclick="sCust('${c.id}')">
-        <td class="fw">${c.name}</td><td class="mono">${c.policy}</td>
-        <td class="muted">${c.address}</td><td>${bs(c.status)}</td>
-        <td>${c.plan}</td></tr>`).join('')
-    : emptyRow(5, 'No customers yet — add your first customer');
+    ? rc2.map(c => `<tr onclick="sCust('${c.id}')"><td class="fw">${esc(c.name)}</td><td class="mono">${c.policy}</td><td class="muted">${esc(c.address)}</td><td>${bs(c.status)}</td><td>${esc(c.plan)}</td></tr>`).join('')
+    : emptyRow(5,'No customers yet — add your first customer');
 }
 
-// ── CUSTOMERS ───────────────────────────────────────────────
 function rCust() {
   let l = customers;
   if (cf !== 'all') l = l.filter(c => c.status === cf);
-  if (searchQ) l = l.filter(c =>
-    c.name.toLowerCase().includes(searchQ) ||
-    c.policy.toLowerCase().includes(searchQ) ||
-    c.address.toLowerCase().includes(searchQ) ||
-    c.phone.includes(searchQ) ||
-    (c.email||'').toLowerCase().includes(searchQ)
-  );
+  if (searchQ) l = l.filter(c => c.name.toLowerCase().includes(searchQ)||c.policy.toLowerCase().includes(searchQ)||c.address.toLowerCase().includes(searchQ)||c.phone.includes(searchQ)||(c.email||'').toLowerCase().includes(searchQ));
   document.getElementById('t-customers').innerHTML = l.length
-    ? l.map(c => `<tr onclick="sCust('${c.id}')">
-        <td class="fw">${esc(c.name)}</td><td class="mono">${c.policy}</td>
-        <td class="muted">${esc(c.address)}</td><td class="muted">${esc(c.phone)}</td>
-        <td>${bs(c.status)}</td><td class="muted">${fmt(c.renewed)}</td><td>${esc(c.plan)}</td></tr>`).join('')
+    ? l.map(c => `<tr onclick="sCust('${c.id}')"><td class="fw">${esc(c.name)}</td><td class="mono">${c.policy}</td><td class="muted">${esc(c.address)}</td><td class="muted">${esc(c.phone)}</td><td>${bs(c.status)}</td><td class="muted">${fmt(c.renewed)}</td><td>${esc(c.plan)}</td></tr>`).join('')
     : emptyRow(7);
 }
 
-// ── POLICIES ────────────────────────────────────────────────
 function rPol() {
   let l = customers;
   if (pf !== 'all') l = l.filter(c => c.status === pf);
-  if (searchQ) l = l.filter(c =>
-    c.policy.toLowerCase().includes(searchQ) ||
-    c.name.toLowerCase().includes(searchQ) ||
-    c.address.toLowerCase().includes(searchQ)
-  );
+  if (searchQ) l = l.filter(c => c.policy.toLowerCase().includes(searchQ)||c.name.toLowerCase().includes(searchQ)||c.address.toLowerCase().includes(searchQ));
   document.getElementById('t-policies').innerHTML = l.length
-    ? l.map(c => {
-        const cc = claims.filter(x => x.customerId === c.id).length;
-        return `<tr onclick="sCust('${c.id}')">
-          <td class="mono">${c.policy}</td><td class="fw">${esc(c.name)}</td>
-          <td class="muted">${esc(c.address)}</td><td>${esc(c.plan)}</td>
-          <td>${bs(c.status)}</td><td class="muted">${fmt(c.since)}</td>
-          <td class="muted">${fmt(c.expiry)}</td>
-          <td style="text-align:center">${cc}</td></tr>`;
-      }).join('')
+    ? l.map(c => { const cc = claims.filter(x => x.customerId === c.id).length; return `<tr onclick="sCust('${c.id}')"><td class="mono">${c.policy}</td><td class="fw">${esc(c.name)}</td><td class="muted">${esc(c.address)}</td><td>${esc(c.plan)}</td><td>${bs(c.status)}</td><td class="muted">${fmt(c.since)}</td><td class="muted">${fmt(c.expiry)}</td><td style="text-align:center">${cc}</td></tr>`; }).join('')
     : emptyRow(8);
 }
 
-// ── CLAIMS ──────────────────────────────────────────────────
 function rClaim() {
   let l = claims;
   if (clf !== 'all') l = l.filter(c => c.status === clf);
-  if (searchQ) l = l.filter(c =>
-    c.num.toLowerCase().includes(searchQ) ||
-    c.customerName.toLowerCase().includes(searchQ) ||
-    c.policy.toLowerCase().includes(searchQ) ||
-    c.issue.toLowerCase().includes(searchQ) ||
-    (c.vendorName||'').toLowerCase().includes(searchQ)
-  );
+  if (searchQ) l = l.filter(c => c.num.toLowerCase().includes(searchQ)||c.customerName.toLowerCase().includes(searchQ)||c.policy.toLowerCase().includes(searchQ)||c.issue.toLowerCase().includes(searchQ));
   document.getElementById('t-claims').innerHTML = l.length
-    ? l.map(c => `<tr onclick="sClaim('${c.id}')">
-        <td class="mono">${c.num}</td><td class="fw">${esc(c.customerName)}</td>
-        <td class="mono">${c.policy}</td><td class="muted">${esc(c.issue)}</td>
-        <td>${bc(c.cat)}</td><td class="muted">${esc(c.vendorName)}</td>
-        <td>${bs(c.status)}</td><td class="muted">${fmt(c.filed)}</td></tr>`).join('')
+    ? l.map(c => `<tr onclick="sClaim('${c.id}')"><td class="mono">${c.num}</td><td class="fw">${esc(c.customerName)}</td><td class="mono">${c.policy}</td><td class="muted">${esc(c.issue)}</td><td>${bc(c.cat)}</td><td class="muted">${esc(c.vendorName)}</td><td>${bs(c.status)}</td><td class="muted">${fmt(c.filed)}</td></tr>`).join('')
     : emptyRow(8);
 }
 
-// ── VENDORS ─────────────────────────────────────────────────
 function rVend() {
   let l = vendors;
   if (vf !== 'all') l = l.filter(v => v.cat === vf);
-  if (searchQ) l = l.filter(v =>
-    v.co.toLowerCase().includes(searchQ) ||
-    v.contact.toLowerCase().includes(searchQ) ||
-    v.phone.includes(searchQ) ||
-    v.area.toLowerCase().includes(searchQ) ||
-    v.cat.toLowerCase().includes(searchQ)
-  );
+  if (searchQ) l = l.filter(v => v.co.toLowerCase().includes(searchQ)||v.contact.toLowerCase().includes(searchQ)||v.phone.includes(searchQ)||v.area.toLowerCase().includes(searchQ));
   document.getElementById('t-vendors').innerHTML = l.length
-    ? l.map(v => `<tr onclick="sVend('${v.id}')">
-        <td><span class="fw">${esc(v.co)}</span>${v.lic ? ' <span class="badge b-active" style="font-size:10px;padding:1px 7px">Lic</span>' : ''}</td>
-        <td>${bc(v.cat)}</td><td class="muted">${esc(v.contact)}</td>
-        <td class="muted">${esc(v.phone)}</td><td class="muted">${esc(v.area)}</td>
-        <td class="fw">${v.rating}</td><td style="text-align:center">${v.jobs}</td></tr>`).join('')
+    ? l.map(v => `<tr onclick="sVend('${v.id}')"><td><span class="fw">${esc(v.co)}</span>${v.lic?' <span class="badge b-active" style="font-size:10px;padding:1px 7px">Lic</span>':''}</td><td>${bc(v.cat)}</td><td class="muted">${esc(v.contact)}</td><td class="muted">${esc(v.phone)}</td><td class="muted">${esc(v.area)}</td><td class="fw">${v.rating}</td><td style="text-align:center">${v.jobs}</td></tr>`).join('')
     : emptyRow(7);
 }
 
-// ── DETAIL PANELS ───────────────────────────────────────────
+// ── DETAIL PANELS ────────────────────────────────────────────
 function sCust(id) {
   const c = customers.find(x => x.id === id); if (!c) return;
   const cc = claims.filter(x => x.customerId === id);
   document.getElementById('p-title').textContent = 'Customer record';
   document.getElementById('p-body').innerHTML = `
     <div class="p-sec" style="display:flex;align-items:center;justify-content:space-between;gap:16px">
-      <div class="p-person" style="margin-bottom:0">
-        <div class="av">${ini(c.name)}</div>
-        <div><div class="p-person-name">${esc(c.name)}</div><div class="p-person-sub">${c.policy}</div></div>
-      </div>
+      <div class="p-person" style="margin-bottom:0"><div class="av">${ini(c.name)}</div><div><div class="p-person-name">${esc(c.name)}</div><div class="p-person-sub">${c.policy}</div></div></div>
       ${bs(c.status)}
     </div>
     <div class="p-sec" style="display:grid;grid-template-columns:1fr 1fr;gap:0 32px">
-      <div>
-        <div class="p-lbl">Contact</div>
+      <div><div class="p-lbl">Contact</div>
         <div class="p-row"><span class="p-key">Phone</span><span class="p-val">${esc(c.phone)||'—'}</span></div>
         <div class="p-row"><span class="p-key">Email</span><span class="p-val" style="font-size:12px">${esc(c.email)||'—'}</span></div>
         <div class="p-row"><span class="p-key">Address</span><span class="p-val" style="font-size:12px">${esc(c.address)||'—'}</span></div>
       </div>
-      <div>
-        <div class="p-lbl">Policy</div>
+      <div><div class="p-lbl">Policy</div>
         <div class="p-row"><span class="p-key">Policy #</span><span class="p-val mono">${c.policy}</span></div>
         <div class="p-row"><span class="p-key">Plan</span><span class="p-val">${esc(c.plan)}</span></div>
         <div class="p-row"><span class="p-key">Start</span><span class="p-val">${fmt(c.since)}</span></div>
@@ -866,15 +823,9 @@ function sCust(id) {
         <div class="p-row"><span class="p-key">Total Claims</span><span class="p-val">${cc.length}</span></div>
       </div>
     </div>
-    ${c.notes ? `<div class="p-sec"><div class="p-lbl">Notes</div><p style="font-size:13px;color:var(--text2);line-height:1.6">${esc(c.notes)}</p></div>` : ''}
-    <div class="p-sec">
-      <div class="p-lbl">Claim History (${cc.length})</div>
-      ${cc.length ? `<div class="claims-grid">${cc.map(cl => `
-        <div class="claim-mini" onclick="sClaim('${cl.id}')">
-          <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span class="mono">${cl.num}</span>${bs(cl.status)}</div>
-          <div style="font-size:13px;color:var(--text2);margin-bottom:3px">${esc(cl.issue)}</div>
-          <div style="font-size:11px;color:var(--text3)">${fmt(cl.filed)} &middot; ${esc(cl.vendorName)}</div>
-        </div>`).join('')}</div>` : '<p style="font-size:13px;color:var(--text3)">No claims on file.</p>'}
+    ${c.notes?`<div class="p-sec"><div class="p-lbl">Notes</div><p style="font-size:13px;color:var(--text2);line-height:1.6">${esc(c.notes)}</p></div>`:''}
+    <div class="p-sec"><div class="p-lbl">Claim History (${cc.length})</div>
+      ${cc.length?`<div class="claims-grid">${cc.map(cl=>`<div class="claim-mini" onclick="sClaim('${cl.id}')"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span class="mono">${cl.num}</span>${bs(cl.status)}</div><div style="font-size:13px;color:var(--text2)">${esc(cl.issue)}</div><div style="font-size:11px;color:var(--text3);margin-top:3px">${fmt(cl.filed)}</div></div>`).join('')}</div>`:'<p style="font-size:13px;color:var(--text3)">No claims on file.</p>'}
     </div>
     <div class="p-actions">
       <button class="btn-sm" onclick="openEditModal('customers','${id}')">Edit Record</button>
@@ -889,29 +840,24 @@ function sClaim(id) {
   document.getElementById('p-title').textContent = 'Claim details';
   document.getElementById('p-body').innerHTML = `
     <div class="p-sec">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <span class="mono" style="font-size:15px">${c.num}</span>${bs(c.status)}
-      </div>
-      <p style="font-size:16px;font-weight:600;margin-bottom:6px;letter-spacing:-0.01em">${esc(c.issue)}</p>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span class="mono" style="font-size:14px">${c.num}</span>${bs(c.status)}</div>
+      <p style="font-size:15px;font-weight:600;margin-bottom:4px">${esc(c.issue)}</p>
       <p style="font-size:13px;color:var(--text2)">Filed ${fmt(c.filed)}</p>
     </div>
     <div class="p-sec" style="display:grid;grid-template-columns:1fr 1fr;gap:0 32px">
-      <div>
-        <div class="p-lbl">Customer & Policy</div>
+      <div><div class="p-lbl">Customer & Policy</div>
         <div class="p-row"><span class="p-key">Customer</span><span class="p-val">${esc(c.customerName)}</span></div>
         <div class="p-row"><span class="p-key">Policy #</span><span class="p-val mono">${c.policy}</span></div>
-        <div class="p-row"><span class="p-key">Address</span><span class="p-val" style="font-size:12px">${cu ? esc(cu.address) : '—'}</span></div>
+        <div class="p-row"><span class="p-key">Address</span><span class="p-val" style="font-size:12px">${cu?esc(cu.address):'—'}</span></div>
       </div>
-      <div>
-        <div class="p-lbl">Claim Info</div>
+      <div><div class="p-lbl">Claim Info</div>
         <div class="p-row"><span class="p-key">Category</span><span class="p-val">${bc(c.cat)}</span></div>
         <div class="p-row"><span class="p-key">Vendor</span><span class="p-val">${esc(c.vendorName)}</span></div>
         <div class="p-row"><span class="p-key">Est. Cost</span><span class="p-val">${esc(c.amount)}</span></div>
       </div>
     </div>
-    ${c.notes ? `<div class="p-sec"><div class="p-lbl">Notes</div><p style="font-size:13px;color:var(--text2);line-height:1.6">${esc(c.notes)}</p></div>` : ''}
-    <div class="p-sec">
-      <div class="p-lbl">Update Status</div>
+    ${c.notes?`<div class="p-sec"><div class="p-lbl">Notes</div><p style="font-size:13px;color:var(--text2);line-height:1.6">${esc(c.notes)}</p></div>`:''}
+    <div class="p-sec"><div class="p-lbl">Update Status</div>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
         <button class="btn-sm${c.status==='open'?' on':''}" onclick="updClaimStatus('${id}','open')">Open</button>
         <button class="btn-sm${c.status==='progress'?' on':''}" onclick="updClaimStatus('${id}','progress')">In Progress</button>
@@ -931,35 +877,24 @@ function sVend(id) {
   document.getElementById('p-title').textContent = 'Vendor profile';
   document.getElementById('p-body').innerHTML = `
     <div class="p-sec" style="display:flex;align-items:center;justify-content:space-between;gap:16px">
-      <div class="p-person" style="margin-bottom:0">
-        <div class="av" style="border-radius:12px">${v.co.slice(0,2).toUpperCase()}</div>
-        <div><div class="p-person-name">${esc(v.co)}</div><div style="margin-top:6px">${bc(v.cat)}</div></div>
-      </div>
-      ${v.lic ? '<span class="badge b-active">Licensed</span>' : '<span class="badge b-expired">Unlicensed</span>'}
+      <div class="p-person" style="margin-bottom:0"><div class="av" style="border-radius:10px">${v.co.slice(0,2).toUpperCase()}</div><div><div class="p-person-name">${esc(v.co)}</div><div style="margin-top:5px">${bc(v.cat)}</div></div></div>
+      ${v.lic?'<span class="badge b-active">Licensed</span>':'<span class="badge b-expired">Unlicensed</span>'}
     </div>
     <div class="p-sec" style="display:grid;grid-template-columns:1fr 1fr;gap:0 32px">
-      <div>
-        <div class="p-lbl">Contact</div>
+      <div><div class="p-lbl">Contact</div>
         <div class="p-row"><span class="p-key">Name</span><span class="p-val">${esc(v.contact)||'—'}</span></div>
         <div class="p-row"><span class="p-key">Phone</span><span class="p-val">${esc(v.phone)||'—'}</span></div>
         <div class="p-row"><span class="p-key">Email</span><span class="p-val" style="font-size:12px">${esc(v.email)||'—'}</span></div>
       </div>
-      <div>
-        <div class="p-lbl">Service Info</div>
+      <div><div class="p-lbl">Service Info</div>
         <div class="p-row"><span class="p-key">Area</span><span class="p-val">${esc(v.area)||'—'}</span></div>
-        <div class="p-row"><span class="p-key">Rating</span><span class="p-val">${v.rating} / 5.0</span></div>
+        <div class="p-row"><span class="p-key">Rating</span><span class="p-val">${v.rating}/5.0</span></div>
         <div class="p-row"><span class="p-key">Total Jobs</span><span class="p-val">${v.jobs}</span></div>
       </div>
     </div>
-    ${v.notes ? `<div class="p-sec"><div class="p-lbl">Notes</div><p style="font-size:13px;color:var(--text2);line-height:1.6">${esc(v.notes)}</p></div>` : ''}
-    <div class="p-sec">
-      <div class="p-lbl">Claims Handled (${vc.length})</div>
-      ${vc.length ? `<div class="claims-grid">${vc.map(c => `
-        <div class="claim-mini" onclick="sClaim('${c.id}')">
-          <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span class="mono">${c.num}</span>${bs(c.status)}</div>
-          <div style="font-size:13px;color:var(--text2);margin-bottom:3px">${esc(c.issue)}</div>
-          <div style="font-size:11px;color:var(--text3)">${esc(c.customerName)} &middot; ${fmt(c.filed)}</div>
-        </div>`).join('')}</div>` : '<p style="font-size:13px;color:var(--text3)">No claims assigned yet.</p>'}
+    ${v.notes?`<div class="p-sec"><div class="p-lbl">Notes</div><p style="font-size:13px;color:var(--text2);line-height:1.6">${esc(v.notes)}</p></div>`:''}
+    <div class="p-sec"><div class="p-lbl">Claims Handled (${vc.length})</div>
+      ${vc.length?`<div class="claims-grid">${vc.map(c=>`<div class="claim-mini" onclick="sClaim('${c.id}')"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span class="mono">${c.num}</span>${bs(c.status)}</div><div style="font-size:13px;color:var(--text2)">${esc(c.issue)}</div><div style="font-size:11px;color:var(--text3);margin-top:3px">${esc(c.customerName)}</div></div>`).join('')}</div>`:'<p style="font-size:13px;color:var(--text3)">No claims assigned yet.</p>'}
     </div>
     <div class="p-actions">
       <button class="btn-sm" onclick="openEditModal('vendors','${id}')">Edit Vendor</button>
@@ -968,119 +903,108 @@ function sVend(id) {
   openPanel();
 }
 
-// ── STATUS UPDATE ───────────────────────────────────────────
-function updClaimStatus(id, status) {
+// ── CLAIM STATUS UPDATE ───────────────────────────────────────
+async function updClaimStatus(id, status) {
   const c = claims.find(x => x.id === id); if (!c) return;
   c.status = status;
-  persist();
+  await db.from('claims').update({ status }).eq('id', id);
   sClaim(id);
   if (view === 'claims') rClaim();
   if (view === 'dashboard') rDash();
   toast('Status updated');
 }
 
-// ── FILTERS ─────────────────────────────────────────────────
+// ── FILTERS ──────────────────────────────────────────────────
 function fCust(f,btn){ cf=f; setFilter('#v-customers',btn); rCust(); }
 function fClaim(f,btn){ clf=f; setFilter('#v-claims',btn); rClaim(); }
 function fVend(f,btn){ vf=f; setFilter('#v-vendors',btn); rVend(); }
 function fPol(f,btn){ pf=f; setFilter('#v-policies',btn); rPol(); }
-function setFilter(scope, btn) {
-  document.querySelectorAll(scope + ' .f-btn').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-}
+function setFilter(scope,btn){ document.querySelectorAll(scope+' .f-btn').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); }
 
-// ── MODAL FORMS ─────────────────────────────────────────────
+// ── FORMS ────────────────────────────────────────────────────
 const FORMS = {
   customers: {
-    addTitle: 'Add customer',
-    editTitle: 'Edit customer',
-    fields: () => {
-      const vOpts = vendors.map(v => `<option value="${v.id}">${esc(v.co)}</option>`).join('');
-      return `
-      <div class="fr"><div class="fg"><label>First Name *</label><input id="f-fname" type="text" placeholder="Maria" required></div>
-      <div class="fg"><label>Last Name *</label><input id="f-lname" type="text" placeholder="Santos" required></div></div>
-      <div class="fr"><div class="fg"><label>Phone *</label><input id="f-phone" type="tel" placeholder="(718) 555-0000"></div>
+    addTitle:'Add customer', editTitle:'Edit customer',
+    fields: () => `
+      <div class="fr"><div class="fg"><label>First Name *</label><input id="f-fname" type="text" placeholder="Maria"></div>
+      <div class="fg"><label>Last Name *</label><input id="f-lname" type="text" placeholder="Santos"></div></div>
+      <div class="fr"><div class="fg"><label>Phone</label><input id="f-phone" type="tel" placeholder="(718) 555-0000"></div>
       <div class="fg"><label>Email</label><input id="f-email" type="email" placeholder="email@example.com"></div></div>
       <div class="fg"><label>Property Address *</label><input id="f-address" type="text" placeholder="123 Main St, Brooklyn, NY 11201"></div>
-      <div class="fr"><div class="fg"><label>Plan *</label><select id="f-plan"><option>Basic</option><option>Comprehensive</option><option>Premium</option></select></div>
+      <div class="fr"><div class="fg"><label>Plan</label><select id="f-plan"><option>Basic</option><option>Comprehensive</option><option>Premium</option></select></div>
       <div class="fg"><label>Status</label><select id="f-status"><option value="active">Active</option><option value="pending">Pending</option><option value="expired">Expired</option></select></div></div>
       <div class="fr"><div class="fg"><label>Start Date</label><input id="f-since" type="date"></div>
       <div class="fg"><label>Expiry Date</label><input id="f-expiry" type="date"></div></div>
-      <div class="fg"><label>Notes</label><textarea id="f-notes" placeholder="Internal notes..."></textarea></div>`;
-    },
+      <div class="fg"><label>Notes</label><textarea id="f-notes" placeholder="Internal notes..."></textarea></div>`,
     populate: (id) => {
       const c = customers.find(x => x.id === id); if (!c) return;
-      const [fn, ...ln] = c.name.split(' ');
-      document.getElementById('f-fname').value = fn || '';
-      document.getElementById('f-lname').value = ln.join(' ') || '';
-      document.getElementById('f-phone').value = c.phone || '';
-      document.getElementById('f-email').value = c.email || '';
-      document.getElementById('f-address').value = c.address || '';
-      document.getElementById('f-plan').value = c.plan || 'Basic';
-      document.getElementById('f-status').value = c.status || 'active';
-      document.getElementById('f-since').value = c.since || '';
-      document.getElementById('f-expiry').value = c.expiry || '';
-      document.getElementById('f-notes').value = c.notes || '';
+      const [fn,...ln] = c.name.split(' ');
+      document.getElementById('f-fname').value = fn||'';
+      document.getElementById('f-lname').value = ln.join(' ')||'';
+      document.getElementById('f-phone').value = c.phone||'';
+      document.getElementById('f-email').value = c.email||'';
+      document.getElementById('f-address').value = c.address||'';
+      document.getElementById('f-plan').value = c.plan||'Basic';
+      document.getElementById('f-status').value = c.status||'active';
+      document.getElementById('f-since').value = c.since||'';
+      document.getElementById('f-expiry').value = c.expiry||'';
+      document.getElementById('f-notes').value = c.notes||'';
     },
-    save: (id) => {
+    save: async (id) => {
       const fname = document.getElementById('f-fname').value.trim();
-      const lname = document.getElementById('f-lname').value.trim();
       if (!fname) { alert('First name is required'); return false; }
-      const phone = document.getElementById('f-phone').value.trim();
       const address = document.getElementById('f-address').value.trim();
       if (!address) { alert('Address is required'); return false; }
+      const since = document.getElementById('f-since').value;
       const data = {
-        name: fname + (lname ? ' ' + lname : ''),
-        phone, email: document.getElementById('f-email').value.trim(),
+        name: fname + (document.getElementById('f-lname').value.trim() ? ' ' + document.getElementById('f-lname').value.trim() : ''),
+        phone: document.getElementById('f-phone').value.trim(),
+        email: document.getElementById('f-email').value.trim(),
         address, plan: document.getElementById('f-plan').value,
         status: document.getElementById('f-status').value,
-        since: document.getElementById('f-since').value,
-        renewed: document.getElementById('f-since').value,
-        expiry: document.getElementById('f-expiry').value,
+        since: since||null, renewed: since||null,
+        expiry: document.getElementById('f-expiry').value||null,
         notes: document.getElementById('f-notes').value.trim(),
       };
       if (id) {
+        await db.from('customers').update(data).eq('id', id);
         const i = customers.findIndex(x => x.id === id);
-        customers[i] = { ...customers[i], ...data };
+        customers[i] = { ...customers[i], ...data, since:data.since||'', renewed:data.renewed||'', expiry:data.expiry||'' };
       } else {
-        const newId = uid('c');
-        customers.push({ id: newId, policy: nextPolicyNum(), ...data });
+        const policy = nextPolicyNum();
+        const { data: row } = await db.from('customers').insert({ ...data, policy }).select().single();
+        if (row) customers.unshift(mapCustomer(row));
       }
       return true;
     }
   },
   claims: {
-    addTitle: 'File new claim',
-    editTitle: 'Edit claim',
+    addTitle:'File new claim', editTitle:'Edit claim',
     fields: () => {
-      const custOpts = customers.map(c => `<option value="${c.id}" data-policy="${c.policy}">${esc(c.name)} — ${c.policy}</option>`).join('');
-      const vendOpts = vendors.map(v => `<option value="${v.id}">${esc(v.co)}</option>`).join('');
+      const custOpts = customers.map(c=>`<option value="${c.id}" data-policy="${c.policy}">${esc(c.name)} — ${c.policy}</option>`).join('');
+      const vendOpts = vendors.map(v=>`<option value="${v.id}">${esc(v.co)}</option>`).join('');
       return `
-      <div class="fg"><label>Customer *</label>
-        <select id="f-cust"><option value="">Select customer...</option>${custOpts}</select></div>
+      <div class="fg"><label>Customer *</label><select id="f-cust"><option value="">Select customer...</option>${custOpts}</select></div>
       <div class="fg"><label>Issue Description *</label><textarea id="f-issue" placeholder="Describe the problem..." rows="2"></textarea></div>
-      <div class="fr"><div class="fg"><label>Category *</label>
-        <select id="f-cat"><option value="plumbing">Plumbing</option><option value="electrical">Electrical</option><option value="hvac">HVAC</option><option value="appliance">Appliance</option><option value="roofing">Roofing</option><option value="general">General</option></select></div>
-      <div class="fg"><label>Assign Vendor</label>
-        <select id="f-vend"><option value="">Unassigned</option>${vendOpts}</select></div></div>
+      <div class="fr"><div class="fg"><label>Category</label><select id="f-cat"><option value="plumbing">Plumbing</option><option value="electrical">Electrical</option><option value="hvac">HVAC</option><option value="appliance">Appliance</option><option value="roofing">Roofing</option><option value="general">General</option></select></div>
+      <div class="fg"><label>Assign Vendor</label><select id="f-vend"><option value="">Unassigned</option>${vendOpts}</select></div></div>
       <div class="fr"><div class="fg"><label>Estimated Cost</label><input id="f-amt" type="text" placeholder="$0.00"></div>
       <div class="fg"><label>Date Filed</label><input id="f-filed" type="date"></div></div>
-      <div class="fg"><label>Status</label>
-        <select id="f-status"><option value="open">Open</option><option value="progress">In Progress</option><option value="closed">Closed</option></select></div>
+      <div class="fg"><label>Status</label><select id="f-status"><option value="open">Open</option><option value="progress">In Progress</option><option value="closed">Closed</option></select></div>
       <div class="fg"><label>Notes</label><textarea id="f-notes" placeholder="Internal notes..."></textarea></div>`;
     },
     populate: (id) => {
       const c = claims.find(x => x.id === id); if (!c) return;
-      document.getElementById('f-cust').value = c.customerId || '';
-      document.getElementById('f-issue').value = c.issue || '';
-      document.getElementById('f-cat').value = c.cat || 'plumbing';
-      document.getElementById('f-vend').value = c.vendorId || '';
-      document.getElementById('f-amt').value = c.amount || '';
-      document.getElementById('f-filed').value = c.filed || '';
-      document.getElementById('f-status').value = c.status || 'open';
-      document.getElementById('f-notes').value = c.notes || '';
+      document.getElementById('f-cust').value = c.customerId||'';
+      document.getElementById('f-issue').value = c.issue||'';
+      document.getElementById('f-cat').value = c.cat||'general';
+      document.getElementById('f-vend').value = c.vendorId||'';
+      document.getElementById('f-amt').value = c.amount||'';
+      document.getElementById('f-filed').value = c.filed||'';
+      document.getElementById('f-status').value = c.status||'open';
+      document.getElementById('f-notes').value = c.notes||'';
     },
-    save: (id) => {
+    save: async (id) => {
       const custId = document.getElementById('f-cust').value;
       const issue = document.getElementById('f-issue').value.trim();
       if (!custId) { alert('Please select a customer'); return false; }
@@ -1090,36 +1014,33 @@ const FORMS = {
       const vend = vendors.find(x => x.id === vendId);
       const today = new Date().toISOString().slice(0,10);
       const data = {
-        customerId: custId,
-        customerName: cust ? cust.name : '',
-        policy: cust ? cust.policy : '',
-        issue,
+        customer_id: custId, customer_name: cust?cust.name:'',
+        policy: cust?cust.policy:'', issue,
         cat: document.getElementById('f-cat').value,
-        vendorId: vendId || '',
-        vendorName: vend ? vend.co : 'Unassigned',
-        amount: document.getElementById('f-amt').value.trim() || 'TBD',
-        filed: document.getElementById('f-filed').value || today,
+        vendor_id: vendId||null, vendor_name: vend?vend.co:'Unassigned',
+        amount: document.getElementById('f-amt').value.trim()||'TBD',
+        filed: document.getElementById('f-filed').value||today,
         status: document.getElementById('f-status').value,
         notes: document.getElementById('f-notes').value.trim(),
       };
       if (id) {
+        await db.from('claims').update(data).eq('id', id);
         const i = claims.findIndex(x => x.id === id);
-        claims[i] = { ...claims[i], ...data };
+        claims[i] = { ...claims[i], ...mapClaim({...data, id}) };
       } else {
-        claims.push({ id: uid('cl'), num: nextClaimNum(), ...data });
+        const num = nextClaimNum();
+        const { data: row } = await db.from('claims').insert({ ...data, num }).select().single();
+        if (row) claims.unshift(mapClaim(row));
       }
       return true;
     }
   },
   vendors: {
-    addTitle: 'Add vendor',
-    editTitle: 'Edit vendor',
+    addTitle:'Add vendor', editTitle:'Edit vendor',
     fields: () => `
       <div class="fg"><label>Company Name *</label><input id="f-co" type="text" placeholder="ABC Plumbing Inc."></div>
-      <div class="fr"><div class="fg"><label>Category *</label>
-        <select id="f-cat"><option value="plumbing">Plumbing</option><option value="electrical">Electrical</option><option value="hvac">HVAC</option><option value="appliance">Appliance</option><option value="roofing">Roofing</option><option value="general">General</option></select></div>
-      <div class="fg"><label>Licensed?</label>
-        <select id="f-lic"><option value="1">Yes</option><option value="0">No</option></select></div></div>
+      <div class="fr"><div class="fg"><label>Category</label><select id="f-cat"><option value="plumbing">Plumbing</option><option value="electrical">Electrical</option><option value="hvac">HVAC</option><option value="appliance">Appliance</option><option value="roofing">Roofing</option><option value="general">General</option></select></div>
+      <div class="fg"><label>Licensed?</label><select id="f-lic"><option value="1">Yes</option><option value="0">No</option></select></div></div>
       <div class="fr"><div class="fg"><label>Contact Name</label><input id="f-contact" type="text" placeholder="Jane Smith"></div>
       <div class="fg"><label>Phone</label><input id="f-phone" type="tel" placeholder="(718) 555-0000"></div></div>
       <div class="fg"><label>Email</label><input id="f-email" type="email" placeholder="dispatch@company.com"></div>
@@ -1129,48 +1050,47 @@ const FORMS = {
       <div class="fg"><label>Notes</label><textarea id="f-notes" placeholder="Specialties, availability..."></textarea></div>`,
     populate: (id) => {
       const v = vendors.find(x => x.id === id); if (!v) return;
-      document.getElementById('f-co').value = v.co || '';
-      document.getElementById('f-cat').value = v.cat || 'plumbing';
-      document.getElementById('f-lic').value = v.lic ? '1' : '0';
-      document.getElementById('f-contact').value = v.contact || '';
-      document.getElementById('f-phone').value = v.phone || '';
-      document.getElementById('f-email').value = v.email || '';
-      document.getElementById('f-area').value = v.area || '';
-      document.getElementById('f-rating').value = v.rating || '';
-      document.getElementById('f-jobs').value = v.jobs || '';
-      document.getElementById('f-notes').value = v.notes || '';
+      document.getElementById('f-co').value = v.co||'';
+      document.getElementById('f-cat').value = v.cat||'general';
+      document.getElementById('f-lic').value = v.lic?'1':'0';
+      document.getElementById('f-contact').value = v.contact||'';
+      document.getElementById('f-phone').value = v.phone||'';
+      document.getElementById('f-email').value = v.email||'';
+      document.getElementById('f-area').value = v.area||'';
+      document.getElementById('f-rating').value = v.rating||'';
+      document.getElementById('f-jobs').value = v.jobs||'';
+      document.getElementById('f-notes').value = v.notes||'';
     },
-    save: (id) => {
+    save: async (id) => {
       const co = document.getElementById('f-co').value.trim();
       if (!co) { alert('Company name is required'); return false; }
       const data = {
         co, cat: document.getElementById('f-cat').value,
-        lic: document.getElementById('f-lic').value === '1',
+        lic: document.getElementById('f-lic').value==='1',
         contact: document.getElementById('f-contact').value.trim(),
         phone: document.getElementById('f-phone').value.trim(),
         email: document.getElementById('f-email').value.trim(),
         area: document.getElementById('f-area').value.trim(),
-        rating: document.getElementById('f-rating').value || '0.0',
-        jobs: parseInt(document.getElementById('f-jobs').value) || 0,
+        rating: document.getElementById('f-rating').value||'0.0',
+        jobs: parseInt(document.getElementById('f-jobs').value)||0,
         notes: document.getElementById('f-notes').value.trim(),
       };
       if (id) {
+        await db.from('vendors').update(data).eq('id', id);
         const i = vendors.findIndex(x => x.id === id);
         vendors[i] = { ...vendors[i], ...data };
       } else {
-        vendors.push({ id: uid('v'), ...data });
+        const { data: row } = await db.from('vendors').insert(data).select().single();
+        if (row) vendors.unshift(mapVendor(row));
       }
       return true;
     }
   }
 };
 
-let currentForm = null;
-
 function openAddModal() {
-  const type = view === 'dashboard' ? 'customers' : view;
-  editId = null; editType = type;
-  currentForm = FORMS[type];
+  const type = view==='dashboard'?'customers':view;
+  editId=null; editType=type; currentForm=FORMS[type];
   if (!currentForm) return;
   document.getElementById('m-title').textContent = currentForm.addTitle;
   document.getElementById('m-body').innerHTML = currentForm.fields();
@@ -1178,8 +1098,7 @@ function openAddModal() {
 }
 
 function openEditModal(type, id) {
-  editId = id; editType = type;
-  currentForm = FORMS[type];
+  editId=id; editType=type; currentForm=FORMS[type];
   if (!currentForm) return;
   document.getElementById('m-title').textContent = currentForm.editTitle;
   document.getElementById('m-body').innerHTML = currentForm.fields();
@@ -1187,11 +1106,12 @@ function openEditModal(type, id) {
   document.getElementById('modal-overlay').classList.add('open');
 }
 
-function saveRecord() {
+async function saveRecord() {
   if (!currentForm) return;
-  const ok = currentForm.save(editId);
+  showLoading(true);
+  const ok = await currentForm.save(editId);
+  showLoading(false);
   if (!ok) return;
-  persist();
   closeModal();
   closePanel();
   render();
@@ -1200,28 +1120,28 @@ function saveRecord() {
 
 function closeModal() {
   document.getElementById('modal-overlay').classList.remove('open');
-  editId = null; editType = null; currentForm = null;
+  editId=null; editType=null; currentForm=null;
 }
 
-// ── DELETE ──────────────────────────────────────────────────
+// ── DELETE ────────────────────────────────────────────────────
 function confirmDelete(type, id, label) {
   pendingDelete = { type, id };
-  document.getElementById('confirm-title').textContent = 'Delete ' + (type === 'customers' ? 'customer' : type === 'claims' ? 'claim' : 'vendor') + '?';
+  document.getElementById('confirm-title').textContent = 'Delete ' + (type==='customers'?'customer':type==='claims'?'claim':'vendor') + '?';
   document.getElementById('confirm-msg').textContent = 'This will permanently delete "' + label + '". This cannot be undone.';
   document.getElementById('confirm-overlay').classList.add('open');
   document.getElementById('confirm-ok').onclick = doDelete;
 }
 
-function doDelete() {
+async function doDelete() {
   if (!pendingDelete) return;
   const { type, id } = pendingDelete;
-  if (type === 'customers') customers = customers.filter(x => x.id !== id);
-  if (type === 'claims')    claims    = claims.filter(x => x.id !== id);
-  if (type === 'vendors')   vendors   = vendors.filter(x => x.id !== id);
-  persist();
-  closeConfirm();
-  closePanel();
-  render();
+  showLoading(true);
+  await db.from(type).delete().eq('id', id);
+  if (type==='customers') customers = customers.filter(x => x.id !== id);
+  if (type==='claims')    claims    = claims.filter(x => x.id !== id);
+  if (type==='vendors')   vendors   = vendors.filter(x => x.id !== id);
+  showLoading(false);
+  closeConfirm(); closePanel(); render();
   toast('Record deleted');
 }
 
@@ -1230,222 +1150,102 @@ function closeConfirm() {
   pendingDelete = null;
 }
 
-// ── PANEL ───────────────────────────────────────────────────
+// ── PANEL ─────────────────────────────────────────────────────
 function openPanel() {
   const p = document.getElementById('panel');
   p.classList.add('open');
-  p.onclick = function(e){ if(e.target === p) closePanel(); };
+  p.onclick = e => { if (e.target === p) closePanel(); };
 }
 function closePanel() { document.getElementById('panel').classList.remove('open'); }
 
-// ── HELPERS ─────────────────────────────────────────────────
-function esc(s) {
-  if (!s) return '';
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-function ini(n) { return (n||'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(); }
+// ── HELPERS ───────────────────────────────────────────────────
+function esc(s) { if(!s)return''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function ini(n) { return(n||'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(); }
 function fmt(d) {
-  if (!d || d === '-') return '-';
-  try {
-    const dt = new Date(d + 'T12:00:00');
-    return dt.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
-  } catch(e) { return d; }
+  if(!d||d==='-')return'—';
+  try { return new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
+  catch(e){return d;}
 }
-function emptyRow(cols, msg) {
-  return `<tr class="empty-row"><td colspan="${cols}">${msg || 'No records found'}</td></tr>`;
-}
-function bs(s) {
-  const m = { active:['b-active','Active'], expired:['b-expired','Expired'], pending:['b-pending','Pending'],
-    open:['b-open','Open'], closed:['b-closed','Closed'], progress:['b-progress','In Progress'] };
-  const [c,l] = m[s] || ['b-pending', s];
-  return `<span class="badge ${c}">${l}</span>`;
-}
-function bc(c) {
-  const m = { plumbing:['b-plumbing','Plumbing'], electrical:['b-electrical','Electrical'],
-    hvac:['b-hvac','HVAC'], appliance:['b-appliance','Appliance'],
-    roofing:['b-roofing','Roofing'], general:['b-general','General'] };
-  const [cl,l] = m[c] || ['b-general', c];
-  return `<span class="badge ${cl}">${l}</span>`;
-}
-function toast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2400);
-}
+function emptyRow(cols,msg){ return`<tr class="empty-row"><td colspan="${cols}">${msg||'No records found'}</td></tr>`; }
+function bs(s){ const m={active:['b-active','Active'],expired:['b-expired','Expired'],pending:['b-pending','Pending'],open:['b-open','Open'],closed:['b-closed','Closed'],progress:['b-progress','In Progress']}; const[c,l]=m[s]||['b-pending',s]; return`<span class="badge ${c}">${l}</span>`; }
+function bc(c){ const m={plumbing:['b-plumbing','Plumbing'],electrical:['b-electrical','Electrical'],hvac:['b-hvac','HVAC'],appliance:['b-appliance','Appliance'],roofing:['b-roofing','Roofing'],general:['b-general','General']}; const[cl,l]=m[c]||['b-general',c]; return`<span class="badge ${cl}">${l}</span>`; }
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2400); }
 
-// ── KEYBOARD ────────────────────────────────────────────────
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeModal(); closePanel(); closeConfirm(); }
+  if (e.key==='Escape') { closeModal(); closePanel(); closeConfirm(); }
 });
 
-// ── INIT ────────────────────────────────────────────────────
-render();
-
+// ── QUOTE BUILDER ─────────────────────────────────────────────
 const QB = (function(){
-  let _term = 1;
-  let _price = 700;
-  let _disc = 0;
+  let _term=1, _price=700, _disc=0;
+  const TERM_CONFIG={ 1:{max:700,bonus:'1 Month Free',label:'1 Year + 1 Mo Free',years:1}, 3:{max:600,bonus:'6 Months Free',label:'3 Years + 6 Mos Free',years:3}, 5:{max:500,bonus:'1 Year Free',label:'5 Years + 1 Yr Free',years:5} };
 
-  const TERM_CONFIG = {
-    1: { max:700, bonus:'1 Month Free',  label:'1 Year + 1 Mo Free',   years:1 },
-    3: { max:600, bonus:'6 Months Free', label:'3 Years + 6 Mos Free', years:3 },
-    5: { max:500, bonus:'1 Year Free',   label:'5 Years + 1 Yr Free',  years:5 },
-  };
+  function setTerm(t,el){ _term=t; document.querySelectorAll('.qb-term-btn').forEach(b=>b.classList.remove('on')); el.classList.add('on'); const cfg=TERM_CONFIG[t]; _price=Math.min(_price,cfg.max); document.getElementById('qb-price-slider').max=cfg.max; document.getElementById('qb-price-slider').value=_price; document.getElementById('qb-price-input').max=cfg.max; document.getElementById('qb-price-input').value=_price; calc(); }
+  function setPrice(val){ const cfg=TERM_CONFIG[_term]; _price=Math.min(Math.max(parseInt(val)||400,400),cfg.max); document.getElementById('qb-price-slider').value=_price; document.getElementById('qb-price-input').value=_price; calc(); }
+  function setDisc(d,el){ _disc=d; document.querySelectorAll('.qb-disc-btn').forEach(b=>b.classList.remove('on')); el.classList.add('on'); calc(); }
 
-  function setTerm(t, el) {
-    _term = t;
-    document.querySelectorAll('.qb-term-btn').forEach(b => b.classList.remove('on'));
-    el.classList.add('on');
-    const cfg = TERM_CONFIG[t];
-    _price = Math.min(_price, cfg.max);
-    document.getElementById('qb-price-slider').max = cfg.max;
-    document.getElementById('qb-price-slider').value = _price;
-    document.getElementById('qb-price-input').max = cfg.max;
-    document.getElementById('qb-price-input').value = _price;
-    calc();
+  function calc(){
+    const cfg=TERM_CONFIG[_term];
+    const addons=[...document.querySelectorAll('.qb-addon input:checked')].map(i=>i.value);
+    const addonTotal=addons.length*20;
+    const afterDisc=_price*(1-_disc/100);
+    const finalYearly=afterDisc+addonTotal;
+    const totalDue=finalYearly*cfg.years;
+    const monthly=(finalYearly+100)/12;
+    document.getElementById('qs-term').textContent=cfg.label;
+    document.getElementById('qs-base').textContent='$'+_price.toFixed(2);
+    document.getElementById('qs-disc').textContent=_disc+'%'+(_disc>0?' (-$'+(_price*_disc/100).toFixed(2)+')':'');
+    document.getElementById('qs-after-disc').textContent='$'+afterDisc.toFixed(2);
+    document.getElementById('qs-addons').textContent='$'+addonTotal.toFixed(2)+'/yr'+(addons.length?' ('+addons.length+' add-on'+(addons.length>1?'s':'')+')'  :'');
+    document.getElementById('qs-yearly').textContent='$'+finalYearly.toFixed(2);
+    document.getElementById('qs-monthly').textContent='$'+monthly.toFixed(2)+'/mo';
+    document.getElementById('qs-bonus').textContent=cfg.bonus;
+    document.getElementById('qs-total').textContent='$'+totalDue.toFixed(2);
+    document.getElementById('qs-addon-tags').innerHTML=addons.map(a=>`<span class="qb-tag">${a}</span>`).join('');
   }
 
-  function setPrice(val) {
-    const cfg = TERM_CONFIG[_term];
-    _price = Math.min(Math.max(parseInt(val)||400, 400), cfg.max);
-    document.getElementById('qb-price-slider').value = _price;
-    document.getElementById('qb-price-input').value = _price;
-    calc();
+  function copyQuote(){
+    const cfg=TERM_CONFIG[_term];
+    const addons=[...document.querySelectorAll('.qb-addon input:checked')].map(i=>i.value);
+    const addonTotal=addons.length*20;
+    const afterDisc=_price*(1-_disc/100);
+    const finalYearly=afterDisc+addonTotal;
+    const totalDue=finalYearly*cfg.years;
+    const monthly=(finalYearly+100)/12;
+    const custEl=document.getElementById('qb-customer');
+    const custName=custEl.value?custEl.options[custEl.selectedIndex].text:'Customer';
+    const txt=['=== DWELL HOME WARRANTY QUOTE ===','Customer: '+custName,'Term: '+cfg.label,'Base Price: $'+_price.toFixed(2)+'/yr',_disc>0?'Discount: '+_disc+'%':null,'Final Yearly: $'+finalYearly.toFixed(2),addons.length?'Add-ons: '+addons.join(', '):null,'Monthly Equivalent: $'+monthly.toFixed(2)+'/mo','Bonus Coverage: '+cfg.bonus,'','TOTAL DUE TODAY: $'+totalDue.toFixed(2),'Paid in full — Policy starts in 30 days','================================'].filter(Boolean).join('\n');
+    navigator.clipboard.writeText(txt).then(()=>toast('Quote copied to clipboard'));
   }
 
-  function setDisc(d, el) {
-    _disc = d;
-    document.querySelectorAll('.qb-disc-btn').forEach(b => b.classList.remove('on'));
-    el.classList.add('on');
-    calc();
+  function convertToPolicy(){
+    const custEl=document.getElementById('qb-customer');
+    if(!custEl.value){alert('Please select a customer first.');return;}
+    openEditModal('customers',custEl.value);
   }
 
-  function calc() {
-    const cfg = TERM_CONFIG[_term];
-    const addons = [...document.querySelectorAll('.qb-addon input:checked')].map(i => i.value);
-    const addonTotal = addons.length * 20;
-    const afterDisc = _price * (1 - _disc / 100);
-    const finalYearly = afterDisc + addonTotal;
-    const totalDue = finalYearly * cfg.years;
-    const monthly = (finalYearly + 100) / 12;
-
-    document.getElementById('qs-term').textContent = cfg.label;
-    document.getElementById('qs-base').textContent = '$' + _price.toFixed(2);
-    document.getElementById('qs-disc').textContent = _disc + '%' + (_disc > 0 ? ' (-$' + (_price * _disc/100).toFixed(2) + ')' : '');
-    document.getElementById('qs-after-disc').textContent = '$' + afterDisc.toFixed(2);
-    document.getElementById('qs-addons').textContent = '$' + addonTotal.toFixed(2) + '/yr' + (addons.length ? ' (' + addons.length + ' add-on' + (addons.length>1?'s':'') + ')' : '');
-    document.getElementById('qs-yearly').textContent = '$' + finalYearly.toFixed(2);
-    document.getElementById('qs-monthly').textContent = '$' + monthly.toFixed(2) + '/mo';
-    document.getElementById('qs-bonus').textContent = cfg.bonus;
-    document.getElementById('qs-total').textContent = '$' + totalDue.toFixed(2);
-
-    const tagsEl = document.getElementById('qs-addon-tags');
-    tagsEl.innerHTML = addons.map(a => `<span class="qb-tag">${a}</span>`).join('');
+  function populateCustomers(){
+    const sel=document.getElementById('qb-customer'); if(!sel)return;
+    const current=sel.value;
+    sel.innerHTML='<option value="">— New customer / walk-in —</option>';
+    customers.forEach(c=>{ const opt=document.createElement('option'); opt.value=c.id; opt.textContent=c.name+' — '+c.policy; sel.appendChild(opt); });
+    if(current)sel.value=current;
   }
 
-  function copyQuote() {
-    const cfg = TERM_CONFIG[_term];
-    const addons = [...document.querySelectorAll('.qb-addon input:checked')].map(i => i.value);
-    const addonTotal = addons.length * 20;
-    const afterDisc = _price * (1 - _disc / 100);
-    const finalYearly = afterDisc + addonTotal;
-    const totalDue = finalYearly * cfg.years;
-    const monthly = (finalYearly + 100) / 12;
-    const custEl = document.getElementById('qb-customer');
-    const custName = custEl.value ? custEl.options[custEl.selectedIndex].text : 'Customer';
+  const US_STATES=['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'];
+  const PLAN_DATA={Basic:{price1:700,price3:600,price5:500,color:'b-expired'},Comprehensive:{price1:700,price3:600,price5:500,color:'b-progress'},Premium:{price1:700,price3:600,price5:500,color:'b-plumbing'}};
 
-    const txt = [
-      '=== DWELL HOME WARRANTY QUOTE ===',
-      'Customer: ' + custName,
-      'Term: ' + cfg.label,
-      'Base Price: $' + _price.toFixed(2) + '/yr',
-      _disc > 0 ? 'Discount: ' + _disc + '%' : null,
-      'Final Yearly: $' + finalYearly.toFixed(2),
-      addons.length ? 'Add-ons: ' + addons.join(', ') : null,
-      'Monthly Equivalent: $' + monthly.toFixed(2) + '/mo',
-      'Bonus Coverage: ' + cfg.bonus,
-      '',
-      'TOTAL DUE TODAY: $' + totalDue.toFixed(2),
-      'Paid in full — Policy starts in 30 days',
-      '================================',
-    ].filter(Boolean).join('\n');
-
-    navigator.clipboard.writeText(txt).then(() => {
-      if(typeof toast === 'function') toast('Quote copied to clipboard');
-    });
+  function renderPlans(filter){
+    const grid=document.getElementById('plan-grid'); if(!grid)return;
+    const q=(filter||'').toLowerCase();
+    const states=q?US_STATES.filter(s=>s.toLowerCase().includes(q)):US_STATES;
+    grid.innerHTML=states.map(state=>`<div class="plan-state-card"><div class="plan-state-name">${state}</div><div class="plan-row-head"><span>Plan</span><span>1 Yr</span><span>3 Yr</span><span>5 Yr</span></div>${Object.entries(PLAN_DATA).map(([name,p])=>`<div class="plan-row"><span><span class="badge ${p.color}" style="font-size:10px;padding:2px 8px">${name}</span></span><span style="color:var(--text2)">$${p.price1}</span><span style="color:var(--text2)">$${p.price3}</span><span style="color:var(--text2)">$${p.price5}</span></div>`).join('')}</div>`).join('');
   }
 
-  function convertToPolicy() {
-    const custEl = document.getElementById('qb-customer');
-    if (!custEl.value) { alert('Please select a customer first to convert to a policy.'); return; }
-    if (typeof openEditModal === 'function') {
-      openEditModal('customers', custEl.value);
-      if(typeof toast === 'function') toast('Open the customer record to update their policy details');
-    }
-  }
+  function filterPlans(q){renderPlans(q);}
+  function initSalesView(){ populateCustomers(); renderPlans(); calc(); }
 
-  function populateCustomers() {
-    const sel = document.getElementById('qb-customer');
-    if (!sel) return;
-    const current = sel.value;
-    sel.innerHTML = '<option value="">— New customer / walk-in —</option>';
-    (typeof customers !== 'undefined' ? customers : []).forEach(c => {
-      const opt = document.createElement('option');
-      opt.value = c.id;
-      opt.textContent = c.name + ' — ' + c.policy;
-      sel.appendChild(opt);
-    });
-    if (current) sel.value = current;
-  }
-
-  // ── PLAN DIRECTORY DATA ──────────────────────────────────
-  const US_STATES = [
-    'Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut',
-    'Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa',
-    'Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan',
-    'Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire',
-    'New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio',
-    'Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota',
-    'Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia',
-    'Wisconsin','Wyoming'
-  ];
-
-  const PLAN_DATA = {
-    Basic:         { price1:700, price3:600, price5:500, color:'b-expired', covers:['HVAC','Plumbing','Electrical','Water Heater'] },
-    Comprehensive: { price1:700, price3:600, price5:500, color:'b-progress', covers:['HVAC','Plumbing','Electrical','Water Heater','Appliances','Garage Door'] },
-    Premium:       { price1:700, price3:600, price5:500, color:'b-plumbing', covers:['HVAC','Plumbing','Electrical','Water Heater','Appliances','Garage Door','Roof Leak','Pool Option'] },
-  };
-
-  function renderPlans(filter) {
-    const grid = document.getElementById('plan-grid');
-    if (!grid) return;
-    const q = (filter||'').toLowerCase();
-    const states = q ? US_STATES.filter(s => s.toLowerCase().includes(q)) : US_STATES;
-
-    grid.innerHTML = states.map(state => `
-      <div class="plan-state-card">
-        <div class="plan-state-name">${state}</div>
-        <div class="plan-row-head"><span>Plan</span><span>1 Yr</span><span>3 Yr</span><span>5 Yr</span></div>
-        ${Object.entries(PLAN_DATA).map(([name, p]) => `
-          <div class="plan-row">
-            <span><span class="badge ${p.color}" style="font-size:10px;padding:2px 8px">${name}</span></span>
-            <span style="color:var(--text2)">$${p.price1}</span>
-            <span style="color:var(--text2)">$${p.price3}</span>
-            <span style="color:var(--text2)">$${p.price5}</span>
-          </div>`).join('')}
-      </div>`).join('');
-  }
-
-  function filterPlans(q) { renderPlans(q); }
-
-  function initSalesView() {
-    populateCustomers();
-    renderPlans();
-    calc();
-  }
-
-  return { setTerm, setPrice, setDisc, calc, copyQuote, convertToPolicy, initSalesView, filterPlans, populateCustomers };
+  return{setTerm,setPrice,setDisc,calc,copyQuote,convertToPolicy,initSalesView,filterPlans,populateCustomers};
 })();
 </script>
 </body>
