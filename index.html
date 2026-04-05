@@ -293,8 +293,11 @@ td{padding:13px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;w
       <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>Vendors
     </div>
     <div class="s-group">Tools</div>
-    <div class="s-item" data-view="sales" onclick="nav('sales',this)">
-      <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Sales & Renewals
+    <div class="s-item" data-view="new-sale" onclick="nav('new-sale',this)">
+      <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>New Sale
+    </div>
+    <div class="s-item" data-view="renewals" onclick="nav('renewals',this)">
+      <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>Renewals
     </div>
     <div class="s-item" data-view="plans" onclick="nav('plans',this)">
       <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Plan Directory
@@ -445,100 +448,200 @@ td{padding:13px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;w
         </div>
       </div>
 
-      <!-- SALES & RENEWALS -->
-      <div id="v-sales" class="view">
-        <div style="display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:start">
+      <!-- NEW SALE -->
+      <div id="v-new-sale" class="view">
+        <div style="display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start">
+
+          <!-- LEFT: CUSTOMER + POLICY INFO -->
           <div>
             <div class="card" style="margin-bottom:16px">
-              <div class="card-head"><h2>Quote Builder</h2></div>
+              <div class="card-head"><h2>Customer Information</h2></div>
               <div style="padding:20px 24px">
-                <div class="fg" style="margin-bottom:18px">
-                  <label style="display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:6px">Customer (optional)</label>
-                  <select id="qb-customer" style="width:100%;padding:9px 13px;border:1px solid var(--border-soft);border-radius:10px;font-size:14px;font-family:var(--font);color:var(--text1);background:var(--lavender-bg)" onchange="QB.calc()">
-                    <option value="">— New customer / walk-in —</option>
-                  </select>
+                <div class="fr">
+                  <div class="fg"><label>First Name *</label><input id="ns-fname" type="text" placeholder="Maria"></div>
+                  <div class="fg"><label>Last Name *</label><input id="ns-lname" type="text" placeholder="Santos"></div>
                 </div>
+                <div class="fr">
+                  <div class="fg"><label>Phone</label><input id="ns-phone" type="tel" placeholder="(718) 555-0000"></div>
+                  <div class="fg"><label>Email</label><input id="ns-email" type="email" placeholder="email@example.com"></div>
+                </div>
+                <div class="fg"><label>Property Address *</label><input id="ns-address" type="text" placeholder="123 Main St, Brooklyn, NY 11201"></div>
+              </div>
+            </div>
+
+            <div class="card" style="margin-bottom:16px">
+              <div class="card-head"><h2>Policy Details</h2></div>
+              <div style="padding:20px 24px">
                 <div style="margin-bottom:18px">
                   <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:10px">Term</div>
                   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
-                    <div class="qb-term-btn on" data-term="1" onclick="QB.setTerm(1,this)"><div style="font-size:15px;font-weight:600">1 Year</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 1 Month Free</div><div style="font-size:12px;font-weight:500;color:var(--brand);margin-top:6px">$700/yr</div></div>
-                    <div class="qb-term-btn" data-term="3" onclick="QB.setTerm(3,this)"><div style="font-size:15px;font-weight:600">3 Years</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 6 Months Free</div><div style="font-size:12px;font-weight:500;color:var(--brand);margin-top:6px">$600/yr</div></div>
-                    <div class="qb-term-btn" data-term="5" onclick="QB.setTerm(5,this)"><div style="font-size:15px;font-weight:600">5 Years</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 1 Year Free</div><div style="font-size:12px;font-weight:500;color:var(--brand);margin-top:6px">$500/yr</div></div>
+                    <div class="qb-term-btn on" onclick="NS.setTerm(1,this)"><div style="font-size:15px;font-weight:600">1 Year</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 1 Month Free</div><div style="font-size:12px;color:var(--brand);margin-top:6px;font-weight:500">$700/yr</div></div>
+                    <div class="qb-term-btn" onclick="NS.setTerm(3,this)"><div style="font-size:15px;font-weight:600">3 Years</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 6 Months Free</div><div style="font-size:12px;color:var(--brand);margin-top:6px;font-weight:500">$600/yr</div></div>
+                    <div class="qb-term-btn" onclick="NS.setTerm(5,this)"><div style="font-size:15px;font-weight:600">5 Years</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 1 Year Free</div><div style="font-size:12px;color:var(--brand);margin-top:6px;font-weight:500">$500/yr</div></div>
                   </div>
                 </div>
-                <div style="margin-bottom:18px">
-                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:10px">Discount <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)">(max 30%)</span></div>
-                  <div style="display:flex;gap:8px;flex-wrap:wrap">
-                    <button class="qb-disc-btn on" onclick="QB.setDisc(0,this)">0%</button>
-                    <button class="qb-disc-btn" onclick="QB.setDisc(5,this)">5%</button>
-                    <button class="qb-disc-btn" onclick="QB.setDisc(10,this)">10%</button>
-                    <button class="qb-disc-btn" onclick="QB.setDisc(15,this)">15%</button>
-                    <button class="qb-disc-btn" onclick="QB.setDisc(20,this)">20%</button>
-                    <button class="qb-disc-btn" onclick="QB.setDisc(25,this)">25%</button>
-                    <button class="qb-disc-btn" onclick="QB.setDisc(30,this)">30%</button>
+                <div class="fr">
+                  <div class="fg"><label>Plan</label>
+                    <select id="ns-plan" style="width:100%;padding:9px 13px;border:1px solid var(--border-soft);border-radius:10px;font-size:14px;font-family:var(--font);color:var(--text1);background:var(--lavender-bg)">
+                      <option>Basic</option><option>Comprehensive</option><option>Premium</option>
+                    </select>
+                  </div>
+                  <div class="fg"><label>Service Call Fee</label>
+                    <select id="ns-svc" onchange="NS.calc()" style="width:100%;padding:9px 13px;border:1px solid var(--border-soft);border-radius:10px;font-size:14px;font-family:var(--font);color:var(--text1);background:var(--lavender-bg)">
+                      <option value="75">$75 per visit</option>
+                      <option value="100">$100 per visit</option>
+                      <option value="125">$125 per visit</option>
+                      <option value="150">$150 per visit</option>
+                    </select>
                   </div>
                 </div>
-                <div style="margin-bottom:18px">
-                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:10px">Service Call Fee</div>
+                <div style="margin-bottom:16px">
+                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:10px">Discount</div>
                   <div style="display:flex;gap:8px;flex-wrap:wrap">
-                    <button class="qb-disc-btn qb-svc-btn on" onclick="QB.setSvc(75,this)">$75</button>
-                    <button class="qb-disc-btn qb-svc-btn" onclick="QB.setSvc(100,this)">$100</button>
-                    <button class="qb-disc-btn qb-svc-btn" onclick="QB.setSvc(125,this)">$125</button>
-                    <button class="qb-disc-btn qb-svc-btn" onclick="QB.setSvc(150,this)">$150</button>
+                    <button class="qb-disc-btn on" onclick="NS.setDisc(0,this)">0%</button>
+                    <button class="qb-disc-btn" onclick="NS.setDisc(5,this)">5%</button>
+                    <button class="qb-disc-btn" onclick="NS.setDisc(10,this)">10%</button>
+                    <button class="qb-disc-btn" onclick="NS.setDisc(15,this)">15%</button>
+                    <button class="qb-disc-btn" onclick="NS.setDisc(20,this)">20%</button>
+                    <button class="qb-disc-btn" onclick="NS.setDisc(25,this)">25%</button>
+                    <button class="qb-disc-btn" onclick="NS.setDisc(30,this)">30%</button>
                   </div>
-                <div>
+                </div>
+                <div style="margin-bottom:16px">
                   <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:10px">Add-ons <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)">+$20/yr each</span></div>
                   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-                    <label class="qb-addon"><input type="checkbox" value="Pool" onchange="QB.calc()"><span>Pool</span></label>
-                    <label class="qb-addon"><input type="checkbox" value="Second Refrigerator" onchange="QB.calc()"><span>Second Refrigerator</span></label>
-                    <label class="qb-addon"><input type="checkbox" value="Septic" onchange="QB.calc()"><span>Septic</span></label>
-                    <label class="qb-addon"><input type="checkbox" value="Well Pump" onchange="QB.calc()"><span>Well Pump</span></label>
-                    <label class="qb-addon"><input type="checkbox" value="Ice Maker" onchange="QB.calc()"><span>Ice Maker</span></label>
-                    <label class="qb-addon"><input type="checkbox" value="Standalone Freezer" onchange="QB.calc()"><span>Standalone Freezer</span></label>
+                    <label class="qb-addon"><input type="checkbox" value="Pool" onchange="NS.calc()"><span>Pool</span></label>
+                    <label class="qb-addon"><input type="checkbox" value="Second Refrigerator" onchange="NS.calc()"><span>Second Refrigerator</span></label>
+                    <label class="qb-addon"><input type="checkbox" value="Septic" onchange="NS.calc()"><span>Septic</span></label>
+                    <label class="qb-addon"><input type="checkbox" value="Well Pump" onchange="NS.calc()"><span>Well Pump</span></label>
+                    <label class="qb-addon"><input type="checkbox" value="Ice Maker" onchange="NS.calc()"><span>Ice Maker</span></label>
+                    <label class="qb-addon"><input type="checkbox" value="Standalone Freezer" onchange="NS.calc()"><span>Standalone Freezer</span></label>
                   </div>
                 </div>
-                <div style="margin-top:18px;padding-top:18px;border-top:1px solid var(--border-soft)">
-                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:8px">Internal Notes</div>
-                  <textarea id="qb-notes" rows="2" placeholder="Add internal notes about this quote..." style="width:100%;padding:9px 13px;border:1px solid var(--border-soft);border-radius:10px;font-size:13px;font-family:var(--font);color:var(--text1);background:var(--lavender-bg);resize:vertical"></textarea>
-                  <div style="margin-top:10px;display:flex;align-items:center;gap:10px">
-                    <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2)">Assign Task To</div>
-                    <select id="qb-task-assign" style="flex:1;padding:7px 12px;border:1px solid var(--border-soft);border-radius:8px;font-size:13px;font-family:var(--font);color:var(--text1);background:var(--lavender-bg)">
-                      <option value="">No task</option>
-                      <option value="admin">Admin</option>
-                      <option value="manager">Manager</option>
-                      <option value="sales">Sales Rep</option>
-                    </select>
-                    <button class="btn-sm" onclick="QB.assignTask()" style="white-space:nowrap">Assign Task</button>
-                  </div>
+                <div class="fr">
+                  <div class="fg"><label>Start Date</label><input id="ns-start" type="date"></div>
+                  <div class="fg"><label>Expiry Date</label><input id="ns-expiry" type="date"></div>
+                </div>
+                <div class="fg"><label>Notes</label><textarea id="ns-notes" rows="2" placeholder="Internal notes..."></textarea></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-head"><h2>Payment Information</h2></div>
+              <div style="padding:20px 24px">
+                <div class="fg"><label>Cardholder Name</label><input id="ns-card-name" type="text" placeholder="Name as it appears on card"></div>
+                <div class="fg"><label>Card Number</label><input id="ns-card-num" type="text" placeholder="•••• •••• •••• ••••" maxlength="19" oninput="this.value=this.value.replace(/\D/g,'').replace(/(.{4})/g,'$1 ').trim()"></div>
+                <div class="fr">
+                  <div class="fg"><label>Expiry (MM/YY)</label><input id="ns-card-exp" type="text" placeholder="MM/YY" maxlength="5" oninput="if(this.value.length===2&&!this.value.includes('/'))this.value+='/'"></div>
+                  <div class="fg"><label>CVV</label><input id="ns-card-cvv" type="text" placeholder="•••" maxlength="4"></div>
+                </div>
+                <div style="background:var(--amber-bg);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--amber)">
+                  Card details are stored for your records. Process payment through your payment terminal.
                 </div>
               </div>
             </div>
           </div>
+
+          <!-- RIGHT: LIVE SUMMARY + PROCESS -->
           <div style="position:sticky;top:24px">
             <div class="card">
-              <div class="card-head"><h2>Quote Summary</h2></div>
+              <div class="card-head"><h2>Sale Summary</h2></div>
               <div style="padding:20px 24px">
                 <div style="margin-bottom:20px">
-                  <div class="qb-sum-row"><span class="qb-sum-label">Term</span><span id="qs-term" class="qb-sum-val">1 Year + 1 Mo Free</span></div>
-                  <div class="qb-sum-row"><span class="qb-sum-label">Base yearly price</span><span id="qs-base" class="qb-sum-val">$700.00</span></div>
-                  <div class="qb-sum-row"><span class="qb-sum-label">Discount</span><span id="qs-disc" class="qb-sum-val" style="color:var(--green)">0%</span></div>
-                  <div class="qb-sum-row"><span class="qb-sum-label">After discount</span><span id="qs-after-disc" class="qb-sum-val">$700.00</span></div>
-                  <div class="qb-sum-row"><span class="qb-sum-label">Add-ons</span><span id="qs-addons" class="qb-sum-val">$0.00/yr</span></div>
-                  <div style="border-top:1px solid var(--border-soft);margin:14px 0"></div>
-                  <div class="qb-sum-row"><span class="qb-sum-label">Final yearly price</span><span id="qs-yearly" class="qb-sum-val" style="font-weight:600">$700.00</span></div>
-                  <div class="qb-sum-row"><span class="qb-sum-label">Monthly equivalent</span><span id="qs-monthly" class="qb-sum-val" style="color:var(--text2)">$66.67/mo</span></div>
-                  <div class="qb-sum-row"><span class="qb-sum-label">Bonus coverage</span><span id="qs-bonus" class="qb-sum-val" style="color:var(--brand)">1 Month Free</span></div>
-                  <div class="qb-sum-row"><span class="qb-sum-label">Service call fee</span><span id="qs-svc" class="qb-sum-val" style="color:var(--text2)">$75 per visit</span></div>
+                  <div class="qb-sum-row"><span class="qb-sum-label">Term</span><span id="ns-r-term" class="qb-sum-val">1 Year + 1 Mo Free</span></div>
+                  <div class="qb-sum-row"><span class="qb-sum-label">Base price</span><span id="ns-r-base" class="qb-sum-val">$700.00/yr</span></div>
+                  <div class="qb-sum-row"><span class="qb-sum-label">Discount</span><span id="ns-r-disc" class="qb-sum-val" style="color:var(--green)">0%</span></div>
+                  <div class="qb-sum-row"><span class="qb-sum-label">After discount</span><span id="ns-r-after" class="qb-sum-val">$700.00</span></div>
+                  <div class="qb-sum-row"><span class="qb-sum-label">Add-ons</span><span id="ns-r-addons" class="qb-sum-val">$0.00/yr</span></div>
+                  <div style="border-top:1px solid var(--border-soft);margin:12px 0"></div>
+                  <div class="qb-sum-row"><span class="qb-sum-label">Final yearly</span><span id="ns-r-yearly" class="qb-sum-val" style="font-weight:600">$700.00</span></div>
+                  <div class="qb-sum-row"><span class="qb-sum-label">Service call fee</span><span id="ns-r-svc" class="qb-sum-val">$75/visit</span></div>
+                  <div class="qb-sum-row"><span class="qb-sum-label">Bonus coverage</span><span id="ns-r-bonus" class="qb-sum-val" style="color:var(--brand)">1 Month Free</span></div>
                 </div>
-                <div style="background:var(--lavender);border-radius:12px;padding:16px 18px;margin-bottom:16px;text-align:center">
+                <div style="background:var(--lavender);border-radius:12px;padding:16px 18px;margin-bottom:20px;text-align:center">
                   <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--brand-dark);margin-bottom:6px">Total Due Today</div>
-                  <div id="qs-total" style="font-size:32px;font-weight:600;color:var(--brand);letter-spacing:-0.03em">$700.00</div>
+                  <div id="ns-r-total" style="font-size:34px;font-weight:600;color:var(--brand);letter-spacing:-0.03em">$700.00</div>
                   <div style="font-size:11px;color:var(--brand-dark);margin-top:6px">Paid in full · Policy starts in 30 days</div>
                 </div>
-                <div id="qs-addon-tags" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px"></div>
-                <button class="btn-cta" style="width:100%;margin-bottom:8px" onclick="QB.copyQuote()">Copy Quote to Clipboard</button>
-                <button class="btn-ghost" style="width:100%;margin-bottom:8px" onclick="QB.openNewSale()">New Policy Sale</button>
-                <button class="btn-ghost" style="width:100%" onclick="QB.openRenewal()">Renewal</button>
+                <button class="btn-cta" style="width:100%;padding:14px;font-size:15px" onclick="NS.process()">Process Sale</button>
+                <div id="ns-error" style="display:none;margin-top:12px;background:var(--red-bg);color:var(--red);padding:10px 14px;border-radius:10px;font-size:13px"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RENEWALS -->
+      <div id="v-renewals" class="view">
+        <div class="card">
+          <div class="card-head"><h2>Select Customer to Renew</h2>
+            <div class="search-box" style="max-width:280px">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+              <input type="text" id="rn-search" placeholder="Search customer..." oninput="RN.search(this.value)">
+            </div>
+          </div>
+          <div class="tbl-wrap">
+            <table><thead><tr>
+              <th style="width:180px">Name</th><th style="width:140px">Policy #</th>
+              <th>Address</th><th style="width:90px">Plan</th>
+              <th style="width:110px">Expires</th><th style="width:90px">Status</th><th style="width:120px">Action</th>
+            </tr></thead><tbody id="rn-list"></tbody></table>
+          </div>
+        </div>
+
+        <!-- RENEWAL FORM (shown after selecting customer) -->
+        <div id="rn-form" style="display:none;margin-top:20px">
+          <div style="display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start">
+            <div class="card">
+              <div class="card-head"><h2 id="rn-form-title">Renewing Policy</h2></div>
+              <div style="padding:20px 24px">
+                <div style="background:var(--lavender-bg);border-radius:10px;padding:14px 16px;margin-bottom:20px">
+                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text3);margin-bottom:8px">Customer on File</div>
+                  <div class="p-row"><span class="p-key">Name</span><span class="p-val" id="rn-cname">—</span></div>
+                  <div class="p-row"><span class="p-key">Address</span><span class="p-val" id="rn-caddress">—</span></div>
+                  <div class="p-row"><span class="p-key">Phone</span><span class="p-val" id="rn-cphone">—</span></div>
+                  <div class="p-row"><span class="p-key">Email</span><span class="p-val" id="rn-cemail">—</span></div>
+                  <div class="p-row"><span class="p-key">Current Plan</span><span class="p-val" id="rn-cplan">—</span></div>
+                  <div class="p-row"><span class="p-key">Policy #</span><span class="p-val mono" id="rn-cpolicy">—</span></div>
+                </div>
+                <div style="margin-bottom:18px">
+                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:10px">Renewal Term</div>
+                  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">
+                    <div class="qb-term-btn on" onclick="RN.setTerm('monthly',this)"><div style="font-size:14px;font-weight:600">Monthly</div><div style="font-size:11px;color:var(--text2);margin-top:3px">Recurring</div><div style="font-size:12px;color:var(--brand);margin-top:6px;font-weight:500">$65/mo</div></div>
+                    <div class="qb-term-btn" onclick="RN.setTerm('1yr',this)"><div style="font-size:14px;font-weight:600">1 Year</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 1 Month Free</div><div style="font-size:12px;color:var(--brand);margin-top:6px;font-weight:500">$700/yr</div></div>
+                    <div class="qb-term-btn" onclick="RN.setTerm('3yr',this)"><div style="font-size:14px;font-weight:600">3 Years</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 6 Months Free</div><div style="font-size:12px;color:var(--brand);margin-top:6px;font-weight:500">$600/yr</div></div>
+                    <div class="qb-term-btn" onclick="RN.setTerm('5yr',this)"><div style="font-size:14px;font-weight:600">5 Years</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 1 Year Free</div><div style="font-size:12px;color:var(--brand);margin-top:6px;font-weight:500">$500/yr</div></div>
+                  </div>
+                </div>
+                <div class="fr">
+                  <div class="fg"><label>New Start Date</label><input id="rn-start" type="date"></div>
+                  <div class="fg"><label>New Expiry Date</label><input id="rn-expiry" type="date"></div>
+                </div>
+                <div class="fg"><label>Notes</label><textarea id="rn-notes" rows="2" placeholder="Renewal notes..."></textarea></div>
+                <div class="fg"><label>Payment — Cardholder Name</label><input id="rn-card-name" type="text" placeholder="Name on card"></div>
+                <div class="fg"><label>Card Number</label><input id="rn-card-num" type="text" placeholder="•••• •••• •••• ••••" maxlength="19" oninput="this.value=this.value.replace(/\D/g,'').replace(/(.{4})/g,'$1 ').trim()"></div>
+                <div class="fr">
+                  <div class="fg"><label>Expiry (MM/YY)</label><input id="rn-card-exp" type="text" placeholder="MM/YY" maxlength="5"></div>
+                  <div class="fg"><label>CVV</label><input id="rn-card-cvv" type="text" placeholder="•••" maxlength="4"></div>
+                </div>
+              </div>
+            </div>
+            <div style="position:sticky;top:24px">
+              <div class="card">
+                <div class="card-head"><h2>Renewal Summary</h2></div>
+                <div style="padding:20px 24px">
+                  <div class="qb-sum-row"><span class="qb-sum-label">Customer</span><span id="rn-r-name" class="qb-sum-val">—</span></div>
+                  <div class="qb-sum-row"><span class="qb-sum-label">Term</span><span id="rn-r-term" class="qb-sum-val">Monthly</span></div>
+                  <div class="qb-sum-row"><span class="qb-sum-label">New Expiry</span><span id="rn-r-expiry" class="qb-sum-val">—</span></div>
+                  <div style="border-top:1px solid var(--border-soft);margin:12px 0"></div>
+                  <div style="background:var(--lavender);border-radius:12px;padding:16px 18px;margin-bottom:20px;text-align:center">
+                    <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--brand-dark);margin-bottom:6px">Amount Due</div>
+                    <div id="rn-r-total" style="font-size:34px;font-weight:600;color:var(--brand);letter-spacing:-0.03em">$700.00</div>
+                  </div>
+                  <button class="btn-cta" style="width:100%;padding:14px;font-size:15px" onclick="RN.process()">Process Renewal</button>
+                  <button class="btn-ghost" style="width:100%;margin-top:8px" onclick="RN.cancel()">Cancel</button>
+                  <div id="rn-error" style="display:none;margin-top:12px;background:var(--red-bg);color:var(--red);padding:10px 14px;border-radius:10px;font-size:13px"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -601,88 +704,6 @@ td{padding:13px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;w
 </div>
 
 <div id="toast"></div>
-
-<!-- NEW SALE MODAL -->
-<div id="ns-modal" style="display:none;position:fixed;inset:0;background:rgba(30,27,46,0.4);z-index:100;align-items:center;justify-content:center;padding:20px">
-  <div style="background:var(--white);border-radius:20px;width:100%;max-width:600px;max-height:92vh;overflow-y:auto">
-    <div class="m-head"><h3 style="font-size:16px;font-weight:600">New Policy Sale</h3><button class="p-close" onclick="document.getElementById('ns-modal').classList.remove('open')">&#x2715;</button></div>
-    <div class="m-body">
-      <div style="background:var(--lavender);border-radius:10px;padding:12px 16px;margin-bottom:18px;font-size:13px;color:var(--brand-dark)">
-        <strong>Quote:</strong> <span id="ns-summary"></span>
-      </div>
-      <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:12px">Customer Information</div>
-      <div class="fg"><label>Existing Customer</label><select id="ns-customer" style="width:100%;padding:9px 13px;border:1px solid var(--border-soft);border-radius:10px;font-size:14px;font-family:var(--font);color:var(--text1);background:var(--lavender-bg)" onchange="nsSyncCustomer()"><option value="">— New walk-in —</option></select></div>
-      <div id="ns-new-fields">
-        <div class="fr"><div class="fg"><label>First Name *</label><input id="ns-fname" type="text" placeholder="Maria"></div><div class="fg"><label>Last Name *</label><input id="ns-lname" type="text" placeholder="Santos"></div></div>
-        <div class="fr"><div class="fg"><label>Phone</label><input id="ns-phone" type="tel" placeholder="(718) 555-0000"></div><div class="fg"><label>Email</label><input id="ns-email" type="email" placeholder="email@example.com"></div></div>
-        <div class="fg"><label>Property Address *</label><input id="ns-address" type="text" placeholder="123 Main St, Brooklyn, NY 11201"></div>
-      </div>
-      <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin:18px 0 12px">Policy Details</div>
-      <div class="fr">
-        <div class="fg"><label>Plan</label><select id="ns-plan"><option>Basic</option><option>Comprehensive</option><option>Premium</option></select></div>
-        <div class="fg"><label>Service Call Fee</label><select id="ns-svc"><option value="75">$75</option><option value="100">$100</option><option value="125">$125</option><option value="150">$150</option></select></div>
-      </div>
-      <div class="fr">
-        <div class="fg"><label>Start Date</label><input id="ns-start" type="date"></div>
-        <div class="fg"><label>Expiry Date</label><input id="ns-expiry" type="date"></div>
-      </div>
-      <div class="fg"><label>Amount Paid</label>
-        <div style="display:flex;align-items:center;border:1px solid var(--border-soft);border-radius:10px;overflow:hidden;background:var(--lavender-bg)">
-          <span style="padding:9px 12px;font-size:14px;color:var(--text2)">$</span>
-          <input id="ns-paid" type="number" placeholder="0.00" style="flex:1;padding:9px 12px;border:none;font-size:14px;font-family:var(--font);color:var(--text1);background:transparent;font-weight:600">
-        </div>
-      </div>
-      <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin:18px 0 12px">Payment Information</div>
-      <div class="fg"><label>Cardholder Name</label><input id="ns-card-name" type="text" placeholder="Name on card"></div>
-      <div class="fg"><label>Card Number</label><input id="ns-card-num" type="text" placeholder="•••• •••• •••• ••••" maxlength="19" oninput="this.value=this.value.replace(/[^0-9]/g,'').replace(/(.{4})/g,'$1 ').trim()"></div>
-      <div class="fr">
-        <div class="fg"><label>Expiry (MM/YY)</label><input id="ns-card-exp" type="text" placeholder="MM/YY" maxlength="5"></div>
-        <div class="fg"><label>CVV</label><input id="ns-card-cvv" type="text" placeholder="•••" maxlength="4"></div>
-      </div>
-      <div style="background:var(--amber-bg);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--amber);margin-top:4px">
-        Note: Card details are for record-keeping only. Process payment through your payment terminal separately.
-      </div>
-      <div class="fg" style="margin-top:16px"><label>Notes</label><textarea id="ns-notes" rows="2" placeholder="Internal notes..."></textarea></div>
-    </div>
-    <div class="m-foot">
-      <button class="btn-ghost" onclick="document.getElementById('ns-modal').classList.remove('open')">Cancel</button>
-      <button class="btn-cta" onclick="nsSubmit()">Complete Sale & Save</button>
-    </div>
-  </div>
-</div>
-
-<!-- RENEWAL MODAL -->
-<div id="rn-modal" style="display:none;position:fixed;inset:0;background:rgba(30,27,46,0.4);z-index:100;align-items:center;justify-content:center;padding:20px">
-  <div style="background:var(--white);border-radius:20px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto">
-    <div class="m-head"><h3 style="font-size:16px;font-weight:600">Policy Renewal</h3><button class="p-close" onclick="document.getElementById('rn-modal').classList.remove('open')">&#x2715;</button></div>
-    <div class="m-body">
-      <div class="fg"><label>Customer *</label><select id="rn-customer" style="width:100%;padding:9px 13px;border:1px solid var(--border-soft);border-radius:10px;font-size:14px;font-family:var(--font);color:var(--text1);background:var(--lavender-bg)"><option value="">Select customer...</option></select></div>
-      <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:12px">Renewal Term</div>
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px">
-        <div class="qb-term-btn on" onclick="rnSetTerm(this,'monthly','Monthly Recurring','$65/mo')"><div style="font-size:14px;font-weight:600">Monthly</div><div style="font-size:11px;color:var(--text2);margin-top:3px">Recurring</div><div style="font-size:12px;color:var(--brand);margin-top:6px">$65/mo</div></div>
-        <div class="qb-term-btn" onclick="rnSetTerm(this,'1yr','1 Year','$700/yr')"><div style="font-size:14px;font-weight:600">1 Year</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 1 Month Free</div><div style="font-size:12px;color:var(--brand);margin-top:6px">$700/yr</div></div>
-        <div class="qb-term-btn" onclick="rnSetTerm(this,'3yr','3 Years','$600/yr')"><div style="font-size:14px;font-weight:600">3 Years</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 6 Months Free</div><div style="font-size:12px;color:var(--brand);margin-top:6px">$600/yr</div></div>
-        <div class="qb-term-btn" onclick="rnSetTerm(this,'5yr','5 Years','$500/yr')"><div style="font-size:14px;font-weight:600">5 Years</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 1 Year Free</div><div style="font-size:12px;color:var(--brand);margin-top:6px">$500/yr</div></div>
-      </div>
-      <input type="hidden" id="rn-term-val" value="monthly">
-      <div class="fr">
-        <div class="fg"><label>New Start Date</label><input id="rn-start" type="date"></div>
-        <div class="fg"><label>New Expiry Date</label><input id="rn-expiry" type="date"></div>
-      </div>
-      <div class="fg"><label>Amount Paid for Renewal</label>
-        <div style="display:flex;align-items:center;border:1px solid var(--border-soft);border-radius:10px;overflow:hidden;background:var(--lavender-bg)">
-          <span style="padding:9px 12px;font-size:14px;color:var(--text2)">$</span>
-          <input id="rn-paid" type="number" placeholder="0.00" style="flex:1;padding:9px 12px;border:none;font-size:14px;font-family:var(--font);color:var(--text1);background:transparent;font-weight:600">
-        </div>
-      </div>
-      <div class="fg"><label>Notes</label><textarea id="rn-notes" rows="2" placeholder="Renewal notes..."></textarea></div>
-    </div>
-    <div class="m-foot">
-      <button class="btn-ghost" onclick="document.getElementById('rn-modal').classList.remove('open')">Cancel</button>
-      <button class="btn-cta" onclick="rnSubmit()">Confirm Renewal</button>
-    </div>
-  </div>
-</div>
 
 <script>
 // ── SUPABASE CONFIG ──────────────────────────────────────────
@@ -890,12 +911,16 @@ function nav(v, el) {
   document.getElementById('pg-title').textContent = {
     dashboard:'Dashboard', customers:'Customers', policies:'Policies',
     claims:'Claims Management', vendors:'Vendor Directory',
-    sales:'Sales & Renewals', plans:'Plan Directory'
-  }[v];
+    'new-sale':'New Sale', renewals:'Renewals', plans:'Plan Directory'
+  }[v] || v;
   document.getElementById('search-input').value = '';
   searchQ = '';
   closePanel();
-  if ((v === 'sales' || v === 'plans') && typeof QB !== 'undefined') QB.initSalesView();
+  if ((v === 'new-sale' || v === 'renewals' || v === 'plans') && typeof NS !== 'undefined') {
+    if(v==='new-sale') NS.calc();
+    if(v==='renewals') RN.init();
+    if(v==='plans') filterPlans('');
+  }
   render();
 }
 
@@ -1350,217 +1375,201 @@ document.addEventListener('keydown', e => {
   if (e.key==='Enter' && document.activeElement.id==='login-password') doLogin();
 });
 
-// ── NEW SALE ─────────────────────────────────────────────────
-function nsSyncCustomer(){
-  const id=document.getElementById('ns-customer').value;
-  const show=document.getElementById('ns-new-fields');
-  show.style.display=id?'none':'block';
-  if(id){
-    const c=customers.find(x=>x.id===id);
-    if(c){
-      document.getElementById('ns-plan').value=c.plan||'Basic';
-    }
-  }
-}
-
-async function nsSubmit(){
-  const existId=document.getElementById('ns-customer').value;
-  const fname=document.getElementById('ns-fname').value.trim();
-  const lname=document.getElementById('ns-lname').value.trim();
-  const address=document.getElementById('ns-address').value.trim();
-  if(!existId&&!fname){alert('Customer first name is required');return;}
-  if(!existId&&!address){alert('Property address is required');return;}
-  const plan=document.getElementById('ns-plan').value;
-  const svcFee=document.getElementById('ns-svc').value;
-  const paid=document.getElementById('ns-paid').value;
-  const startDate=document.getElementById('ns-start').value;
-  const expiryDate=document.getElementById('ns-expiry').value;
-  const notes=document.getElementById('ns-notes').value.trim();
-  const cardName=document.getElementById('ns-card-name').value.trim();
-  const today=new Date().toISOString().slice(0,10);
-  showLoading(true);
-  try{
-    if(existId){
-      // Update existing customer
-      const updateData={plan,since:startDate||today,renewed:startDate||today,expiry:expiryDate||null,status:'active',notes:(notes?'Sale: '+notes+' | Paid: $'+paid+' | Svc Fee: $'+svcFee:'Paid: $'+paid+' | Svc Fee: $'+svcFee),service_fee:svcFee,amount_paid:paid};
-      await sbFetch(`/rest/v1/customers?id=eq.${existId}`,{method:'PATCH',body:JSON.stringify(updateData),headers:{'Prefer':'return=minimal'}});
-      const i=customers.findIndex(x=>x.id===existId);
-      if(i>=0)customers[i]={...customers[i],...updateData,since:updateData.since||'',renewed:updateData.renewed||'',expiry:updateData.expiry||''};
-    } else {
-      const policy=nextPolicyNum();
-      const data={name:fname+(lname?' '+lname:''),phone:document.getElementById('ns-phone').value.trim(),email:document.getElementById('ns-email').value.trim(),address,plan,status:'active',since:startDate||today,renewed:startDate||today,expiry:expiryDate||null,notes:(notes?'Sale: '+notes+' | Paid: $'+paid+' | Svc Fee: $'+svcFee:'Paid: $'+paid+' | Svc Fee: $'+svcFee),service_fee:svcFee,amount_paid:paid,policy};
-      const rows=await sbFetch('/rest/v1/customers?select=*',{method:'POST',body:JSON.stringify(data),headers:{'Prefer':'return=representation'}});
-      if(rows&&rows[0])customers.unshift(mapCustomer(rows[0]));
-    }
-    document.getElementById('ns-modal').classList.remove('open');
-    render();
-    toast('Sale completed — customer added to active policies');
-  }catch(e){alert('Error saving sale: '+e.message);}
-  showLoading(false);
-}
-
-// ── RENEWAL ──────────────────────────────────────────────────
-function rnSetTerm(el,val,label,price){
-  document.getElementById('rn-term-val').value=val;
-  document.querySelectorAll('#rn-modal .qb-term-btn').forEach(b=>b.classList.remove('on'));
-  el.classList.add('on');
-}
-
-async function rnSubmit(){
-  const custId=document.getElementById('rn-customer').value;
-  if(!custId){alert('Please select a customer');return;}
-  const paid=document.getElementById('rn-paid').value;
-  const startDate=document.getElementById('rn-start').value;
-  const expiryDate=document.getElementById('rn-expiry').value;
-  const notes=document.getElementById('rn-notes').value.trim();
-  const term=document.getElementById('rn-term-val').value;
-  const today=new Date().toISOString().slice(0,10);
-  showLoading(true);
-  try{
-    const updateData={status:'active',renewed:startDate||today,expiry:expiryDate||null,notes:'Renewed: '+term+' | Paid: $'+paid+(notes?' | '+notes:''),amount_paid:paid};
-    await sbFetch(`/rest/v1/customers?id=eq.${custId}`,{method:'PATCH',body:JSON.stringify(updateData),headers:{'Prefer':'return=minimal'}});
-    const i=customers.findIndex(x=>x.id===custId);
-    if(i>=0)customers[i]={...customers[i],...updateData,renewed:updateData.renewed||'',expiry:updateData.expiry||''};
-    document.getElementById('rn-modal').classList.remove('open');
-    render();
-    toast('Renewal confirmed — policy updated');
-  }catch(e){alert('Error saving renewal: '+e.message);}
-  showLoading(false);
-}
-
-// ── QUOTE BUILDER ─────────────────────────────────────────────
-const QB = (function(){
-  let _term=1, _disc=0;
-  const TERM_CONFIG={
-    1:{price:700,bonus:'1 Month Free',label:'1 Year + 1 Mo Free',years:1},
-    3:{price:600,bonus:'6 Months Free',label:'3 Years + 6 Mos Free',years:3},
-    5:{price:500,bonus:'1 Year Free',label:'5 Years + 1 Yr Free',years:5}
+// ── NEW SALE (NS) ─────────────────────────────────────────────
+const NS = (function(){
+  const TERMS={
+    1:{price:700,label:'1 Year + 1 Mo Free',bonus:'1 Month Free',years:1},
+    3:{price:600,label:'3 Years + 6 Mos Free',bonus:'6 Months Free',years:3},
+    5:{price:500,label:'5 Years + 1 Yr Free',bonus:'1 Year Free',years:5}
   };
+  let _term=1,_disc=0;
 
   function setTerm(t,el){
     _term=t;
-    document.querySelectorAll('.qb-term-btn').forEach(b=>b.classList.remove('on'));
-    el.classList.add('on');
-    calc();
+    document.querySelectorAll('#v-new-sale .qb-term-btn').forEach(b=>b.classList.remove('on'));
+    el.classList.add('on'); calc();
   }
-
-  function setSvc(fee, el) {
-    document.getElementById('qb-svc-fee').value = fee;
-    document.querySelectorAll('.qb-svc-btn').forEach(b=>b.classList.remove('on'));
-    if(el) el.classList.add('on');
-    calc();
-  }
-
   function setDisc(d,el){
     _disc=d;
-    document.querySelectorAll('.qb-disc-btn').forEach(b=>b.classList.remove('on'));
-    el.classList.add('on');
-    calc();
+    document.querySelectorAll('#v-new-sale .qb-disc-btn').forEach(b=>b.classList.remove('on'));
+    el.classList.add('on'); calc();
   }
-
   function calc(){
-    const cfg=TERM_CONFIG[_term];
-    const _price=cfg.price;
-    const addons=[...document.querySelectorAll('.qb-addon input:checked')].map(i=>i.value);
+    const cfg=TERMS[_term];
+    const addons=[...document.querySelectorAll('#v-new-sale .qb-addon input:checked')].map(i=>i.value);
     const addonTotal=addons.length*20;
-    const afterDisc=_price*(1-_disc/100);
-    const finalYearly=afterDisc+addonTotal;
-    const totalDue=finalYearly*cfg.years;
-    const monthly=(finalYearly+100)/12;
-    const svcFeeEl=document.getElementById('qb-svc-fee');
-    const svcFee=svcFeeEl?parseInt(svcFeeEl.value)||75:75;
-    document.getElementById('qs-term').textContent=cfg.label;
-    document.getElementById('qs-base').textContent='$'+_price.toFixed(2);
-    document.getElementById('qs-disc').textContent=_disc+'%'+(_disc>0?' (-$'+(_price*_disc/100).toFixed(2)+')':'');
-    document.getElementById('qs-after-disc').textContent='$'+afterDisc.toFixed(2);
-    document.getElementById('qs-addons').textContent='$'+addonTotal.toFixed(2)+'/yr'+(addons.length?' ('+addons.length+' add-on'+(addons.length>1?'s':'')+')'  :'');
-    document.getElementById('qs-yearly').textContent='$'+finalYearly.toFixed(2);
-    document.getElementById('qs-monthly').textContent='$'+monthly.toFixed(2)+'/mo';
-    document.getElementById('qs-bonus').textContent=cfg.bonus;
-    document.getElementById('qs-total').textContent='$'+totalDue.toFixed(2);
-    document.getElementById('qs-svc').textContent='$'+svcFee+' per visit';
-    document.getElementById('qs-addon-tags').innerHTML=addons.map(a=>`<span class="qb-tag">${a}</span>`).join('');
-  }
-
-  function copyQuote(){
-    const cfg=TERM_CONFIG[_term];
-    const _price=cfg.price;
-    const addons=[...document.querySelectorAll('.qb-addon input:checked')].map(i=>i.value);
-    const addonTotal=addons.length*20;
-    const afterDisc=_price*(1-_disc/100);
-    const finalYearly=afterDisc+addonTotal;
-    const totalDue=finalYearly*cfg.years;
-    const monthly=(finalYearly+100)/12;
-    const svcFeeEl=document.getElementById('qb-svc-fee');
-    const svcFee=svcFeeEl?parseInt(svcFeeEl.value)||75:75;
-    const custEl=document.getElementById('qb-customer');
-    const custName=custEl.value?custEl.options[custEl.selectedIndex].text:'Customer';
-    const txt=['=== DWELL HOME WARRANTY QUOTE ===','Customer: '+custName,'Term: '+cfg.label,'Base Price: $'+_price.toFixed(2)+'/yr',_disc>0?'Discount: '+_disc+'%':null,'Final Yearly: $'+finalYearly.toFixed(2),addons.length?'Add-ons: '+addons.join(', '):null,'Service Call Fee: $'+svcFee+' per visit','Monthly Equivalent: $'+monthly.toFixed(2)+'/mo','Bonus Coverage: '+cfg.bonus,'','TOTAL DUE TODAY: $'+totalDue.toFixed(2),'Paid in full — Policy starts in 30 days','================================'].filter(Boolean).join('\n');
-    navigator.clipboard.writeText(txt).then(()=>toast('Quote copied to clipboard'));
-  }
-
-  function convertToPolicy(){
-    const custEl=document.getElementById('qb-customer');
-    if(!custEl.value){alert('Please select a customer first.');return;}
-    openEditModal('customers',custEl.value);
-  }
-
-  function populateCustomers(){
-    const sel=document.getElementById('qb-customer'); if(!sel)return;
-    const current=sel.value;
-    sel.innerHTML='<option value="">— New customer / walk-in —</option>';
-    customers.forEach(c=>{ const opt=document.createElement('option'); opt.value=c.id; opt.textContent=c.name+' — '+c.policy; sel.appendChild(opt); });
-    if(current)sel.value=current;
-  }
-
-  const US_STATES=['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'];
-  const PLAN_DATA={Basic:{price1:700,price3:600,price5:500,color:'b-expired'},Comprehensive:{price1:700,price3:600,price5:500,color:'b-progress'},Premium:{price1:700,price3:600,price5:500,color:'b-plumbing'}};
-
-  function renderPlans(filter){
-    const grid=document.getElementById('plan-grid'); if(!grid)return;
-    const q=(filter||'').toLowerCase();
-    const states=q?US_STATES.filter(s=>s.toLowerCase().includes(q)):US_STATES;
-    grid.innerHTML=states.map(state=>`<div class="plan-state-card"><div class="plan-state-name">${state}</div><div class="plan-row-head"><span>Plan</span><span>1 Yr</span><span>3 Yr</span><span>5 Yr</span></div>${Object.entries(PLAN_DATA).map(([name,p])=>`<div class="plan-row"><span><span class="badge ${p.color}" style="font-size:10px;padding:2px 8px">${name}</span></span><span style="color:var(--text2)">$${p.price1}</span><span style="color:var(--text2)">$${p.price3}</span><span style="color:var(--text2)">$${p.price5}</span></div>`).join('')}</div>`).join('');
-  }
-
-  function assignTask(){
-    const who=document.getElementById('qb-task-assign').value;
-    const notes=document.getElementById('qb-notes').value.trim();
-    if(!who){toast('Select someone to assign the task to');return;}
-    toast('Task assigned to '+who+(notes?' with notes':''));
-  }
-
-  function openNewSale(){
-    // Open new sale modal
-    document.getElementById('ns-modal').classList.add('open');
-    // populate customer dropdown
-    const sel=document.getElementById('ns-customer');
-    sel.innerHTML='<option value="">— New walk-in (fill form below) —</option>';
-    customers.forEach(c=>{const opt=document.createElement('option');opt.value=c.id;opt.textContent=c.name+' — '+c.policy;sel.appendChild(opt);});
-    // sync current quote
-    const cfg=TERM_CONFIG[_term];
-    const svcFee=document.getElementById('qb-svc-fee').value||75;
-    const addons=[...document.querySelectorAll('.qb-addon input:checked')].map(i=>i.value);
     const afterDisc=cfg.price*(1-_disc/100);
-    const addonTotal=addons.length*20;
     const finalYearly=afterDisc+addonTotal;
-    const totalDue=finalYearly*cfg.years;
-    document.getElementById('ns-summary').textContent=cfg.label+' · $'+totalDue.toFixed(2)+' total · $'+svcFee+' service fee';
-    document.getElementById('ns-total').textContent='$'+totalDue.toFixed(2);
+    const total=finalYearly*cfg.years;
+    const svc=(document.getElementById('ns-svc')||{value:75}).value;
+    const el=id=>document.getElementById(id);
+    if(el('ns-r-term'))el('ns-r-term').textContent=cfg.label;
+    if(el('ns-r-base'))el('ns-r-base').textContent='$'+cfg.price.toFixed(2)+'/yr';
+    if(el('ns-r-disc'))el('ns-r-disc').textContent=_disc+'%'+(_disc>0?' (-$'+(cfg.price*_disc/100).toFixed(2)+')':'');
+    if(el('ns-r-after'))el('ns-r-after').textContent='$'+afterDisc.toFixed(2);
+    if(el('ns-r-addons'))el('ns-r-addons').textContent='$'+addonTotal.toFixed(2)+'/yr'+(addons.length?' ('+addons.length+' add-on'+(addons.length>1?'s':'')+')'  :'');
+    if(el('ns-r-yearly'))el('ns-r-yearly').textContent='$'+finalYearly.toFixed(2);
+    if(el('ns-r-svc'))el('ns-r-svc').textContent='$'+svc+'/visit';
+    if(el('ns-r-bonus'))el('ns-r-bonus').textContent=cfg.bonus;
+    if(el('ns-r-total'))el('ns-r-total').textContent='$'+total.toFixed(2);
   }
-
-  function openRenewal(){
-    document.getElementById('rn-modal').classList.add('open');
-    const sel=document.getElementById('rn-customer');
-    sel.innerHTML='<option value="">Select customer...</option>';
-    customers.forEach(c=>{const opt=document.createElement('option');opt.value=c.id;opt.textContent=c.name+' — '+c.policy;sel.appendChild(opt);});
+  async function process(){
+    const err=document.getElementById('ns-error');
+    err.style.display='none';
+    const fname=document.getElementById('ns-fname').value.trim();
+    const address=document.getElementById('ns-address').value.trim();
+    const cardName=document.getElementById('ns-card-name').value.trim();
+    const cardNum=document.getElementById('ns-card-num').value.trim();
+    if(!fname){err.textContent='First name is required';err.style.display='block';return;}
+    if(!address){err.textContent='Property address is required';err.style.display='block';return;}
+    if(!cardName||!cardNum){err.textContent='Card information is required';err.style.display='block';return;}
+    const cfg=TERMS[_term];
+    const addons=[...document.querySelectorAll('#v-new-sale .qb-addon input:checked')].map(i=>i.value);
+    const addonTotal=addons.length*20;
+    const afterDisc=cfg.price*(1-_disc/100);
+    const finalYearly=afterDisc+addonTotal;
+    const totalPaid=(finalYearly*cfg.years).toFixed(2);
+    const svc=document.getElementById('ns-svc').value;
+    const startDate=document.getElementById('ns-start').value;
+    const expiryDate=document.getElementById('ns-expiry').value;
+    const notes=document.getElementById('ns-notes').value.trim();
+    const lname=document.getElementById('ns-lname').value.trim();
+    const today=new Date().toISOString().slice(0,10);
+    showLoading(true);
+    try{
+      const policy=nextPolicyNum();
+      const noteStr=['Sale processed','Term: '+cfg.label,'Paid: $'+totalPaid,'Svc Fee: $'+svc+'/visit',addons.length?'Add-ons: '+addons.join(', '):'',notes].filter(Boolean).join(' | ');
+      const data={
+        name:fname+(lname?' '+lname:''),
+        phone:document.getElementById('ns-phone').value.trim(),
+        email:document.getElementById('ns-email').value.trim(),
+        address,plan:document.getElementById('ns-plan').value,
+        status:'active',since:startDate||today,renewed:startDate||today,
+        expiry:expiryDate||null,notes:noteStr,
+        amount_paid:totalPaid,service_fee:svc,policy
+      };
+      const rows=await sbFetch('/rest/v1/customers?select=*',{method:'POST',body:JSON.stringify(data),headers:{'Prefer':'return=representation'}});
+      if(rows&&rows[0])customers.unshift(mapCustomer(rows[0]));
+      showLoading(false);
+      toast('Sale complete! '+fname+' added to active policies');
+      ['ns-fname','ns-lname','ns-phone','ns-email','ns-address','ns-card-name','ns-card-num','ns-card-exp','ns-card-cvv','ns-notes'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+      document.querySelectorAll('#v-new-sale .qb-addon input').forEach(c=>c.checked=false);
+      _term=1;_disc=0;
+      document.querySelectorAll('#v-new-sale .qb-term-btn').forEach((b,i)=>b.classList.toggle('on',i===0));
+      document.querySelectorAll('#v-new-sale .qb-disc-btn').forEach((b,i)=>b.classList.toggle('on',i===0));
+      calc();render();
+    }catch(e){showLoading(false);err.textContent='Error: '+e.message;err.style.display='block';}
   }
-
-  function filterPlans(q){renderPlans(q);}
-  function initSalesView(){ populateCustomers(); renderPlans(); calc(); }
-
-  return{setTerm,setDisc,setSvc,calc,copyQuote,assignTask,openNewSale,openRenewal,initSalesView,filterPlans,populateCustomers};
+  return{setTerm,setDisc,calc,process};
 })();
+
+// ── RENEWALS (RN) ─────────────────────────────────────────────
+const RN=(function(){
+  const TERMS={
+    monthly:{label:'Monthly Recurring',total:65,display:'$65/mo'},
+    '1yr':{label:'1 Year + 1 Mo Free',total:700,display:'$700'},
+    '3yr':{label:'3 Years + 6 Mos Free',total:1800,display:'$1,800'},
+    '5yr':{label:'5 Years + 1 Yr Free',total:2500,display:'$2,500'}
+  };
+  let _termKey='monthly',_custId=null,_searchQ='';
+
+  function search(q){_searchQ=q.toLowerCase();renderList();}
+
+  function renderList(){
+    let l=customers;
+    if(_searchQ)l=l.filter(c=>c.name.toLowerCase().includes(_searchQ)||c.policy.toLowerCase().includes(_searchQ)||(c.address||'').toLowerCase().includes(_searchQ));
+    document.getElementById('rn-list').innerHTML=l.length?l.map(c=>`
+      <tr>
+        <td class="fw">${esc(c.name)}</td><td class="mono">${c.policy}</td>
+        <td class="muted">${esc(c.address)}</td><td>${esc(c.plan)}</td>
+        <td class="muted">${fmt(c.expiry)}</td><td>${bs(c.status)}</td>
+        <td><button class="btn-sm" style="white-space:nowrap" onclick="RN.select('${c.id}')">Renew</button></td>
+      </tr>`).join(''):emptyRow(7,'No customers found');
+  }
+
+  function select(id){
+    _custId=id;_termKey='monthly';
+    const c=customers.find(x=>x.id===id);if(!c)return;
+    document.getElementById('rn-form').style.display='block';
+    document.getElementById('rn-form-title').textContent='Renewing — '+c.name;
+    document.getElementById('rn-cname').textContent=c.name;
+    document.getElementById('rn-caddress').textContent=c.address||'—';
+    document.getElementById('rn-cphone').textContent=c.phone||'—';
+    document.getElementById('rn-cemail').textContent=c.email||'—';
+    document.getElementById('rn-cplan').textContent=c.plan;
+    document.getElementById('rn-cpolicy').textContent=c.policy;
+    document.getElementById('rn-r-name').textContent=c.name;
+    ['rn-notes','rn-card-name','rn-card-num','rn-card-exp','rn-card-cvv','rn-start','rn-expiry'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+    document.querySelectorAll('#rn-form .qb-term-btn').forEach((b,i)=>b.classList.toggle('on',i===0));
+    updateSummary();
+    document.getElementById('rn-form').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+
+  function setTerm(key,el){
+    _termKey=key;
+    document.querySelectorAll('#rn-form .qb-term-btn').forEach(b=>b.classList.remove('on'));
+    el.classList.add('on');updateSummary();
+  }
+
+  function updateSummary(){
+    const t=TERMS[_termKey];
+    const expiry=document.getElementById('rn-expiry')?document.getElementById('rn-expiry').value:'';
+    document.getElementById('rn-r-term').textContent=t.label;
+    document.getElementById('rn-r-expiry').textContent=expiry?fmt(expiry):'—';
+    document.getElementById('rn-r-total').textContent=t.display;
+  }
+
+  async function process(){
+    const err=document.getElementById('rn-error');
+    err.style.display='none';
+    if(!_custId){err.textContent='No customer selected';err.style.display='block';return;}
+    const cardName=document.getElementById('rn-card-name').value.trim();
+    const cardNum=document.getElementById('rn-card-num').value.trim();
+    if(!cardName||!cardNum){err.textContent='Card information is required';err.style.display='block';return;}
+    const t=TERMS[_termKey];
+    const startDate=document.getElementById('rn-start').value;
+    const expiryDate=document.getElementById('rn-expiry').value;
+    const notes=document.getElementById('rn-notes').value.trim();
+    const today=new Date().toISOString().slice(0,10);
+    showLoading(true);
+    try{
+      const noteStr=['Renewed: '+t.label,'Paid: '+t.display,notes].filter(Boolean).join(' | ');
+      const data={status:'active',renewed:startDate||today,expiry:expiryDate||null,amount_paid:String(t.total),notes:noteStr};
+      await sbFetch(`/rest/v1/customers?id=eq.${_custId}`,{method:'PATCH',body:JSON.stringify(data),headers:{'Prefer':'return=minimal'}});
+      const i=customers.findIndex(x=>x.id===_custId);
+      if(i>=0)customers[i]={...customers[i],...data,renewed:data.renewed||'',expiry:data.expiry||''};
+      showLoading(false);
+      const c=customers.find(x=>x.id===_custId);
+      toast('Renewal complete for '+(c?c.name:'customer'));
+      cancel();render();
+    }catch(e){showLoading(false);err.textContent='Error: '+e.message;err.style.display='block';}
+  }
+
+  function cancel(){_custId=null;document.getElementById('rn-form').style.display='none';}
+  function init(){renderList();}
+  return{search,select,setTerm,updateSummary,process,cancel,init};
+})();
+
+// Plan Directory
+const US_STATES=['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'];
+const PLAN_DATA={Basic:{price1:700,price3:600,price5:500,color:'b-expired'},Comprehensive:{price1:700,price3:600,price5:500,color:'b-progress'},Premium:{price1:700,price3:600,price5:500,color:'b-plumbing'}};
+function filterPlans(q){
+  const grid=document.getElementById('plan-grid');if(!grid)return;
+  const sq=(q||'').toLowerCase();
+  const states=sq?US_STATES.filter(s=>s.toLowerCase().includes(sq)):US_STATES;
+  grid.innerHTML=states.map(state=>`<div class="plan-state-card"><div class="plan-state-name">${state}</div><div class="plan-row-head"><span>Plan</span><span>1 Yr</span><span>3 Yr</span><span>5 Yr</span></div>${Object.entries(PLAN_DATA).map(([name,p])=>`<div class="plan-row"><span><span class="badge ${p.color}" style="font-size:10px;padding:2px 8px">${name}</span></span><span style="color:var(--text2)">$${p.price1}</span><span style="color:var(--text2)">$${p.price3}</span><span style="color:var(--text2)">$${p.price5}</span></div>`).join('')}</div>`).join('');
+}
+
+// Wire expiry field to update RN summary live
+document.addEventListener('input',function(e){
+  if(e.target&&e.target.id==='rn-expiry')RN.updateSummary();
+  if(e.target&&e.target.id==='ns-svc')NS.calc();
+});
+
+// Init new-sale calc on load
+window.addEventListener('load',function(){
+  setTimeout(()=>{if(typeof NS!=='undefined')NS.calc();},100);
+});
 </script>
 </body>
 </html>
