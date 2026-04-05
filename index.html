@@ -461,24 +461,13 @@ td{padding:13px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;w
                 <div style="margin-bottom:18px">
                   <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:10px">Term</div>
                   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
-                    <div class="qb-term-btn on" data-term="1" onclick="QB.setTerm(1,this)"><div style="font-size:15px;font-weight:600">1 Year</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 1 Month Free</div><div style="font-size:12px;font-weight:500;color:var(--brand);margin-top:6px">from $700/yr</div></div>
-                    <div class="qb-term-btn" data-term="3" onclick="QB.setTerm(3,this)"><div style="font-size:15px;font-weight:600">3 Years</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 6 Months Free</div><div style="font-size:12px;font-weight:500;color:var(--brand);margin-top:6px">from $600/yr</div></div>
-                    <div class="qb-term-btn" data-term="5" onclick="QB.setTerm(5,this)"><div style="font-size:15px;font-weight:600">5 Years</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 1 Year Free</div><div style="font-size:12px;font-weight:500;color:var(--brand);margin-top:6px">from $500/yr</div></div>
+                    <div class="qb-term-btn on" data-term="1" onclick="QB.setTerm(1,this)"><div style="font-size:15px;font-weight:600">1 Year</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 1 Month Free</div><div style="font-size:12px;font-weight:500;color:var(--brand);margin-top:6px">$700/yr</div></div>
+                    <div class="qb-term-btn" data-term="3" onclick="QB.setTerm(3,this)"><div style="font-size:15px;font-weight:600">3 Years</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 6 Months Free</div><div style="font-size:12px;font-weight:500;color:var(--brand);margin-top:6px">$600/yr</div></div>
+                    <div class="qb-term-btn" data-term="5" onclick="QB.setTerm(5,this)"><div style="font-size:15px;font-weight:600">5 Years</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 1 Year Free</div><div style="font-size:12px;font-weight:500;color:var(--brand);margin-top:6px">$500/yr</div></div>
                   </div>
                 </div>
                 <div style="margin-bottom:18px">
-                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:8px">Base Yearly Price</div>
-                  <div style="display:flex;align-items:center;gap:14px">
-                    <input type="range" id="qb-price-slider" min="400" max="700" step="10" value="700" style="flex:1;accent-color:var(--brand)" oninput="QB.setPrice(this.value)">
-                    <div style="display:flex;align-items:center;border:1px solid var(--border-soft);border-radius:8px;overflow:hidden">
-                      <span style="padding:8px 10px;font-size:13px;color:var(--text2);background:var(--lavender-bg)">$</span>
-                      <input type="number" id="qb-price-input" value="700" min="400" max="700" step="10" style="width:70px;padding:8px 10px;border:none;font-size:14px;font-weight:600;font-family:var(--font);color:var(--text1);background:var(--white)" oninput="QB.setPrice(this.value)">
-                      <span style="padding:8px 10px;font-size:12px;color:var(--text2);background:var(--lavender-bg)">/yr</span>
-                    </div>
-                  </div>
-                </div>
-                <div style="margin-bottom:18px">
-                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:10px">Discount</div>
+                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:10px">Discount <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)">(max 30%)</span></div>
                   <div style="display:flex;gap:8px;flex-wrap:wrap">
                     <button class="qb-disc-btn on" onclick="QB.setDisc(0,this)">0%</button>
                     <button class="qb-disc-btn" onclick="QB.setDisc(5,this)">5%</button>
@@ -489,6 +478,14 @@ td{padding:13px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;w
                     <button class="qb-disc-btn" onclick="QB.setDisc(30,this)">30%</button>
                   </div>
                 </div>
+                <div style="margin-bottom:18px">
+                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:10px">Service Call Fee</div>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap">
+                    <button class="qb-disc-btn qb-svc-btn on" onclick="QB.setSvc(75,this)">$75</button>
+                    <button class="qb-disc-btn qb-svc-btn" onclick="QB.setSvc(100,this)">$100</button>
+                    <button class="qb-disc-btn qb-svc-btn" onclick="QB.setSvc(125,this)">$125</button>
+                    <button class="qb-disc-btn qb-svc-btn" onclick="QB.setSvc(150,this)">$150</button>
+                  </div>
                 <div>
                   <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:10px">Add-ons <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)">+$20/yr each</span></div>
                   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
@@ -498,6 +495,20 @@ td{padding:13px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;w
                     <label class="qb-addon"><input type="checkbox" value="Well Pump" onchange="QB.calc()"><span>Well Pump</span></label>
                     <label class="qb-addon"><input type="checkbox" value="Ice Maker" onchange="QB.calc()"><span>Ice Maker</span></label>
                     <label class="qb-addon"><input type="checkbox" value="Standalone Freezer" onchange="QB.calc()"><span>Standalone Freezer</span></label>
+                  </div>
+                </div>
+                <div style="margin-top:18px;padding-top:18px;border-top:1px solid var(--border-soft)">
+                  <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:8px">Internal Notes</div>
+                  <textarea id="qb-notes" rows="2" placeholder="Add internal notes about this quote..." style="width:100%;padding:9px 13px;border:1px solid var(--border-soft);border-radius:10px;font-size:13px;font-family:var(--font);color:var(--text1);background:var(--lavender-bg);resize:vertical"></textarea>
+                  <div style="margin-top:10px;display:flex;align-items:center;gap:10px">
+                    <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2)">Assign Task To</div>
+                    <select id="qb-task-assign" style="flex:1;padding:7px 12px;border:1px solid var(--border-soft);border-radius:8px;font-size:13px;font-family:var(--font);color:var(--text1);background:var(--lavender-bg)">
+                      <option value="">No task</option>
+                      <option value="admin">Admin</option>
+                      <option value="manager">Manager</option>
+                      <option value="sales">Sales Rep</option>
+                    </select>
+                    <button class="btn-sm" onclick="QB.assignTask()" style="white-space:nowrap">Assign Task</button>
                   </div>
                 </div>
               </div>
@@ -517,6 +528,7 @@ td{padding:13px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;w
                   <div class="qb-sum-row"><span class="qb-sum-label">Final yearly price</span><span id="qs-yearly" class="qb-sum-val" style="font-weight:600">$700.00</span></div>
                   <div class="qb-sum-row"><span class="qb-sum-label">Monthly equivalent</span><span id="qs-monthly" class="qb-sum-val" style="color:var(--text2)">$66.67/mo</span></div>
                   <div class="qb-sum-row"><span class="qb-sum-label">Bonus coverage</span><span id="qs-bonus" class="qb-sum-val" style="color:var(--brand)">1 Month Free</span></div>
+                  <div class="qb-sum-row"><span class="qb-sum-label">Service call fee</span><span id="qs-svc" class="qb-sum-val" style="color:var(--text2)">$75 per visit</span></div>
                 </div>
                 <div style="background:var(--lavender);border-radius:12px;padding:16px 18px;margin-bottom:16px;text-align:center">
                   <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--brand-dark);margin-bottom:6px">Total Due Today</div>
@@ -525,7 +537,8 @@ td{padding:13px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;w
                 </div>
                 <div id="qs-addon-tags" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px"></div>
                 <button class="btn-cta" style="width:100%;margin-bottom:8px" onclick="QB.copyQuote()">Copy Quote to Clipboard</button>
-                <button class="btn-ghost" style="width:100%" onclick="QB.convertToPolicy()">Convert to Policy Sale</button>
+                <button class="btn-ghost" style="width:100%;margin-bottom:8px" onclick="QB.openNewSale()">New Policy Sale</button>
+                <button class="btn-ghost" style="width:100%" onclick="QB.openRenewal()">Renewal</button>
               </div>
             </div>
           </div>
@@ -588,6 +601,88 @@ td{padding:13px 16px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;w
 </div>
 
 <div id="toast"></div>
+
+<!-- NEW SALE MODAL -->
+<div id="ns-modal" style="display:none;position:fixed;inset:0;background:rgba(30,27,46,0.4);z-index:100;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--white);border-radius:20px;width:100%;max-width:600px;max-height:92vh;overflow-y:auto">
+    <div class="m-head"><h3 style="font-size:16px;font-weight:600">New Policy Sale</h3><button class="p-close" onclick="document.getElementById('ns-modal').classList.remove('open')">&#x2715;</button></div>
+    <div class="m-body">
+      <div style="background:var(--lavender);border-radius:10px;padding:12px 16px;margin-bottom:18px;font-size:13px;color:var(--brand-dark)">
+        <strong>Quote:</strong> <span id="ns-summary"></span>
+      </div>
+      <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:12px">Customer Information</div>
+      <div class="fg"><label>Existing Customer</label><select id="ns-customer" style="width:100%;padding:9px 13px;border:1px solid var(--border-soft);border-radius:10px;font-size:14px;font-family:var(--font);color:var(--text1);background:var(--lavender-bg)" onchange="nsSyncCustomer()"><option value="">— New walk-in —</option></select></div>
+      <div id="ns-new-fields">
+        <div class="fr"><div class="fg"><label>First Name *</label><input id="ns-fname" type="text" placeholder="Maria"></div><div class="fg"><label>Last Name *</label><input id="ns-lname" type="text" placeholder="Santos"></div></div>
+        <div class="fr"><div class="fg"><label>Phone</label><input id="ns-phone" type="tel" placeholder="(718) 555-0000"></div><div class="fg"><label>Email</label><input id="ns-email" type="email" placeholder="email@example.com"></div></div>
+        <div class="fg"><label>Property Address *</label><input id="ns-address" type="text" placeholder="123 Main St, Brooklyn, NY 11201"></div>
+      </div>
+      <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin:18px 0 12px">Policy Details</div>
+      <div class="fr">
+        <div class="fg"><label>Plan</label><select id="ns-plan"><option>Basic</option><option>Comprehensive</option><option>Premium</option></select></div>
+        <div class="fg"><label>Service Call Fee</label><select id="ns-svc"><option value="75">$75</option><option value="100">$100</option><option value="125">$125</option><option value="150">$150</option></select></div>
+      </div>
+      <div class="fr">
+        <div class="fg"><label>Start Date</label><input id="ns-start" type="date"></div>
+        <div class="fg"><label>Expiry Date</label><input id="ns-expiry" type="date"></div>
+      </div>
+      <div class="fg"><label>Amount Paid</label>
+        <div style="display:flex;align-items:center;border:1px solid var(--border-soft);border-radius:10px;overflow:hidden;background:var(--lavender-bg)">
+          <span style="padding:9px 12px;font-size:14px;color:var(--text2)">$</span>
+          <input id="ns-paid" type="number" placeholder="0.00" style="flex:1;padding:9px 12px;border:none;font-size:14px;font-family:var(--font);color:var(--text1);background:transparent;font-weight:600">
+        </div>
+      </div>
+      <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin:18px 0 12px">Payment Information</div>
+      <div class="fg"><label>Cardholder Name</label><input id="ns-card-name" type="text" placeholder="Name on card"></div>
+      <div class="fg"><label>Card Number</label><input id="ns-card-num" type="text" placeholder="•••• •••• •••• ••••" maxlength="19" oninput="this.value=this.value.replace(/[^0-9]/g,'').replace(/(.{4})/g,'$1 ').trim()"></div>
+      <div class="fr">
+        <div class="fg"><label>Expiry (MM/YY)</label><input id="ns-card-exp" type="text" placeholder="MM/YY" maxlength="5"></div>
+        <div class="fg"><label>CVV</label><input id="ns-card-cvv" type="text" placeholder="•••" maxlength="4"></div>
+      </div>
+      <div style="background:var(--amber-bg);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--amber);margin-top:4px">
+        Note: Card details are for record-keeping only. Process payment through your payment terminal separately.
+      </div>
+      <div class="fg" style="margin-top:16px"><label>Notes</label><textarea id="ns-notes" rows="2" placeholder="Internal notes..."></textarea></div>
+    </div>
+    <div class="m-foot">
+      <button class="btn-ghost" onclick="document.getElementById('ns-modal').classList.remove('open')">Cancel</button>
+      <button class="btn-cta" onclick="nsSubmit()">Complete Sale & Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- RENEWAL MODAL -->
+<div id="rn-modal" style="display:none;position:fixed;inset:0;background:rgba(30,27,46,0.4);z-index:100;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--white);border-radius:20px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto">
+    <div class="m-head"><h3 style="font-size:16px;font-weight:600">Policy Renewal</h3><button class="p-close" onclick="document.getElementById('rn-modal').classList.remove('open')">&#x2715;</button></div>
+    <div class="m-body">
+      <div class="fg"><label>Customer *</label><select id="rn-customer" style="width:100%;padding:9px 13px;border:1px solid var(--border-soft);border-radius:10px;font-size:14px;font-family:var(--font);color:var(--text1);background:var(--lavender-bg)"><option value="">Select customer...</option></select></div>
+      <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text2);margin-bottom:12px">Renewal Term</div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px">
+        <div class="qb-term-btn on" onclick="rnSetTerm(this,'monthly','Monthly Recurring','$65/mo')"><div style="font-size:14px;font-weight:600">Monthly</div><div style="font-size:11px;color:var(--text2);margin-top:3px">Recurring</div><div style="font-size:12px;color:var(--brand);margin-top:6px">$65/mo</div></div>
+        <div class="qb-term-btn" onclick="rnSetTerm(this,'1yr','1 Year','$700/yr')"><div style="font-size:14px;font-weight:600">1 Year</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 1 Month Free</div><div style="font-size:12px;color:var(--brand);margin-top:6px">$700/yr</div></div>
+        <div class="qb-term-btn" onclick="rnSetTerm(this,'3yr','3 Years','$600/yr')"><div style="font-size:14px;font-weight:600">3 Years</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 6 Months Free</div><div style="font-size:12px;color:var(--brand);margin-top:6px">$600/yr</div></div>
+        <div class="qb-term-btn" onclick="rnSetTerm(this,'5yr','5 Years','$500/yr')"><div style="font-size:14px;font-weight:600">5 Years</div><div style="font-size:11px;color:var(--text2);margin-top:3px">+ 1 Year Free</div><div style="font-size:12px;color:var(--brand);margin-top:6px">$500/yr</div></div>
+      </div>
+      <input type="hidden" id="rn-term-val" value="monthly">
+      <div class="fr">
+        <div class="fg"><label>New Start Date</label><input id="rn-start" type="date"></div>
+        <div class="fg"><label>New Expiry Date</label><input id="rn-expiry" type="date"></div>
+      </div>
+      <div class="fg"><label>Amount Paid for Renewal</label>
+        <div style="display:flex;align-items:center;border:1px solid var(--border-soft);border-radius:10px;overflow:hidden;background:var(--lavender-bg)">
+          <span style="padding:9px 12px;font-size:14px;color:var(--text2)">$</span>
+          <input id="rn-paid" type="number" placeholder="0.00" style="flex:1;padding:9px 12px;border:none;font-size:14px;font-family:var(--font);color:var(--text1);background:transparent;font-weight:600">
+        </div>
+      </div>
+      <div class="fg"><label>Notes</label><textarea id="rn-notes" rows="2" placeholder="Renewal notes..."></textarea></div>
+    </div>
+    <div class="m-foot">
+      <button class="btn-ghost" onclick="document.getElementById('rn-modal').classList.remove('open')">Cancel</button>
+      <button class="btn-cta" onclick="rnSubmit()">Confirm Renewal</button>
+    </div>
+  </div>
+</div>
 
 <script>
 // ── SUPABASE CONFIG ──────────────────────────────────────────
@@ -743,6 +838,7 @@ function mapCustomer(r) {
     phone: r.phone || '', email: r.email || '', status: r.status || 'active',
     since: r.since || '', renewed: r.renewed || '', expiry: r.expiry || '',
     plan: r.plan || 'Basic', notes: r.notes || '',
+    amount_paid: r.amount_paid || '', service_fee: r.service_fee || '',
   };
 }
 function mapClaim(r) {
@@ -897,6 +993,8 @@ function sCust(id) {
         <div class="p-row"><span class="p-key">Start</span><span class="p-val">${fmt(c.since)}</span></div>
         <div class="p-row"><span class="p-key">Expiry</span><span class="p-val">${fmt(c.expiry)}</span></div>
         <div class="p-row"><span class="p-key">Total Claims</span><span class="p-val">${cc.length}</span></div>
+        ${c.amount_paid?`<div class="p-row"><span class="p-key">Amount Paid</span><span class="p-val" style="color:var(--green);font-weight:600">$${c.amount_paid}</span></div>`:''}
+        ${c.service_fee?`<div class="p-row"><span class="p-key">Service Call Fee</span><span class="p-val">$${c.service_fee} per visit</span></div>`:''}
       </div>
     </div>
     ${c.notes?`<div class="p-sec"><div class="p-lbl">Notes</div><p style="font-size:13px;color:var(--text2);line-height:1.6">${esc(c.notes)}</p></div>`:''}
@@ -1252,23 +1350,125 @@ document.addEventListener('keydown', e => {
   if (e.key==='Enter' && document.activeElement.id==='login-password') doLogin();
 });
 
+// ── NEW SALE ─────────────────────────────────────────────────
+function nsSyncCustomer(){
+  const id=document.getElementById('ns-customer').value;
+  const show=document.getElementById('ns-new-fields');
+  show.style.display=id?'none':'block';
+  if(id){
+    const c=customers.find(x=>x.id===id);
+    if(c){
+      document.getElementById('ns-plan').value=c.plan||'Basic';
+    }
+  }
+}
+
+async function nsSubmit(){
+  const existId=document.getElementById('ns-customer').value;
+  const fname=document.getElementById('ns-fname').value.trim();
+  const lname=document.getElementById('ns-lname').value.trim();
+  const address=document.getElementById('ns-address').value.trim();
+  if(!existId&&!fname){alert('Customer first name is required');return;}
+  if(!existId&&!address){alert('Property address is required');return;}
+  const plan=document.getElementById('ns-plan').value;
+  const svcFee=document.getElementById('ns-svc').value;
+  const paid=document.getElementById('ns-paid').value;
+  const startDate=document.getElementById('ns-start').value;
+  const expiryDate=document.getElementById('ns-expiry').value;
+  const notes=document.getElementById('ns-notes').value.trim();
+  const cardName=document.getElementById('ns-card-name').value.trim();
+  const today=new Date().toISOString().slice(0,10);
+  showLoading(true);
+  try{
+    if(existId){
+      // Update existing customer
+      const updateData={plan,since:startDate||today,renewed:startDate||today,expiry:expiryDate||null,status:'active',notes:(notes?'Sale: '+notes+' | Paid: $'+paid+' | Svc Fee: $'+svcFee:'Paid: $'+paid+' | Svc Fee: $'+svcFee),service_fee:svcFee,amount_paid:paid};
+      await sbFetch(`/rest/v1/customers?id=eq.${existId}`,{method:'PATCH',body:JSON.stringify(updateData),headers:{'Prefer':'return=minimal'}});
+      const i=customers.findIndex(x=>x.id===existId);
+      if(i>=0)customers[i]={...customers[i],...updateData,since:updateData.since||'',renewed:updateData.renewed||'',expiry:updateData.expiry||''};
+    } else {
+      const policy=nextPolicyNum();
+      const data={name:fname+(lname?' '+lname:''),phone:document.getElementById('ns-phone').value.trim(),email:document.getElementById('ns-email').value.trim(),address,plan,status:'active',since:startDate||today,renewed:startDate||today,expiry:expiryDate||null,notes:(notes?'Sale: '+notes+' | Paid: $'+paid+' | Svc Fee: $'+svcFee:'Paid: $'+paid+' | Svc Fee: $'+svcFee),service_fee:svcFee,amount_paid:paid,policy};
+      const rows=await sbFetch('/rest/v1/customers?select=*',{method:'POST',body:JSON.stringify(data),headers:{'Prefer':'return=representation'}});
+      if(rows&&rows[0])customers.unshift(mapCustomer(rows[0]));
+    }
+    document.getElementById('ns-modal').classList.remove('open');
+    render();
+    toast('Sale completed — customer added to active policies');
+  }catch(e){alert('Error saving sale: '+e.message);}
+  showLoading(false);
+}
+
+// ── RENEWAL ──────────────────────────────────────────────────
+function rnSetTerm(el,val,label,price){
+  document.getElementById('rn-term-val').value=val;
+  document.querySelectorAll('#rn-modal .qb-term-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+}
+
+async function rnSubmit(){
+  const custId=document.getElementById('rn-customer').value;
+  if(!custId){alert('Please select a customer');return;}
+  const paid=document.getElementById('rn-paid').value;
+  const startDate=document.getElementById('rn-start').value;
+  const expiryDate=document.getElementById('rn-expiry').value;
+  const notes=document.getElementById('rn-notes').value.trim();
+  const term=document.getElementById('rn-term-val').value;
+  const today=new Date().toISOString().slice(0,10);
+  showLoading(true);
+  try{
+    const updateData={status:'active',renewed:startDate||today,expiry:expiryDate||null,notes:'Renewed: '+term+' | Paid: $'+paid+(notes?' | '+notes:''),amount_paid:paid};
+    await sbFetch(`/rest/v1/customers?id=eq.${custId}`,{method:'PATCH',body:JSON.stringify(updateData),headers:{'Prefer':'return=minimal'}});
+    const i=customers.findIndex(x=>x.id===custId);
+    if(i>=0)customers[i]={...customers[i],...updateData,renewed:updateData.renewed||'',expiry:updateData.expiry||''};
+    document.getElementById('rn-modal').classList.remove('open');
+    render();
+    toast('Renewal confirmed — policy updated');
+  }catch(e){alert('Error saving renewal: '+e.message);}
+  showLoading(false);
+}
+
 // ── QUOTE BUILDER ─────────────────────────────────────────────
 const QB = (function(){
-  let _term=1, _price=700, _disc=0;
-  const TERM_CONFIG={ 1:{max:700,bonus:'1 Month Free',label:'1 Year + 1 Mo Free',years:1}, 3:{max:600,bonus:'6 Months Free',label:'3 Years + 6 Mos Free',years:3}, 5:{max:500,bonus:'1 Year Free',label:'5 Years + 1 Yr Free',years:5} };
+  let _term=1, _disc=0;
+  const TERM_CONFIG={
+    1:{price:700,bonus:'1 Month Free',label:'1 Year + 1 Mo Free',years:1},
+    3:{price:600,bonus:'6 Months Free',label:'3 Years + 6 Mos Free',years:3},
+    5:{price:500,bonus:'1 Year Free',label:'5 Years + 1 Yr Free',years:5}
+  };
 
-  function setTerm(t,el){ _term=t; document.querySelectorAll('.qb-term-btn').forEach(b=>b.classList.remove('on')); el.classList.add('on'); const cfg=TERM_CONFIG[t]; _price=Math.min(_price,cfg.max); document.getElementById('qb-price-slider').max=cfg.max; document.getElementById('qb-price-slider').value=_price; document.getElementById('qb-price-input').max=cfg.max; document.getElementById('qb-price-input').value=_price; calc(); }
-  function setPrice(val){ const cfg=TERM_CONFIG[_term]; _price=Math.min(Math.max(parseInt(val)||400,400),cfg.max); document.getElementById('qb-price-slider').value=_price; document.getElementById('qb-price-input').value=_price; calc(); }
-  function setDisc(d,el){ _disc=d; document.querySelectorAll('.qb-disc-btn').forEach(b=>b.classList.remove('on')); el.classList.add('on'); calc(); }
+  function setTerm(t,el){
+    _term=t;
+    document.querySelectorAll('.qb-term-btn').forEach(b=>b.classList.remove('on'));
+    el.classList.add('on');
+    calc();
+  }
+
+  function setSvc(fee, el) {
+    document.getElementById('qb-svc-fee').value = fee;
+    document.querySelectorAll('.qb-svc-btn').forEach(b=>b.classList.remove('on'));
+    if(el) el.classList.add('on');
+    calc();
+  }
+
+  function setDisc(d,el){
+    _disc=d;
+    document.querySelectorAll('.qb-disc-btn').forEach(b=>b.classList.remove('on'));
+    el.classList.add('on');
+    calc();
+  }
 
   function calc(){
     const cfg=TERM_CONFIG[_term];
+    const _price=cfg.price;
     const addons=[...document.querySelectorAll('.qb-addon input:checked')].map(i=>i.value);
     const addonTotal=addons.length*20;
     const afterDisc=_price*(1-_disc/100);
     const finalYearly=afterDisc+addonTotal;
     const totalDue=finalYearly*cfg.years;
     const monthly=(finalYearly+100)/12;
+    const svcFeeEl=document.getElementById('qb-svc-fee');
+    const svcFee=svcFeeEl?parseInt(svcFeeEl.value)||75:75;
     document.getElementById('qs-term').textContent=cfg.label;
     document.getElementById('qs-base').textContent='$'+_price.toFixed(2);
     document.getElementById('qs-disc').textContent=_disc+'%'+(_disc>0?' (-$'+(_price*_disc/100).toFixed(2)+')':'');
@@ -1278,20 +1478,24 @@ const QB = (function(){
     document.getElementById('qs-monthly').textContent='$'+monthly.toFixed(2)+'/mo';
     document.getElementById('qs-bonus').textContent=cfg.bonus;
     document.getElementById('qs-total').textContent='$'+totalDue.toFixed(2);
+    document.getElementById('qs-svc').textContent='$'+svcFee+' per visit';
     document.getElementById('qs-addon-tags').innerHTML=addons.map(a=>`<span class="qb-tag">${a}</span>`).join('');
   }
 
   function copyQuote(){
     const cfg=TERM_CONFIG[_term];
+    const _price=cfg.price;
     const addons=[...document.querySelectorAll('.qb-addon input:checked')].map(i=>i.value);
     const addonTotal=addons.length*20;
     const afterDisc=_price*(1-_disc/100);
     const finalYearly=afterDisc+addonTotal;
     const totalDue=finalYearly*cfg.years;
     const monthly=(finalYearly+100)/12;
+    const svcFeeEl=document.getElementById('qb-svc-fee');
+    const svcFee=svcFeeEl?parseInt(svcFeeEl.value)||75:75;
     const custEl=document.getElementById('qb-customer');
     const custName=custEl.value?custEl.options[custEl.selectedIndex].text:'Customer';
-    const txt=['=== DWELL HOME WARRANTY QUOTE ===','Customer: '+custName,'Term: '+cfg.label,'Base Price: $'+_price.toFixed(2)+'/yr',_disc>0?'Discount: '+_disc+'%':null,'Final Yearly: $'+finalYearly.toFixed(2),addons.length?'Add-ons: '+addons.join(', '):null,'Monthly Equivalent: $'+monthly.toFixed(2)+'/mo','Bonus Coverage: '+cfg.bonus,'','TOTAL DUE TODAY: $'+totalDue.toFixed(2),'Paid in full — Policy starts in 30 days','================================'].filter(Boolean).join('\n');
+    const txt=['=== DWELL HOME WARRANTY QUOTE ===','Customer: '+custName,'Term: '+cfg.label,'Base Price: $'+_price.toFixed(2)+'/yr',_disc>0?'Discount: '+_disc+'%':null,'Final Yearly: $'+finalYearly.toFixed(2),addons.length?'Add-ons: '+addons.join(', '):null,'Service Call Fee: $'+svcFee+' per visit','Monthly Equivalent: $'+monthly.toFixed(2)+'/mo','Bonus Coverage: '+cfg.bonus,'','TOTAL DUE TODAY: $'+totalDue.toFixed(2),'Paid in full — Policy starts in 30 days','================================'].filter(Boolean).join('\n');
     navigator.clipboard.writeText(txt).then(()=>toast('Quote copied to clipboard'));
   }
 
@@ -1319,10 +1523,43 @@ const QB = (function(){
     grid.innerHTML=states.map(state=>`<div class="plan-state-card"><div class="plan-state-name">${state}</div><div class="plan-row-head"><span>Plan</span><span>1 Yr</span><span>3 Yr</span><span>5 Yr</span></div>${Object.entries(PLAN_DATA).map(([name,p])=>`<div class="plan-row"><span><span class="badge ${p.color}" style="font-size:10px;padding:2px 8px">${name}</span></span><span style="color:var(--text2)">$${p.price1}</span><span style="color:var(--text2)">$${p.price3}</span><span style="color:var(--text2)">$${p.price5}</span></div>`).join('')}</div>`).join('');
   }
 
+  function assignTask(){
+    const who=document.getElementById('qb-task-assign').value;
+    const notes=document.getElementById('qb-notes').value.trim();
+    if(!who){toast('Select someone to assign the task to');return;}
+    toast('Task assigned to '+who+(notes?' with notes':''));
+  }
+
+  function openNewSale(){
+    // Open new sale modal
+    document.getElementById('ns-modal').classList.add('open');
+    // populate customer dropdown
+    const sel=document.getElementById('ns-customer');
+    sel.innerHTML='<option value="">— New walk-in (fill form below) —</option>';
+    customers.forEach(c=>{const opt=document.createElement('option');opt.value=c.id;opt.textContent=c.name+' — '+c.policy;sel.appendChild(opt);});
+    // sync current quote
+    const cfg=TERM_CONFIG[_term];
+    const svcFee=document.getElementById('qb-svc-fee').value||75;
+    const addons=[...document.querySelectorAll('.qb-addon input:checked')].map(i=>i.value);
+    const afterDisc=cfg.price*(1-_disc/100);
+    const addonTotal=addons.length*20;
+    const finalYearly=afterDisc+addonTotal;
+    const totalDue=finalYearly*cfg.years;
+    document.getElementById('ns-summary').textContent=cfg.label+' · $'+totalDue.toFixed(2)+' total · $'+svcFee+' service fee';
+    document.getElementById('ns-total').textContent='$'+totalDue.toFixed(2);
+  }
+
+  function openRenewal(){
+    document.getElementById('rn-modal').classList.add('open');
+    const sel=document.getElementById('rn-customer');
+    sel.innerHTML='<option value="">Select customer...</option>';
+    customers.forEach(c=>{const opt=document.createElement('option');opt.value=c.id;opt.textContent=c.name+' — '+c.policy;sel.appendChild(opt);});
+  }
+
   function filterPlans(q){renderPlans(q);}
   function initSalesView(){ populateCustomers(); renderPlans(); calc(); }
 
-  return{setTerm,setPrice,setDisc,calc,copyQuote,convertToPolicy,initSalesView,filterPlans,populateCustomers};
+  return{setTerm,setDisc,setSvc,calc,copyQuote,assignTask,openNewSale,openRenewal,initSalesView,filterPlans,populateCustomers};
 })();
 </script>
 </body>
